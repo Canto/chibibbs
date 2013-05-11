@@ -122,8 +122,12 @@ if(empty($_GET['cid'])==false){
 	if(login_check($chibi_conn)!=false) $permission = bbs_permission($member->permission,$cid);
 	else $permission = '';
 	
+	/* 디바이스체크(PC or MOBILE) */
 	$device = device_check();
-
+	/* 카운트(통계) */
+	if($member->permission != "super"){
+	count_up($cid,$chibi_conn);
+	}
 
 
 include "index.layout.php";

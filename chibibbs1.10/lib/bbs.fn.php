@@ -3,6 +3,20 @@ if(!defined("__CHIBI__")) exit();
 /* 
 게시판 관련 함수
 */
+	function count_up($cid,$chibi_conn){
+		$session = session_id();
+		$date = date("Ymd");
+		if(empty($cid)==false){
+			$chk_sql = "SELECT * FROM `chibi_log` where `cid`='".mysql_real_escape_string($cid)."' AND `ip`='".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."' AND `date`='".mysql_real_escape_string($date)."'";
+			$chk_query = mysql_query($chk_sql,$chibi_conn);
+			$chk = (object) mysql_fetch_array($chk_query);
+			if(empty($chk->cid)==true){
+				$sql = "INSERT INTO `chibi_log` (`cid` ,`ip` ,`session` ,`date`)VALUES ('".mysql_real_escape_string($cid)."',  '".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."',  '".mysql_real_escape_string($session)."',  '".mysql_real_escape_string($date)."')";
+				$query = mysql_query($sql,$chibi_conn);
+				return $query;
+			}
+		}
+	}
 	function select($cid,$chibi_conn){ /* 게시판 선택 */
 		if(empty($cid)==true){
 		$string = "SELECT * FROM `chibi_admin`";
