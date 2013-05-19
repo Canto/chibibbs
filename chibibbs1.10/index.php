@@ -6,7 +6,6 @@ header ('Content-type: text/html; charset=UTF-8');
 session_set_cookie_params(0);
 session_start();
 define("__CHIBI__",time());
-
 if(is_file("data/config/db.config.php")==false){
 	echo "<script type=\"text/javascript\">location.href=\"install.setup.php\";</script>";
 }
@@ -15,9 +14,16 @@ include_once "data/config/db.config.php";
 include_once "lib/db.conn.php";
 /* 게시판 기본 함수 로드*/
 include_once "lib/bbs.fn.php";
+/* Class 로드 */
+include_once "classes/class.php";
 include_once "lib/bbs.page.php";
+
+/* 게시판 class 설정 */
+$bbs_class = new bbs;
+$bbs_class->chibi_conn = $chibi_conn;
+
 /* 설치 확인 */
-if(setup_check($chibi_conn)==false){
+if($bbs_class->setup_check()==false){
 	echo "<script type=\"text/javascript\">location.href=\"install.setup.php\";</script>";
 }
 if(!isset($_GET['cid']) || empty($_GET['cid'])){ /* $cid 가 없을때 */
@@ -48,15 +54,14 @@ if(empty($_GET['cid'])==false){
 	$cid = $_GET['cid'];
 	$page = $_GET['page'];
 	/* $cid 가 존재할 경우 게시판 정보 셋팅 */
-	$bbs_query = select($cid,$chibi_conn);
-	$bbs = (object) mysql_fetch_array($bbs_query);
+	$bbs_class->cid = $cid;
+	$bbs = (object) $bbs_class->select();
 	$bbs->spam = (object) unserialize($bbs->spam);
 	$bbs->notice = (object) unserialize($bbs->notice);
 	$bbs->op = (object) unserialize($bbs->op);
 	
 	/* $cid 가 존재할 경우 스킨 정보 셋팅 */
-	$skin_query = select_skin($cid,$chibi_conn);
-	$skin = (object) mysql_fetch_array($skin_query);
+	$skin = (object) $bbs_class->select_skin();
 	$skin->op = (object) unserialize($skin->op);
 
 	/* IP 체크 */
@@ -75,8 +80,8 @@ if(empty($_GET['cid'])==false){
 		$connect_permission = false;
 	}
 
-	
-	if(!isset($cid) || empty($bbs->cid)==true){ /* 존재 하지 않는 게시판일 경우*/
+	/* 존재 하지 않는 게시판일 경우*/
+	if(!isset($cid) || empty($bbs->cid)==true){ 
 	echo "<script language=\"javascript\">alert(\"존재하지 않는 게시판 입니다.\");</script>";
 	exit;
 	}
@@ -97,8 +102,6 @@ if(empty($_GET['cid'])==false){
 			$sql = "SELECT count(no) FROM `chibi_pic` WHERE cid='".mysql_real_escape_string($cid)."'";
 			break;
 	}
-
-	//echo $sql;
 	$query = mysql_query($sql,$chibi_conn);
 	$total_row = mysql_fetch_row($query);
 	if($search && $search!="no") $total = mysql_num_rows($query);
@@ -119,16 +122,24 @@ if(empty($_GET['cid'])==false){
 	else $paging ='';
 	$member ='';
 
-	if(login_check($chibi_conn)!=false) $permission = bbs_permission($member->permission,$cid);
-	else $permission = '';
-	
+
+	/* 로그인 체크후 권한 취득 */
+	$member_class = new member;
+	$member_class->chibi_conn = $chibi_conn;
+	$member_class->cid = $cid;
+	if($member_class->login_check() != false){
+		$member = $member_class->member;
+		$member_class->permission = $member->permission;
+		$permission = bbs_permission();
+	}else{
+		$permission = '';
+	}
 	/* 디바이스체크(PC or MOBILE) */
 	$device = device_check();
 	/* 카운트(통계) */
 	if($member->permission != "super"){
-	count_up($cid,$chibi_conn);
+	$bbs_class->count_up();
 	}
-
 
 include "index.layout.php";
 }
