@@ -1,6 +1,6 @@
 <?php
 if(!defined("__CHIBI__")) exit();
-$tpl=fopen("../data/tpl/".$cid.".tpl.php","r");
+$tpl=fopen("../data/".$cid."/tpl/".$cid.".tpl.php","r");
 $tpl_file = '';
 while (!feof($tpl)){
 $tpl_file = $tpl_file.fgets($tpl);

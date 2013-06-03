@@ -237,6 +237,7 @@ $(".modify").click(function(){
 	   $(".cmtmodifyForm").find("#idx").val(data['idx']);
 	   if(data['more']=="more") $(".cmtmodifyForm").find("input:checkbox[id='op[more]']").attr("checked",true);
 	   if(data['secret']=="secret") $(".cmtmodifyForm").find("input:checkbox[id='op[secret]']").attr("checked",true);
+	   if(data['dice']) $(".cmtmodifyForm").find("input[name='op[dice]']").val(data['dice']);
    }
   });
   $('#modifyForm').appendTo($(this).parent().next());

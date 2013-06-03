@@ -12,6 +12,8 @@ $comment = $_POST['comment'];
 $idx = $_POST['idx'];
 $op = $_POST['op'];
 $depth = $_POST['depth'];
+$no = $_POST['no'];
+$pic_no = $_POST['pic_no'];
 if(empty($depth)==false){
 	$depth++;
 }
@@ -47,6 +49,7 @@ $bbs_query = select($cid,$chibi_conn);
 $bbs = mysql_fetch_array($bbs_query);
 $spamword = unserialize($bbs['spam']);
 //echo $spam['word'];
+
 if($name && $passwd && $comment && $no && $pic_no){
 $cf_filter = explode(",", $spamword['word']); 
 foreach ($cf_filter as $filter) { 
@@ -61,7 +64,6 @@ if(empty($spam)==false){
 	exit;
 
 }else{
-
 	  $query = "INSERT INTO `chibi_comment` (`idx`,`cid`,`pic_no`,`no`, `depth`, `name`, `passwd`, `rtime`, `comment`, `memo`, `hpurl`, `ip`, `op`)VALUES('','".mysql_real_escape_string($cid)."','".mysql_real_escape_string($pic_no)."','".mysql_real_escape_string($no)."','".mysql_real_escape_string($depth)."','".mysql_real_escape_string($name)."','".mysql_real_escape_string(md5($passwd))."','".time()."','".mysql_real_escape_string($comment)."','','".mysql_real_escape_string($hpurl)."','".$_SERVER["REMOTE_ADDR"]."','".mysql_real_escape_string($op)."')";
 	  mysql_query($query,$chibi_conn);	  
 		echo "<script>alert('등록 완료!!');

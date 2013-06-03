@@ -78,13 +78,25 @@ function checkID(){
 </td>
 <td class="span9 td-right">
 <select name="secret">
-<option value="all">발행</option>
 <option value="off">공개</option>
 <option value="on">비공개</option>
 <select>
 <p class="help-block">게시판 공개 / 비공개 를 설정 할 수 있습니다.</p>
 </td>
 </tr>
+<tr>
+<td class="span3 td-left">
+<p>사용권한</p>
+</td>
+<td class="span9 td-right">
+<select name="use_permission">
+<option value="all" >모두</option>
+<option value="admin" >관리자만</option>
+<select>
+<p class="help-block">그림 및 로드 기능의 사용권한을 지정 할 수 있습니다.</p>
+</td>
+</tr>
+<!--
 <tr>
 <td class="span3 td-left">
 <p>비툴의 사용여부</p>
@@ -97,6 +109,8 @@ function checkID(){
 <p class="help-block">비툴프로그램의 사용여부를 설정 할 수 있습니다.<br/><span class="text-warning">비툴홈페이지(<a href="http://btool.net" target="_blank">http://btool.net</a>)에서 구입 후 이용하여 주세요.</p>
 </td>
 </tr>
+-->
+<input type="hidden" name="btool" value="off">
 <tr>
 <td class="span3 td-left">
 <p>비공개 패스워드</p>
@@ -178,6 +192,7 @@ function checkID(){
 <p class="help-block">치비툴 혹은 비툴을 이용할 때 그릴 수 있는 그림의 높이 기본값를 입력하여 주세요.</p>
 </td>
 </tr>
+<!--
 <tr>
 <td class="span3 td-left">
 <p>자동축소 너비</p>
@@ -187,6 +202,7 @@ function checkID(){
 <p class="help-block">해당 너비를 넘어가면 그림은 자동 축소 됩니다.</p>
 </td>
 </tr>
+!-->
 <tr>
 <td class="span3 td-left">
 <p>IP 공개</p>
@@ -283,7 +299,7 @@ function checkID(){
 <p>스팸 단어 필터</p>
 </td>
 <td class="span9 td-right">
-<textarea rows="5" class="input-xxlarge" name="word" style="resize:none;"></textarea>
+<textarea rows="5" class="input-xxlarge" name="word" style="resize:none;">aloha,viagra</textarea>
 <p class="help-block">스팸 단어 필터 입니다.<br/>성인광고,바카라,aloha! 같이 , (콤마)를 이용하여 구분하여 주세요.</p>
 </td>
 </tr>

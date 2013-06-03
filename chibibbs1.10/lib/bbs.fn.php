@@ -298,17 +298,18 @@ function load($skin){ //템플릿 파일 로드
 		while (!feof($tpl)){
 		$tpl_file = $tpl_file.fgets($tpl);
 		}
-		return $tpl_file;
 		fclose($tpl);
+		return $tpl_file;
+		
 }
 function convert($content){ // 템플릿 변수를 PHP변수로 컴파일
 		$startpic = "<?php
-		$pic_query = pic($cid,$start,$limit,$chibi_conn,$search,$keyword); /* 그림 불러오기 */
-		while($pic = mysql_fetch_array($pic_query)){ /* 반복문 시작 */
-		$pic = (object) $pic;  
-		if(empty($pic->op)==false){
-		$pic->op = unserialize($pic->op);
-		$pic->op = (object) $pic->op;
+		\$pic_query = pic(\$cid,\$start,\$limit,\$chibi_conn,\$search,\$keyword); /* 그림 불러오기 */
+		while(\$pic = mysql_fetch_array(\$pic_query)){ /* 반복문 시작 */
+		\$pic = (object) \$pic;  
+		if(empty(\$pic->op)==false){
+		\$pic->op = unserialize(\$pic->op);
+		\$pic->op = (object) \$pic->op;
 		}
 		?>";
 		$startcomment = "<?php
@@ -327,10 +328,6 @@ function convert($content){ // 템플릿 변수를 PHP변수로 컴파일
 		$content = str_replace('<@--END:PIC--@>',"<?php } ?>", $content);
 		$content = str_replace('<@--START:COMMENT--@>',$startcomment, $content);
 		$content = str_replace('<@--END:COMMENT--@>',"<?php } ?>", $content);
-//		$content = preg_replace('/<@/i', '<?php', $content); // PHP 변환
-//		$content = preg_replace('/@>/i', '?>', $content); // PHP 변환
-//		$content = preg_replace('/<\#/', "<?=\$", $content); // 변수 변환
-//		$content = preg_replace('/\#>/', "?>", $content); // 변수 변환
 		return $content;
 	}
 function compiled($cid,$content){ // 템플릿 컴파일
@@ -339,3 +336,4 @@ function compiled($cid,$content){ // 템플릿 컴파일
 		fclose($fp);
 		chmod("../data/".$cid."/tpl/".$cid.".tpl.compiled.php",0644);
 }
+?>

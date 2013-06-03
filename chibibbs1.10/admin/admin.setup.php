@@ -48,7 +48,7 @@ if ($device=="mobile"){
 <a href="http://sketchstudio.cellosoft.com/downloads/JTabletSetupv0.9.5.exe" target="_blank"><b>:: 필압플로그인(IE용) ::</b></a> &nbsp;&nbsp;&nbsp;<a href="http://jtablet.cellosoft.com/jtablet2/release/JTabletSetup-1.2.5-alpha.exe" target="_blank"><b>:: 필압플로그인(기타브라우저용) ::</b></a>
 </li>
 </ul>
-<iframe src ="http://chibi.kr/update.php" width="100%" height="100%" scrolling="auto" frameborder="0" style="border:0;"></iframe>
+<iframe src ="http://chibi.kr/update.php" width="100%" height="200" scrolling="no" frameborder="0" style="border:0;"></iframe>
 </div>
 </td>
 <?php

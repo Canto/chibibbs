@@ -22,7 +22,7 @@ $tpl = str_replace("mysql_result","'error'",$tpl);
 $tpl = str_replace("MYSQL_QUERY","'error'",$tpl);
 
 /* 입력 값 설정 */
-$tpl_file=fopen("../data/tpl/$cid.tpl.php","w");
+$tpl_file=fopen("../data/".$cid."/tpl/$cid.tpl.php","w");
 if($tpl_file){
 fwrite($tpl_file,$tpl);
 $content = convert($tpl);

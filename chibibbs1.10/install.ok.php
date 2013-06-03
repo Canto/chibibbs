@@ -1,5 +1,6 @@
 <?php
 header ('Content-type: text/html; charset=UTF-8');
+define("__CHIBI__",time());
 session_start();
 /* register_globals = off 환경 변수 재설정 */
 foreach($_POST as $key => $value){ 
@@ -163,6 +164,7 @@ INDEX (`cid`)
 /* admin 초기 옵션 */
 $admin_option = array(
 'secret'=>'off',
+'use_permission'=>'all',
 'btool'=>'off',
 'include_head'=>'',
 'include_foot'=>'',
@@ -228,9 +230,8 @@ if($db_check->status == true && $db_check->skin == false ){
 		$skin_insert_error = mysql_error();
 	}
 }
-
 /* 템플릿 초기 설정 */
-
+include "lib/bbs.fn.php";
 $tpl = fopen(dirname(__FILE__)."/skin/CB_default/layout.php", "r");
 $tpl_file = '';
 while (!feof($tpl)){
@@ -242,7 +243,10 @@ fclose($fp);
 fclose($tpl);
 chmod(dirname(__FILE__)."/data/free/tpl/free.tpl.php",0644);
 $content = convert($tpl_file);
-compiled($cid,$content);
+$fp=fopen(dirname(__FILE__)."/data/".$cid."/tpl/".$cid.".tpl.compiled.php","w");
+fwrite($fp,$content);
+fclose($fp);
+chmod(dirname(__FILE__)."/data/".$cid."/tpl/".$cid.".tpl.compiled.php",0644);
 
 /* tpl 테이블 생성 */
 if($db_check->status == true && $db_check->tpl == false ){

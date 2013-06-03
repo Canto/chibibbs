@@ -33,7 +33,7 @@ thead tr{background:#d9edf7}
 		if(bbs_permission($member->permission,$bbs->cid)=="true"){
 	?>
 		<tr>
-			<td><a href="http://<?php echo $bbs->cid;?>.pann.me" target="_blank"><?php echo $bbs->cid;?></a></td>
+			<td><a href="../index.php?cid=<?php echo $bbs->cid;?>" target="_blank"><?php echo $bbs->cid;?></a></td>
 			<?php if($device!="mobile"){?><td><?php echo $bbs->skin;?></td><?php }?>
 			<td class="td-center"><?php echo count_bbs("log","cid='".mysql_real_escape_string($bbs->cid)."'",$chibi_conn);?></td>
 			<td class="td-center"><?php echo count_bbs("log","date LIKE '".mysql_real_escape_string($today)."%' AND cid='".mysql_real_escape_string($bbs->cid)."'",$chibi_conn);?></td>

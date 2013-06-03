@@ -156,8 +156,6 @@ if($pic->type=="youtube"){
 <div class="row-fluid margin0">
 <div class="span12">
 <span class="badge badge-info">&nbsp;&nbsp;<?=$pic->no?>&nbsp;&nbsp;</span>
-<a href="javascript:;" onclick="Twitter('<?=$bbs->title?> :: 커뮤모아 판(Pann)', 'http://<?=$cid?>.pann.me/<?=$cid?>/<?=$pic->no?>/')"> <img src="images/twitter-icon.png" alt="트위터" /></a>
-<a href="javascript:;" onclick="FaceBook('<?=$bbs->title?> :: 커뮤모아 판(Pann)', 'http://<?=$cid?>.pann.me/<?=$cid?>/<?=$pic->no?>/','<?php if($pic->type=="picture") echo "http://".$cid.".pann.me/".$pic->src ;?>')"> <img src="images/facebook-icon.png" alt="페이스북" /></a>
 <!--// 관리자용 체크박스 //-->
 <?php if(empty($permission)==false && $permission=="true"){?>
 <input style="line-height:20px;" type="checkbox" class="picidx" name="picidx" value="<?=$pic->idx?>" >
@@ -171,8 +169,7 @@ if($pic->type=="youtube"){
 <?=$picture;?>
 </div>
 <ul class="inline unstyled">
-<li class="span7" style="text-align:left"><span class="label label-info marginTop5">로그주소</span>&nbsp;<input class="input-medium" type="text" value="http://<?=$cid?>.pann.me/<?=$cid?>/<?=$pic->no?>/" style="margin:0px !important;padding:2px !important;font-size:11px;height:15px !important;" readonly="readonly" ></li>
-<li class="text-right span5">
+<li class="text-right span12">
 <?php if($pic->pic_ip==$_SERVER['REMOTE_ADDR']){ ?>
 <a href="javascript:;" idx="<?=$pic->idx?>" class="opBtn"><span class="badge badge-info marginTop5">옵션</span></a>
 <?php }?>
@@ -193,14 +190,14 @@ if($pic->type=="youtube"){
 <!--// 코멘트를 불러오기 위한 반복문 시작 //-->
 <@--START:COMMENT--@>
 <?php
-if(($comment->op->secret=="secret" && $comment->ip != $_SERVER['REMOTE_ADDR']) && empty($permission)==true ){ $comment->comment = "<p class=\"label comment\"><i class=\"icon-warning-sign\"></i>SECRET</p>";
+if(($comment->op->secret=="secret" && $comment->ip != $_SERVER['REMOTE_ADDR']) && empty($permission)==true ){ 
+$comment->comment = '';
 }else{
 $comment->comment = htmlFilter($comment->comment,1,$bbs->tag);
 $comment->name = htmlFilter($comment->name,1,$bbs->tag);
 if($keyword && $search=="comment") $comment->comment = str_replace($keyword,"<span style='color:#FF001E;background-color:#FFF000;'>".$keyword."</span>",$comment->comment);
 $comment->comment = emoticon($comment->comment,$cid,$chibi_conn);
 $comment->comment = nl2br($comment->comment);
-if($comment->op->secret=="secret") $comment->comment = "<p class=\"label comment\"><i class=\"icon-warning-sign\"></i>SECRET</p>&nbsp;&nbsp;".$comment->comment;
 }
 if($comment->op->dice) $dice = explode("+",$comment->op->dice);
 else $dice = '';
@@ -215,10 +212,12 @@ else $dice = '';
 <b><?=$comment->name?></b>
 <?php if($pic->pic_ip == $comment->ip) echo $skin->op->painter_icon;?>
  - 
-<?php if(empty($dice)==false) echo "<img src=\"images/".$dice[0]."\"><img src=\"images/".$dice[1]."\">"; ?>
+<?php if(empty($dice)==false) echo "<img src=\"images/".$dice[0].".gif\"><img src=\"images/".$dice[1].".gif\">"; ?>
 <?=date("Y/m/d(D) H:i:s",$comment->rtime)?> 
 <a href="javascript:;" no="<?=$comment->no?>" pic_no="<?=$comment->pic_no?>" depth="<?=$comment->depth?>" class="reply"><?=$skin->op->reply_icon?></a> 
-<a href="javascript:;" no="<?=$comment->no?>" idx="<?=$comment->idx?>" pic_no="<?=$comment->pic_no?>" depth="<?=$comment->depth?>" class="modify"><?=$skin->op->modify_icon?></a> 
+<?php if($comment->op->secret!="secret" || ($_SERVER['REMOTE_ADDR'] == $comment->ip && $comment->op->secret=="secret")){?>
+<a href="javascript:;" no="<?=$comment->no?>" idx="<?=$comment->idx?>" pic_no="<?=$comment->pic_no?>" depth="<?=$comment->depth?>" class="modify"><?=$skin->op->modify_icon?></a>
+<?php } ?>
 <a href="javascript:;" no="<?=$comment->no?>" idx="<?=$comment->idx?>" pic_no="<?=$comment->pic_no?>" depth="<?=$comment->depth?>" rtime="<?=$comment->rtime?>" class="delBtn"><?=$skin->op->del_icon?></a>
 <!--// 관리자용 체크박스 //-->
 <?php if(empty($permission)==false && $permission=="true"){?>
@@ -230,6 +229,7 @@ else $dice = '';
 <!--/* 코멘트 출력 시작 */-->
 <?php if(empty($comment->op->more)==false) echo"<a class=\"label more\" more=\"0\" href=\"javascript:;\"><i class=\" icon-chevron-down\"></i>&nbsp;more&nbsp;</a><p class=\"comment\" style=\"display:none;\">";
 else "<p>";
+if($comment->op->secret=="secret") echo "<span class=\"label comment\"><i class=\"icon-warning-sign\"></i>SECRET</span>&nbsp;&nbsp;"
 ?>
 <?=$comment->comment?>
 </p>
@@ -239,7 +239,7 @@ else "<p>";
 
 <?php if($comment->depth > 1) for($i=0;$i<$comment->depth;$i++) echo "</blockquote>"; ?>
 </li>
-<@--END:COMMENT@-->
+<@--END:COMMENT--@>
 <!--//코멘트를 불러오기 위한 반복문 종료//-->
 </ul>
 
@@ -421,6 +421,7 @@ else "<p>";
 <div class="controls-group">
 <input type="hidden" name="mode" id="mode" value="modify">
 <input type="hidden" name="cid" value="<?=$cid?>">
+<input type="hidden" name="op[dice]" value="">
 <input type="hidden" id="idx" name="idx" value="">
 <input type="hidden" id="page" name="page" value="<?=$page?>">
 <input type="text" class="input-mini" name="name" id="name" placeholder="name" value="">

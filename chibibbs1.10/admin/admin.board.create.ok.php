@@ -12,6 +12,7 @@ $error_tpl='';
 /* 입력 값 설정 */
 $option = array( /* 옵션 입력 값 */
 	'secret'=>$secret,
+	'use_permission'=>$use_permission,
 	'btool'=>$btool,
 	'pic_page'=>$pic_page,
 	'pic_page_bar'=>$pic_page_bar,
@@ -46,12 +47,6 @@ $spam = serialize($spam); /* 배열의 직렬화 */
 $sql = "INSERT INTO `chibi_admin` (
 `cid`, `skin`, `passwd`, `permission`, `title`, `notice`, `tag`, `spam`, `op`) VALUES ('".mysql_real_escape_string($cid)."', '".mysql_real_escape_string($skin)."', '".mysql_real_escape_string(md5($passwd))."', '', '".mysql_real_escape_string($title)."', '".mysql_real_escape_string($notice)."', '".mysql_real_escape_string($tag)."', '".mysql_real_escape_string($spam)."', '".mysql_real_escape_string($option)."');";
 
-/* 템플릿 초기 설정 */
-
-$content = load($skin);
-$content = convert($content);
-compiled($cid,$content);
-
 /*
 ob_start();
 include_once "skin/".$skin."/layout.php";
@@ -68,6 +63,25 @@ if(is_dir("../data/".$cid)==false){
 		mkdir("../data/".$cid."/emoticon",0755);
 		if(is_dir("../data/".$cid)==true && is_dir("../data/".$cid."/emoticon")==true) $mkdir = true;
 		else $mkdir = false;
+		mkdir("../data/".$cid."/tpl",0755);
+		
+/* 템플릿 초기 설정 */
+$tpl = fopen("../skin/".$skin."/layout.php", "r");
+$tpl_file = '';
+while (!feof($tpl)){
+$tpl_file = $tpl_file.fgets($tpl);
+}
+$fp=fopen("../data/".$cid."/tpl/".$cid.".tpl.php","w");
+fwrite($fp,$tpl_file);
+fclose($fp);
+fclose($tpl);
+chmod("../data/".$cid."/tpl/".$cid.".tpl.php",0644);
+$content = convert($tpl_file);
+$fp=fopen("../data/".$cid."/tpl/".$cid.".tpl.compiled.php","w");
+fwrite($fp,$content);
+fclose($fp);
+chmod("../data/".$cid."/tpl/".$cid.".tpl.compiled.php",0644);
+
 }
 }else{
 	$data_permission = false;

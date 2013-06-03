@@ -62,11 +62,10 @@ if(bbs_permission($member->permission,$bbs->cid)=="true"){
 </td>
 <td class="span9 td-right">
 <select name="secret">
-<option value="all" <?php if($bbs->op->secret=="all") echo "selected"; ?>>발행</option>
 <option value="off" <?php if($bbs->op->secret=="off") echo "selected"; ?>>공개</option>
 <option value="on" <?php if($bbs->op->secret=="on") echo "selected"; ?>>비공개</option>
 <select>
-<p class="help-block">게시판 공개 / 비공개 를 설정 할 수 있습니다. 발행의 경우 최근 그림이 커뮤모아 메인에 노출됩니다.</p>
+<p class="help-block">게시판 공개 / 비공개 를 설정 할 수 있습니다.</p>
 </td>
 </tr>
 <tr>
@@ -81,7 +80,7 @@ if(bbs_permission($member->permission,$bbs->cid)=="true"){
 <p class="help-block">그림 및 로드 기능의 사용권한을 지정 할 수 있습니다.</p>
 </td>
 </tr>
-<?php if($bbs->cid=="free"){?>
+<!--
 <tr>
 <td class="span3 td-left">
 <p>비툴의 사용여부</p>
@@ -94,9 +93,8 @@ if(bbs_permission($member->permission,$bbs->cid)=="true"){
 <p class="help-block">비툴프로그램의 사용여부를 설정 할 수 있습니다.<br/><span class="text-warning">비툴홈페이지(<a href="http://btool.net" target="_blank">http://btool.net</a>)에서 구입 후 이용하여 주세요.</p>
 </td>
 </tr>
-<?php }else{ ?>
+-->
 <input type="hidden" name="btool" value="off">
-<?php } ?>
 <tr>
 <td class="span3 td-left">
 <p>비공개 패스워드</p>
@@ -221,7 +219,6 @@ if(bbs_permission($member->permission,$bbs->cid)=="true"){
 <p class="help-block">코멘트 작성시 주어지는 포인트 입니다.</p>
 </td>
 </tr>
-<!--
 <tr>
 <td class="span3 td-left">
 <p>상단 외부페이지</p>
@@ -240,7 +237,6 @@ if(bbs_permission($member->permission,$bbs->cid)=="true"){
 <p class="help-block">게시판 하단에 나타 낼 외부 페이지를 지정 하여 주세요.</p>
 </td>
 </tr>
--->
 <tr>
 <td class="span3 td-left">
 <p>상단 공지사항</p>

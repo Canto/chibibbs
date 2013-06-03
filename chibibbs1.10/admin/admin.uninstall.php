@@ -1,9 +1,9 @@
 <?php
 if(!defined("__CHIBI__")) exit();
 if(strstr($_SERVER['HTTP_REFERER'],$_SERVER['SERVER_NAME'])&&strstr($_SERVER['HTTP_REFERER'],'cAct=Uninstall')){ /* 접속경로 체크 */
+
 $connect_page=true;
 $cid = $_GET['cid'];
-
 if($member->permission=="all" || $member->permission=="super"){
 $member_permission = "all";
 $error='';
@@ -11,12 +11,23 @@ $sql = "DROP TABLE `chibi_admin`, `chibi_comment`, `chibi_emoticon`, `chibi_log`
 mysql_query($sql,$chibi_conn);
 $error = mysql_error();
 if(empty($error)==true){
-rmdir_rf("../data");
+function deleteDirectory($dir) {
+    if (!file_exists($dir)) return true;
+    if (!is_dir($dir)) return unlink($dir);
+    foreach (scandir($dir) as $item) {
+        if ($item == '.' || $item == '..') continue;
+        if (!deleteDirectory($dir.DIRECTORY_SEPARATOR.$item)) return false;
+    }
+    return rmdir($dir);
+}
+deleteDirectory("../data");
 }
 }else{
 $connect_page=false;
 }
 }
+
+
 ?>
 <div class="span8 offset2">
 <?php

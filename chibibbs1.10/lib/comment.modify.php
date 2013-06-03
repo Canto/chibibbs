@@ -23,7 +23,8 @@ $return = array(
 	'name'=>$comment->name,
 	'comment'=>stripslashes($comment->comment),
 	'secret'=>$op->secret,
-	'more'=>$op->more
+	'more'=>$op->more,
+	'dice'=>$op->dice
 );
 echo json_encode($return);
 ?>

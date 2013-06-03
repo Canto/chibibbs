@@ -76,7 +76,7 @@ if($bbs->op->include_head){
 		include "lib/draw.php";
 		break;
 	default:
-		include "data/".$bbs->cid."/tpl/".$bbs->cid.".tpl.php";
+		include "data/".$bbs->cid."/tpl/".$bbs->cid.".tpl.compiled.php";
 		break;
 	}
 }

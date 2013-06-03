@@ -94,7 +94,7 @@ if(login_check($chibi_conn)==false){/* 로그인 상태가 아닐 때*/
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-		<a href="admin.php" class="brand logo"><strong>커뮤모아 PANN</strong></a>
+		<a href="admin.php" class="brand logo"><strong>Chibi Tool BBS 관리자 페이지</strong></a>
 			<div class="nav-collapse collapse">
             <ul class="nav">
 			<?php 
@@ -119,7 +119,7 @@ if(login_check($chibi_conn)==false){/* 로그인 상태가 아닐 때*/
 				if($member->permission=="super"){
 			  ?>
 		      <li class="">
-                <a href="../admin.php?cAct=Uninstall" >언인스톨</a>
+                <a href="?cAct=Uninstall" >언인스톨</a>
               </li>
 			  <?php
 			}
@@ -138,6 +138,8 @@ if(login_check($chibi_conn)==false){/* 로그인 상태가 아닐 때*/
 }
 ?>
 </div>
+<p style="text-align:right;">
+Chibi Tool BBS ver <?=$chibi_ver?> Beta &copy; <a href='http://canto.btool.kr' target='_blank'>Canto</a><br/><br/></p>
 </div>
 </body>
 </html>
