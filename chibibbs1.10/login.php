@@ -29,7 +29,7 @@ if(setup_check($chibi_conn)==false){
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-<title>Chibi Tool BBS 로그인</title>
+<title>커뮤모아 판(PANN) 로그인</title>
 <style type="text/css">
 body{margin:20px;background:#e8e8e8;}
 .main{margin:0 auto !important;}

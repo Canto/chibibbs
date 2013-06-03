@@ -47,7 +47,11 @@ $sql = "INSERT INTO `chibi_admin` (
 `cid`, `skin`, `passwd`, `permission`, `title`, `notice`, `tag`, `spam`, `op`) VALUES ('".mysql_real_escape_string($cid)."', '".mysql_real_escape_string($skin)."', '".mysql_real_escape_string(md5($passwd))."', '', '".mysql_real_escape_string($title)."', '".mysql_real_escape_string($notice)."', '".mysql_real_escape_string($tag)."', '".mysql_real_escape_string($spam)."', '".mysql_real_escape_string($option)."');";
 
 /* 템플릿 초기 설정 */
-make_tpl($skin,$cid);
+
+$content = load($skin);
+$content = convert($content);
+compiled($cid,$content);
+
 /*
 ob_start();
 include_once "skin/".$skin."/layout.php";

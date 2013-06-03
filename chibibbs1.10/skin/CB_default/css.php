@@ -28,4 +28,6 @@ max-width:100%;
 ul.comment, blockquote{margin-bottom:5px;}
 .adminpanel{position:fixed;right:5px;top:40%;}
 .loadpic , #loadForm , .video{display:none;}
+textarea{font-size:12px;}
+.well {word-wrap:break-word;word-break:break-all;}
 </style>

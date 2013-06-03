@@ -17,6 +17,7 @@ $comment = mysql_fetch_array($comment_query);
 $comment = (object) $comment;
 $comment->op = unserialize($comment->op);
 $comment->op = (object) $comment->op;
+if(get_magic_quotes_gpc()) $comment->comment = stripslashes($comment->comment);
 ?>
 <form method="POST" class="form-horizontal margin0 cmtmodifyForm" action="./lib/comment.modify.ok.php">
 <div class="controls-group">
@@ -25,10 +26,10 @@ $comment->op = (object) $comment->op;
 <div class="controls-group">
 <p>
 <label class="checkbox inline">
-<input type="checkbox" id="op['secret']" name="op['secret']" value="secret">secret
+<input type="checkbox" id="op['secret']" name="op[secret]" value="secret" <?php if($comment->op->secret=="secret") echo "checked=\"checked\""?>">secret
 </label>
 <label class="checkbox inline">
-<input type="checkbox" id="op['more']" name="op['more']" value="more">more
+<input type="checkbox" id="op['more']" name="op[more]" value="more" <?php if($comment->op->more=="more") echo "checked=\"checked\""?>>more
 </label>
 </p>
 </div>

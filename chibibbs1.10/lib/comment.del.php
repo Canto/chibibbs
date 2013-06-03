@@ -4,8 +4,7 @@ header ('Cache-Control: no-cache, must-revalidate');
 header ('Pragma: no-cache');
 header ('Content-type: text/html; charset=UTF-8');
 define("__CHIBI__",time());
-$cid = $_GET['cid'];
-$page = $_GET['page'];
+$cid = $_POST['cid'];
 $pic_no = $_POST['pic_no'];
 $idx = $_POST['idx'];
 $session = $_POST['member'];
@@ -32,22 +31,24 @@ else $permission = $member2->permission;
 if($cid && $idx && $pic_no){
 	$select = "SELECT * FROM `chibi_comment` WHERE `cid`='".mysql_real_escape_string($cid)."' AND `idx`='".mysql_real_escape_string($_POST['idx'])."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' AND `passwd`='".mysql_real_escape_string(md5($passwd))."'";
 	$error = mysql_query($select,$chibi_conn);
-	$error = mysql_fetch_row($error);
+	$cmt = mysql_fetch_array($error);
 		if(empty($error)==true){
-			echo "<script>alert('코멘트 삭제 실패!!');
-			history.go(-1);
-			</script>";
+			$chk = false;
+			echo $chk;
 		}else{
-		$query = "DELETE FROM `chibi_comment` WHERE `cid`='".mysql_real_escape_string($cid)."' AND `idx`='".mysql_real_escape_string($idx)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' AND `passwd`='".mysql_real_escape_string(md5($passwd))."'";
-		 mysql_query($query,$chibi_conn);
-		echo "<script>alert('코멘트 삭제 완료!!');
-		location.href = '../index.php?cid=".$cid."&page=".$page."';
-		</script>";
+			if($cmt['passwd']==md5($passwd)){
+				$query = "DELETE FROM `chibi_comment` WHERE `cid`='".mysql_real_escape_string($cid)."' AND `idx`='".mysql_real_escape_string($idx)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' AND `passwd`='".mysql_real_escape_string(md5($passwd))."'";
+				 mysql_query($query,$chibi_conn);
+				$chk = true;
+				echo $chk;
+			}else{
+				$chk = false;
+				echo $chk;
+			}
 		}
 }else{
-	echo "<script>alert('코멘트 삭제 실패!!');
-			history.go(-1);
-			</script>";
+	$chk = false;
+	echo $chk;
 }
 mysql_close($chibi_conn);
 ?>

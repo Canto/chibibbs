@@ -17,10 +17,11 @@ while($i<count($count_sql)){
 	else $count_log = $count_log." OR `cid`='".mysql_real_escape_string($count_sql[$i])."'";
 	$i++;
 }
-$count_log_today = "(".$count_log.") AND date='".mysql_real_escape_string($today)."'";
+$count_log_today = "(".$count_log.") AND date LIKE '".mysql_real_escape_string($today)."%'";
 }
 ?>
-<div class="span10 offset1">
+<div class="container">
+<div class="span10 offset1 ">
 <table class="table table-bordered">
 <tbody>
 <tr>
@@ -30,7 +31,7 @@ $count_log_today = "(".$count_log.") AND date='".mysql_real_escape_string($today
 <td class="content">
 <p>
 <?php 
-if($member->permission == "all" || $member->permission!="super") echo count_bbs("log","",$chibi_conn);
+if($member->permission == "all" || $member->permission == "super") echo count_bbs("log","",$chibi_conn);
 else echo count_bbs("log",$count_log,$chibi_conn);
 ?>
 </p>
@@ -40,7 +41,15 @@ if ($device=="mobile"){
 }else{
 	?>
 <td rowspan="4" class="content span8">
+<div style="width:100%;max-height:187px;overflow-y:scroll;">
+<ul class="unstyle news" style="font-size:12px;">
+<li>치비툴에 관련된 질문 및 건의 사항은 <a href="http://canto.btool.kr">개발자 홈페이지</a> 에 남겨주세요.</li>
+<li class="old_news">치비툴은 JAVA 가 설치되어 있어야 사용가능합니다. <br/><a href="https://www.java.com/ko/download/ie_manual.jsp?locale=ko&amp;host=www.java.com" target="_blank"><b>:: JAVA 다운로드 ::</b></a>&nbsp;&nbsp;&nbsp;
+<a href="http://sketchstudio.cellosoft.com/downloads/JTabletSetupv0.9.5.exe" target="_blank"><b>:: 필압플로그인(IE용) ::</b></a> &nbsp;&nbsp;&nbsp;<a href="http://jtablet.cellosoft.com/jtablet2/release/JTabletSetup-1.2.5-alpha.exe" target="_blank"><b>:: 필압플로그인(기타브라우저용) ::</b></a>
+</li>
+</ul>
 <iframe src ="http://chibi.kr/update.php" width="100%" height="100%" scrolling="auto" frameborder="0" style="border:0;"></iframe>
+</div>
 </td>
 <?php
 }
@@ -53,7 +62,7 @@ if ($device=="mobile"){
 <td class="content">
 <p>
 <?php 
-if($member->permission == "all" || $member->permission=="super") echo count_bbs("log","date='".mysql_real_escape_string($today)."'",$chibi_conn);
+if($member->permission == "all" || $member->permission=="super") echo count_bbs("log","date LIKE '".mysql_real_escape_string($today)."%'",$chibi_conn);
 else echo count_bbs("log",$count_log_today,$chibi_conn);
 ?>
 </p>
@@ -91,6 +100,7 @@ else echo count_bbs("comment",$count_log,$chibi_conn);
 <?php
 }
 ?>
+</div>
 <div class="container">
 <?php 
 if(empty($cAct)==true){
@@ -149,9 +159,9 @@ function close() {
 		$('#lightbox').hide();
 	}
 </script>
-<div class="span6 news well">
+<div class="span12 well">
 <p class="text-info"><strong>최근 등록 그림</strong><p>
-<ul class="inline">
+<ul class="inline" style="text-align:center">
 <?php
 if($member->permission == "all" || $member->permission =="super") $news_pic_query = news_pic($chibi_conn,"");
 else $news_pic_query = news_pic($chibi_conn,$count_log);
@@ -166,17 +176,17 @@ while($news_pic_array=mysql_fetch_array($news_pic_query)){
 ?>
 </ul>
 </div>
-<div class="span5 news well">
+<div class="span12 well">
 <p class="text-info"><strong>최근 등록 코멘트</strong><p>
-<ul>
+<ul class="unstyled">
 <?php
 if($member->permission == "all" || $member->permission =="super") $news_cmt_query = news_comment($chibi_conn,"");
 else $news_cmt_query = news_comment($chibi_conn,$count_log);
 while($news_cmt_array=mysql_fetch_array($news_cmt_query)){
 	$news_cmt = (object) $news_cmt_array;
 ?>
-<li>
-<?php echo $news_cmt->name." - ".str_cut($news_cmt->comment,"40","...");?> 
+<li style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">
+&raquo;&nbsp;&nbsp;<a href="http://<?=$news_cmt->cid?>.pann.me/index.php?cid=<?=$news_cmt->cid?>&search=name&keyword=<?=$news_cmt->name?>" target="_blank"><?php echo $news_cmt->name; ?></a>&nbsp;-&nbsp;<a href="http://<?=$news_cmt->cid?>.pann.me/index.php?cid=<?=$news_cmt->cid?>&search=no&keyword=<?=$news_cmt->pic_no?>" target="_blank"><?php echo stripslashes($news_cmt->comment);?></a>
 </li>
 <?php
 }
@@ -240,8 +250,8 @@ while($news_cmt_array=mysql_fetch_array($news_cmt_query)){
 		case "adminMemberDelete" : /* 맴버 삭제 */
 			include_once "admin.member.delete.php";
 			break;
-		case "adminBoardStatistics" : /* 게시판 통계 */
-			include_once "admin.board.statistics.php";
+		case "Uninstall" : /* 언인스톨 */
+			include_once "admin.uninstall.php";
 			break;
 		default :
 			echo "<div class=\"span6 offset3 alert alert-error\">

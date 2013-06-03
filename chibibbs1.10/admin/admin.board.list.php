@@ -16,12 +16,14 @@ thead tr{background:#d9edf7}
 	<thead>
 		<tr>
 			<th>게시판ID</th>
+			<?php if($device!="mobile"){?>
 			<th>사용중인 스킨</th>
+			<?php }?>
 			<th class="td-center">총방문자</th>
 			<th class="td-center">오늘방문자</th>
 			<th class="td-center">그림 수</th>
 			<th class="td-center">코멘트 수</th>
-			<th class="span5 td-center">설정</th>
+			<th class="span6 td-center">설정</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -31,10 +33,10 @@ thead tr{background:#d9edf7}
 		if(bbs_permission($member->permission,$bbs->cid)=="true"){
 	?>
 		<tr>
-			<td><a href="../index.php?cid=<?php echo $bbs->cid;?>" target="_blank"><?php echo $bbs->cid;?></a></td>
-			<td><?php echo $bbs->skin;?></td>
+			<td><a href="http://<?php echo $bbs->cid;?>.pann.me" target="_blank"><?php echo $bbs->cid;?></a></td>
+			<?php if($device!="mobile"){?><td><?php echo $bbs->skin;?></td><?php }?>
 			<td class="td-center"><?php echo count_bbs("log","cid='".mysql_real_escape_string($bbs->cid)."'",$chibi_conn);?></td>
-			<td class="td-center"><?php echo count_bbs("log","date='".mysql_real_escape_string($today)."' AND cid='".mysql_real_escape_string($bbs->cid)."'",$chibi_conn);?></td>
+			<td class="td-center"><?php echo count_bbs("log","date LIKE '".mysql_real_escape_string($today)."%' AND cid='".mysql_real_escape_string($bbs->cid)."'",$chibi_conn);?></td>
 			<td class="td-center"><?php echo count_bbs("pic","cid='".mysql_real_escape_string($bbs->cid)."'",$chibi_conn);?></td>
 			<td class="td-center"><?php echo count_bbs("comment","cid='".mysql_real_escape_string($bbs->cid)."'",$chibi_conn);?></td>
 			<td class="td-btn td-center">
@@ -51,10 +53,10 @@ thead tr{background:#d9edf7}
 			<?php
 			}else{
 			?>
-			<select class="span5" onchange="location = this.options[this.selectedIndex].value;">
+			<select class="span5" onchange="menu_change(this.options[this.selectedIndex].value,'<?=$bbs->cid?>');" id="menu">
 			<option value="#">설정</option>
 			<option value="admin.php?cAct=adminBoardSetup&cid=<?php echo $bbs->cid;?>">게시판 설정</option>
-			<option value="admin.php?cAct=adminSkinSetup&cid=<?php echo $bbs->cid;?>">스킨 설정</option>
+			<option value="admin.php?cAct=adminSkinSetup&cid=<?php echo $bbs->cid;?>&skin=<?php echo $bbs->skin;?>">스킨 설정</option>
 			<option value="admin.php?cAct=adminEmoticonSetup&cid=<?php echo $bbs->cid;?>">이모티콘 설정</option>
 			<option class="text-warning" value="admin.php?cAct=adminBoardReset&cid=<?php echo $bbs->cid;?>">초기화</option>
 			<?php if($member->permission=="super"|$member->permission=="all"){ ?>
@@ -72,6 +74,20 @@ thead tr{background:#d9edf7}
 	?>
 	</tbody>
 </table>
+			<script>
+			function menu_change(val,cid){
+				if(val=="admin.php?cAct=adminBoardReset&cid="+cid){
+					var answer = confirm('초기화 하시겠습니까?');
+					if(answer){
+						location = val;
+					}else{
+						return false;
+					}
+				}else{
+					location = val;
+				}
+			}
+			</script>
 <script type="text/javascript">
 $(function(){
 <?php 

@@ -6,7 +6,6 @@ header ('Content-type: text/html; charset=UTF-8');
 session_start();
 define("__CHIBI__",time());
 $cid = $_POST['cid'];
-$page = $_POST['page'];
 //$src = $_POST['src'];
 //$type = $_POST['type'];
 $idx = explode("&",$_POST['idx']);
@@ -26,8 +25,9 @@ $member2 = (object) mysql_fetch_array($query2);
 
 
 
-if(bbs_permission($member2->permission,$cid)=="true" && empty($idx)==false){
+if(bbs_permission($member2->permission,$cid)=="true"){
 	$cmt ='';	
+	$mi ='';
 	for($i=0;$i<count($idx);$i++){
 	$tmp = '';
 	$tmp = explode("=",$idx[$i]);
@@ -43,21 +43,32 @@ if(bbs_permission($member2->permission,$cid)=="true" && empty($idx)==false){
 	if($picture['type'] == "picture"){
 		delfile("../".$picture['src']);
 	}
+	$mi = $i;
 	}
 
+	$bbs_query = select($cid,$chibi_conn);
+		$bbs = (object) mysql_fetch_array($bbs_query);
+		$bbs->op = (object) unserialize($bbs->op);
+		if($bbs->op->secret=="all"){
+		$mi = ($mi+1)*10;
+		$point_sql = "UPDATE `xe_point` SET `point` = `point`-'".$mi."' WHERE `member_srl` ='".mysql_real_escape_string($bbs->member_srl)."'";
+		mysql_query($point_sql);
+		}
+
+	
+
 	$query = "DELETE FROM `chibi_pic` WHERE `idx` IN (".mysql_real_escape_string($idx_cmt).")";
-	$query2 = "DELETE FROM `chibi_comment` WHERE `pic_no` IN (".mysql_real_escape_string($cmt).") AND `cid`='".mysql_real_escape_string($cid)."'";
+	$query2 = "DELETE FROM `chibi_comment` WHERE `pic_no` IN (".mysql_real_escape_string($cmt).") AND `cid` = '".mysql_real_escape_string($cid)."'";
 	//echo $query;
 	mysql_query($query,$chibi_conn);
 	mysql_query($query2,$chibi_conn);
-	echo "<script>alert('그림 삭제 완료!!');
-	location.href = '../index.php?cid=".$cid."&page=".$page."';
-	</script>";
+		$chk = true;
+		echo $chk;
 	
 }else{
-	echo "<script>alert('그림 삭제 실패!!');
-	history.go(-1);
-	</script>";
+
+	$chk = false;
+	echo $chk;
 }
 mysql_close($chibi_conn);
 ?>

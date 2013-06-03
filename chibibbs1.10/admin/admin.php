@@ -37,10 +37,11 @@ if(empty($_GET['skin'])==false){
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="http://commumoa.net/files/attach/xeicon/favicon.ico" />
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-<title>Chibi Tool BBS 관리자 페이지</title>
+<title>Chibi Tool BBS ver <?=$chibi_ver?> 관리자 페이지</title>
 <style type="text/css">
 body{margin:0px;background:#fcfcfc;}
 .count{background:#d9edf7;}
@@ -93,7 +94,7 @@ if(login_check($chibi_conn)==false){/* 로그인 상태가 아닐 때*/
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-		<a href="admin.php" class="brand logo"><strong>Chibi Tool BBS 1.10</strong></a>
+		<a href="admin.php" class="brand logo"><strong>커뮤모아 PANN</strong></a>
 			<div class="nav-collapse collapse">
             <ul class="nav">
 			<?php 
@@ -110,10 +111,6 @@ if(login_check($chibi_conn)==false){/* 로그인 상태가 아닐 때*/
 			?>
 			  <li class="<?php if($cAct=="adminBoardList"||$cAct=="adminBoardSetup"||$cAct=="adminBoardReset"||$cAct=="adminBoardDelete") echo "active";?>">
                 <a href="?cAct=adminBoardList" >게시판 관리</a>
-              </li>
-			  <li class="<?php if($cAct=="adminBoardStatistics") echo "active";?>">
-				<a href="#">통계 보기</a>
-                <!--<a href="?cAct=adminBoardStatistics" >통계 보기</a>-->
               </li>
 			  <li class="">
                 <a href="../logout.php?user_id=<?php echo $member->user_id;?>" >로그아웃</a>

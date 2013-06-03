@@ -78,6 +78,7 @@ function checkID(){
 </td>
 <td class="span9 td-right">
 <select name="secret">
+<option value="all">발행</option>
 <option value="off">공개</option>
 <option value="on">비공개</option>
 <select>

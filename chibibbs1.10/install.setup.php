@@ -54,7 +54,7 @@ body{background:#e8e8e8;font-size:12px;margin:20px;font-family:돋움,dotum;}
 <?php 
 if(!is_writable('./data')){
 ?>
-<p class="text-error">data 폴더의 권한이 <b>777</b>이 아닙니다<br/>data 폴더의 권한을 확인해주세요.</p>
+<p class="text-error">data 폴더의 권한이 <b>707</b> 혹은 <b>777</b>이 아닙니다<br/>data 폴더의 권한을 확인해주세요.</p>
 <? }else{ ?>
 </div>
 <div class="control-group">

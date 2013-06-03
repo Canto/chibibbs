@@ -7,6 +7,7 @@ define("__CHIBI__",time());
 $type = $_POST['type'];
 $cid = $_POST['cid'];
 $passwd = $_POST['passwd'];
+if(empty($type)==false){
 if($type=="picture"){
 
 	$file=$_FILES['image']['name'];
@@ -33,11 +34,18 @@ include_once "../lib/db.conn.php";
 $count_sql = "SELECT * FROM `chibi_pic` WHERE `cid`='".mysql_real_escape_string($cid)."' ORDER BY `idx` DESC";
 $count_query = mysql_query($count_sql,$chibi_conn);
 $count = mysql_fetch_array($count_query);
-
 $query = "INSERT INTO `chibi_pic` (`idx`,`no`,`cid`, `type`, `src`, `passwd`, `agent`, `pic_ip`, `time`, `op`)VALUES('','".mysql_real_escape_string($count['no']+1)."','".mysql_real_escape_string($cid)."','".mysql_real_escape_string($type)."','".mysql_real_escape_string($image)."','".mysql_real_escape_string(md5($passwd))."','".mysql_real_escape_string($_SERVER['HTTP_USER_AGENT'])."','".mysql_real_escape_string($_SERVER["REMOTE_ADDR"])."','".time()."','')";
-	  mysql_query($query,$chibi_conn);	  
+mysql_query($query,$chibi_conn);
+$bbs_sql = "SELECT * FROM `chibi_admin` where `cid`='".mysql_real_escape_string($cid)."'";
+$bbs_query = mysql_query($bbs_sql,$chibi_conn);
+$bbs = (object) mysql_fetch_array($bbs_query);
+$bbs->op = (object) unserialize($bbs->op);
+if($bbs->op->secret=="all"){
+$point_sql = "UPDATE `xe_point` SET `point` = `point`+'10' WHERE `member_srl` ='".mysql_real_escape_string($bbs->member_srl)."'";
+mysql_query($point_sql);
+}
 		$chk = true;
 		echo $chk;
 mysql_close($chibi_conn);
-
+}
 ?>

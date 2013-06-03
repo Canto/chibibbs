@@ -26,6 +26,15 @@ if((empty($cid) && empty($idx))==false){
 	if($picture['type'] == "picture"){
 		delfile("../".$picture['src']);
 	}
+	
+	$bbs_query = select($cid,$chibi_conn);
+		$bbs = (object) mysql_fetch_array($bbs_query);
+		$bbs->op = (object) unserialize($bbs->op);
+		if($bbs->op->secret=="all"){
+		$point_sql = "UPDATE `xe_point` SET `point` = `point`-'10' WHERE `member_srl` ='".mysql_real_escape_string($bbs->member_srl)."'";
+		mysql_query($point_sql);
+		}
+
 	$query = "DELETE FROM `chibi_pic` WHERE `idx`='".mysql_real_escape_string($idx)."' AND `cid` = '".mysql_real_escape_string($cid)."'";
 	$cmt_query = "DELETE FROM `chibi_comment` WHERE `pic_no`='".mysql_real_escape_string($picture['no'])."' AND `cid` = '".mysql_real_escape_string($cid)."'";
 	//echo $query;

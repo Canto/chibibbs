@@ -34,11 +34,11 @@ $string = "SELECT * FROM `chibi_emoticon` where `cid`='".mysql_real_escape_strin
 		$em_query = mysql_query($string,$chibi_conn);
 		$em_list ='';
 		while($em = mysql_fetch_array($em_query)){
-		echo "<li>
+		echo "<li style=\"width:100px;height:100px;text-align:center;\">
 		<ul class=\"unstyled\">
-		<li><img src=\"../".$em['url']."\" width=\"100\" height=\"100\"/></li>
+		<li><img src=\"../".$em['url']."\" /></li>
 		<li>".$em['inst']."</li>
-		<li><button type=\"button\" class=\"btn btn-mini emoticon_del\" onclick=\"delemoticon('".$cid."','../".$em['url']."','".$em['inst']."');\">삭제</button></li>
+		<li><button type=\"button\" class=\"btn btn-mini emoticon_del\" onclick=\"delemoticon('".$cid."','".$em['url']."','".$em['inst']."');\">삭제</button></li>
 		</ul>
 		</li>";
 		}

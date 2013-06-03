@@ -20,6 +20,7 @@ if(empty($passwd)==false){
 /* 입력 값 설정 */
 $option = array( /* 옵션 입력 값 */
 	'secret'=>$secret,
+	'use_permission'=>$use_permission,
 	'btool'=>$btool,
 	'pic_page'=>$pic_page,
 	'pic_page_bar'=>$pic_page_bar,

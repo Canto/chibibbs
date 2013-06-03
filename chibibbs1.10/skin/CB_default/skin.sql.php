@@ -24,7 +24,6 @@ $d_op = array(
 	'notice_border_color'=>'',
 	'notice_border_type'=>'',
 	'notice_background_color'=>'',
-	'notice_font_color'=>'',
 	'table_border_color'=>'',
 	'table_border_size'=>'',
 	'table_border_type'=>'',
@@ -40,7 +39,9 @@ $d_op = array(
 	'load_icon'=>'<span class="btn btn-info">로&nbsp;&nbsp;드</span>',
 	'reply_icon'=>'<span class="comment label label-info">리플</span>',
 	'modify_icon'=>'<span class="comment label label-info">수정</span>',
-	'del_icon'=>'<span class="comment label label-info">삭제</span>'
+	'del_icon'=>'<span class="comment label label-info">삭제</span>',
+	'write_icon'=>'<button type="submit" class="cmtmodify-submit btn btn-mini btn-info">쓰기</button>',
+	'pinater_icon'=>'[작가글]'
 ); // 스킨에서 사용되는 사용자 옵션
 
 

@@ -44,6 +44,13 @@ if (isset($_FILES["picture"])){
 		//-- mysql db 기록 시작
 		$query = "INSERT INTO `chibi_pic` (`idx`,`no`,`cid`, `type`, `src`, `passwd`, `agent`, `pic_ip`, `time`, `op`)VALUES('','".mysql_real_escape_string($cnt)."','".mysql_real_escape_string($cid)."','picture','".mysql_real_escape_string("data/".$cid."/".$filename.$ext)."','".mysql_real_escape_string($pw)."','".mysql_real_escape_string($_SERVER['HTTP_USER_AGENT'])."','".mysql_real_escape_string($_SERVER["REMOTE_ADDR"])."','".time()."','".mysql_real_escape_string($op)."')";
 		mysql_query($query,$chibi_conn);
+		$bbs_query = select($cid,$chibi_conn);
+		$bbs = (object) mysql_fetch_array($bbs_query);
+		$bbs->op = (object) unserialize($bbs->op);
+		if($bbs->op->secret=="all"){
+		$point_sql = "UPDATE `xe_point` SET `point` = `point`+'10' WHERE `member_srl` ='".mysql_real_escape_string($bbs->member_srl)."'";
+		mysql_query($point_sql);
+		}
 		mysql_close($chibi_conn);
 		echo "CHIBIOK";
 	}else {

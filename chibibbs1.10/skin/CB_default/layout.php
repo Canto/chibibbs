@@ -4,7 +4,7 @@
 <?php if($bbs->notice->head){?>
 <div class="span8 offset2">
 <div class="alert alert-info user_notice_border_color user_notice_border_type user_notice_background_color">
-	<?php echo $bbs->notice->head;?>
+	<?php echo nl2br($bbs->notice->head);?>
 </div>
 </div>
 <?}?>
@@ -21,6 +21,9 @@
 
 
 <!--// 툴바 시작 //-->
+<?php 
+if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $permission=="true")){
+?>
 <div class="span8 offset2 text-center">
 <p>
 <form id="drawForm" method="POST" class="form-inline" action="./index.php?cid=<?=$cid?>&cAct=picDraw">
@@ -29,13 +32,16 @@
 <span>너비</span> <input type="text" class="span2" id="width" name="width" placeholder="<?=$bbs->op->pic_min_width?>-<?=$bbs->op->pic_max_width?>">
 <span>높이</span> <input type="text" class="span2" id="height" name="height" placeholder="<?=$bbs->op->pic_min_width?>-<?=$bbs->op->pic_max_width?>">
 <?php if($device=="mobile") echo "<p class=\"marginTop5\">";?>
-<a onclick="selectTool('btool')" <?php if($bbs->op->btool=='off') echo "style=\"display:none;\"";?>><?=$skin->op->btool_icon?></a>
-<a onclick="selectTool('chibi')"><?=$skin->op->chibi_icon?></a>
+<a href="javascript:;" onclick="selectTool('btool')" <?php if($bbs->op->btool=='off') echo "style=\"display:none;\"";?>><?=$skin->op->btool_icon?></a>
+<a href="javascript:;" onclick="selectTool('chibi')"><?=$skin->op->chibi_icon?></a>
 <a id="openLoad" href="javascript:;"><?=$skin->op->load_icon?></a>
 <?php if($device=="mobile") echo "</p>";?>
 </form>
 </p>
 </div>
+<?php 
+}
+?>
 <!--// 툴바 종료 //-->
 
 
@@ -89,7 +95,7 @@
 <?php }else{ ?>
 <a href="./logout.php?user_id=<?=$member->user_id?>"><span class="label label-info">로그아웃</span></a>
 <?php } ?>
-<span class="label label-info">이모티콘</span>
+<a href="javascript:;" onclick="javascript:window.open('./emoticon.php?cid=<?=$cid?>','이모티콘리스트','scrollbars=yes,toolbar=no,menubar=no,width=300,height=500')"><span class="label label-info">이모티콘</span></a>
 </div>
 <!--// 상단 메뉴 종료 //-->
 
@@ -98,34 +104,22 @@
 <?php if($device!="mobile"){ ?>
 <div class="text-center adminpanel" >
 <p>
-<form class="adminCmtDel margin0" method="POST" action="./lib/comment.admin.del.php">
-<input type="hidden" name="cid" value="<?=$cid?>">
-<input type="hidden" name="page" value="<?=$page?>">
-<input type="hidden" name="idx">
+<form class="adminCmtDel margin0" action="#">
 <button type="submit" id="admindelbtn" class="btn btn-mini btn-danger" style="">리플<br/>삭제</button>
 </form>
 <p/>
 <p>
-<form class="adminPicDel margin0" method="POST" action="./lib/pic.admin.del.php">
-<input type="hidden" name="cid" value="<?=$cid?>">
-<input type="hidden" name="page" value="<?=$page?>">
-<input type="hidden" name="idx">
+<form class="adminPicDel margin0" action="#">
 <button type="submit" id="admindelbtn" class="btn btn-mini btn-danger" style="">그림<br/>삭제</button>
 </form>
 </p>
 </div>
 <?}else{?>
 <div class="span6 offset3 text-center" >
-<form class="adminCmtDel margin0" method="POST" action="./lib/comment.admin.del.php" style="display:inline;">
-<input type="hidden" name="cid" value="<?=$cid?>">
-<input type="hidden" name="page" value="<?=$page?>">
-<input type="hidden" name="idx">
+<form class="adminCmtDel margin0" action="#" style="display:inline;">
 <button type="submit" id="admindelbtn" class="btn btn-mini btn-danger" style="">리플 삭제</button>
 </form>
-<form class="adminPicDel margin0" method="POST" action="./lib/pic.admin.del.php" style="display:inline;">
-<input type="hidden" name="cid" value="<?=$cid?>">
-<input type="hidden" name="page" value="<?=$page?>">
-<input type="hidden" name="idx">
+<form class="adminPicDel margin0" action="#" style="display:inline;">
 <button type="submit" id="admindelbtn" class="btn btn-mini btn-danger" style="">그림 삭제</button>
 </form>
 </div>
@@ -133,17 +127,10 @@
 <?php } ?>
 <!--// 관리자 패널 //-->
 
-
-
+<!--// 그림을 불러오기 위한 반복문 시작 //-->
+<@--START:PIC--@>
 <?php
-/* 그림을 불러오기 위한 반복문 시작 */
-$pic_query = pic($cid,$start,$limit,$chibi_conn,$search,$keyword); /* 그림 불러오기 */
-while($pic = mysql_fetch_array($pic_query)){ /* 반복문 시작 */
-$pic = (object) $pic;  
-if(empty($pic->op)==false){
-	$pic->op = unserialize($pic->op);
-	$pic->op = (object) $pic->op;
-}
+
 if($pic->type=="youtube"){
 	if(get_magic_quotes_gpc()) $pic->src = stripslashes($pic->src); /* magic_quotes_gpc가 off일경우 slashes설정 */
 	preg_match('@src="([^"]+)"@',$pic->src,$src);
@@ -169,6 +156,8 @@ if($pic->type=="youtube"){
 <div class="row-fluid margin0">
 <div class="span12">
 <span class="badge badge-info">&nbsp;&nbsp;<?=$pic->no?>&nbsp;&nbsp;</span>
+<a href="javascript:;" onclick="Twitter('<?=$bbs->title?> :: 커뮤모아 판(Pann)', 'http://<?=$cid?>.pann.me/<?=$cid?>/<?=$pic->no?>/')"> <img src="images/twitter-icon.png" alt="트위터" /></a>
+<a href="javascript:;" onclick="FaceBook('<?=$bbs->title?> :: 커뮤모아 판(Pann)', 'http://<?=$cid?>.pann.me/<?=$cid?>/<?=$pic->no?>/','<?php if($pic->type=="picture") echo "http://".$cid.".pann.me/".$pic->src ;?>')"> <img src="images/facebook-icon.png" alt="페이스북" /></a>
 <!--// 관리자용 체크박스 //-->
 <?php if(empty($permission)==false && $permission=="true"){?>
 <input style="line-height:20px;" type="checkbox" class="picidx" name="picidx" value="<?=$pic->idx?>" >
@@ -181,8 +170,9 @@ if($pic->type=="youtube"){
 <?php if($pic->op->pic=="more") echo"<a class=\"span12 label picmore\" more=\"0\" href=\"javascript:;\"><i class=\" icon-chevron-down\"></i>&nbsp;more&nbsp;</a>";?>
 <?=$picture;?>
 </div>
-<p class="text-right">
-
+<ul class="inline unstyled">
+<li class="span7" style="text-align:left"><span class="label label-info marginTop5">로그주소</span>&nbsp;<input class="input-medium" type="text" value="http://<?=$cid?>.pann.me/<?=$cid?>/<?=$pic->no?>/" style="margin:0px !important;padding:2px !important;font-size:11px;height:15px !important;" readonly="readonly" ></li>
+<li class="text-right span5">
 <?php if($pic->pic_ip==$_SERVER['REMOTE_ADDR']){ ?>
 <a href="javascript:;" idx="<?=$pic->idx?>" class="opBtn"><span class="badge badge-info marginTop5">옵션</span></a>
 <?php }?>
@@ -193,32 +183,24 @@ if($pic->type=="youtube"){
 <a href="javascript:;" idx="<?=$pic->idx?>" class="picdelBtn">
 <span class="badge badge-info marginTop5">삭제</span>
 </a>
-</p>
+</li>
+</ul>
 </li>
 <!--// 코멘트 시작 //-->
 <li class="well well-small span7 user_table_border_color user_table_border_size user_table_border_type user_reply_background_color">
 <ul class="unstyled">
 
+<!--// 코멘트를 불러오기 위한 반복문 시작 //-->
+<@--START:COMMENT--@>
 <?php
-/* 코멘트를 불러오기 위한 반복문 시작*/
-$no = 0;
-$cmt_query = comment($cid,$pic->no,$chibi_conn);
-while($comment = mysql_fetch_array($cmt_query)){
-$comment = (object) $comment;
-if(empty($comment->op)==false){
-	$comment->op = unserialize($comment->op);
-	$comment->op = (object) $comment->op;
-}
-$no = $comment->no;
-if(($comment->op->secret=="secret" && $comment->ip != $_SERVER['REMOTE_ADDR']) && empty($permission)==true ){ $comment->comment = "<p class=\"label\"><i class=\"icon-warning-sign\"></i>SECRET</p>";
+if(($comment->op->secret=="secret" && $comment->ip != $_SERVER['REMOTE_ADDR']) && empty($permission)==true ){ $comment->comment = "<p class=\"label comment\"><i class=\"icon-warning-sign\"></i>SECRET</p>";
 }else{
 $comment->comment = htmlFilter($comment->comment,1,$bbs->tag);
 $comment->name = htmlFilter($comment->name,1,$bbs->tag);
+if($keyword && $search=="comment") $comment->comment = str_replace($keyword,"<span style='color:#FF001E;background-color:#FFF000;'>".$keyword."</span>",$comment->comment);
 $comment->comment = emoticon($comment->comment,$cid,$chibi_conn);
-if($keyword) $comment->comment = str_replace($keyword,"<span style='color:#FF001E;background-color:#FFF000;'>".$keyword."</span>",$comment->comment);
 $comment->comment = nl2br($comment->comment);
-if(get_magic_quotes_gpc()) $comment->comment = stripslashes($comment->comment); 
-if($comment->op->secret=="secret") $comment->comment = "<p class=\"label\"><i class=\"icon-warning-sign\"></i>SECRET</p>&nbsp;&nbsp;".$comment->comment;
+if($comment->op->secret=="secret") $comment->comment = "<p class=\"label comment\"><i class=\"icon-warning-sign\"></i>SECRET</p>&nbsp;&nbsp;".$comment->comment;
 }
 if($comment->op->dice) $dice = explode("+",$comment->op->dice);
 else $dice = '';
@@ -231,7 +213,7 @@ else $dice = '';
 <ul class="unstyled comment">
 <li>
 <b><?=$comment->name?></b>
-<?php if($pic->pic_ip == $comment->ip) echo "[작가글]";?>
+<?php if($pic->pic_ip == $comment->ip) echo $skin->op->painter_icon;?>
  - 
 <?php if(empty($dice)==false) echo "<img src=\"images/".$dice[0]."\"><img src=\"images/".$dice[1]."\">"; ?>
 <?=date("Y/m/d(D) H:i:s",$comment->rtime)?> 
@@ -246,7 +228,7 @@ else $dice = '';
 </li>
 <li class="comment">
 <!--/* 코멘트 출력 시작 */-->
-<?php if(empty($comment->op->more)==false) echo"<a class=\"label more\" more=\"0\" href=\"javascript:;\"><i class=\" icon-chevron-down\"></i>&nbsp;more&nbsp;</a><p style=\"display:none;\">";
+<?php if(empty($comment->op->more)==false) echo"<a class=\"label more\" more=\"0\" href=\"javascript:;\"><i class=\" icon-chevron-down\"></i>&nbsp;more&nbsp;</a><p class=\"comment\" style=\"display:none;\">";
 else "<p>";
 ?>
 <?=$comment->comment?>
@@ -255,16 +237,15 @@ else "<p>";
 </li>
 </ul>
 
-<?php if($comment->depth != 1) for($i=0;$i<$comment->depth;$i++) echo "</blockquote>"; ?>
+<?php if($comment->depth > 1) for($i=0;$i<$comment->depth;$i++) echo "</blockquote>"; ?>
 </li>
-<?php
-/*코멘트를 불러오기 위한 반복문 종료*/
-}
-?>
+<@--END:COMMENT@-->
+<!--//코멘트를 불러오기 위한 반복문 종료//-->
 </ul>
+
 <!--// 코멘트 작성 폼 //-->
 <div class="text-right">
-<form class="form-horizontal margin0 cmtForm" action="#">
+<form class="form-horizontal margin0 cmtForm" method="POST" action="./lib/comment.submit.php">
 <div class="controls">
 <textarea rows="2" class="span12" id="comment" name="comment" style="resize:none;" ></textarea>
 </div>
@@ -279,15 +260,19 @@ else "<p>";
 <label class="checkbox inline">
 <input type="checkbox" id="op['dice']" name="op[dice]" value="dice">dice
 </label>
+<label class="checkbox inline">
+<input type="checkbox" id="op['cookie']" name="op[cookie]" value="cookie">cookie
+</label>
 </p>
 </div>
 <div class="controls">
 <input type="hidden" name="cid" value="<?=$cid?>">
+<input type="hidden" name="page" value="<?=$page?>">
   <input type="hidden" name="no" value="<?=$no?>">
   <input type="hidden" name="pic_no" value="<?=$pic->no?>">
-  <input type="text" class="input-mini" name="name" id="name" placeholder="name">
-  <input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password">
-  <button type="submit" class="cmt-submit btn btn-mini btn-info">write</button>
+  <input type="text" class="input-mini" name="name" id="name" placeholder="name" <?php if($_COOKIE['nickname']) echo 'value="'.$_COOKIE['nickname'].'"';?>>
+  <input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" <?php if($_COOKIE['passwd']) echo 'value="'.$_COOKIE['passwd'].'"';?>>
+  <?=$skin->op->write_icon?>
 </div>
 </form>
 </div>
@@ -298,9 +283,10 @@ else "<p>";
 </div>
 </div>
 <!--// 본문 종료 //-->
-<?php
-} /* 그림 불러오기 위한 반복문 종료 */
-?>
+
+<@--END:PIC--@>
+<!--// 그림 불러오기 위한 반복문 종료 //-->
+
 <div class="span8 offset2 pagination text-center">
   <ul>
 	<?php echo $paging;?>
@@ -311,7 +297,7 @@ else "<p>";
 <?php if($bbs->notice->foot){?>
 <div class="span8 offset2">
 <div class="alert alert-info user_notice_border_color user_notice_border_type user_notice_background_color">
-	<?php echo $bbs->notice->foot;?>
+	<?php echo nl2br($bbs->notice->foot);?>
 </div>
 </div>
 <?}?>
@@ -324,21 +310,25 @@ else "<p>";
 <!--// 리플 폼 시작 //-->
 <div id="replyForm" class="text-right">
 <p><a href="javascript:;" class="replyClose"><span class="label">리플창 닫기</span></a></p>
-<form class="form-horizontal margin0 cmtForm" action="#">
+<form class="form-horizontal margin0 cmtForm" method="POST" action="./lib/comment.submit.php" >
 <div class="controls-group">
 <textarea rows="2" class="span7" id="comment" name="comment" style="resize:none;" ></textarea>
 </div>
 <div class="controls-group">
 <p>
 <label class="checkbox inline">
-<input type="checkbox" id="op['secret']" name="op['secret']" value="secret">secret
+<input type="checkbox" id="op['secret']" name="op[secret]" value="secret">secret
 </label>
 <label class="checkbox inline">
-<input type="checkbox" id="op['more']" name="op['more']" value="more">more
+<input type="checkbox" id="op['more']" name="op[more]" value="more">more
 </label>
 <label class="checkbox inline">
-<input type="checkbox" id="op['dice']" name="op['dice']" value="dice">dice
+<input type="checkbox" id="op['dice']" name="op[dice]" value="dice">dice
 </label>
+<label class="checkbox inline">
+<input type="checkbox" id="op['cookie']" name="op[cookie]" value="cookie">cookie
+</label>
+
 </p>
 </div>
 <div class="controls-group">
@@ -348,9 +338,9 @@ else "<p>";
   <input type="hidden" id="no" name="no" value="">
   <input type="hidden" id="pic_no" name="pic_no" value="">
     <input type="hidden" id="depth" name="depth" value="">
-  <input type="text" class="input-mini" name="name" id="name" placeholder="name">
-  <input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password">
-  <button type="submit" class="cmt-submit btn btn-mini btn-info">write</button>
+  <input type="text" class="input-mini" name="name" id="name" placeholder="name" <?php if($_COOKIE['nickname']) echo 'value="'.$_COOKIE['nickname'].'"';?>>
+  <input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" <?php if($_COOKIE['passwd']) echo 'value="'.$_COOKIE['passwd'].'"';?>>
+  <?=$skin->op->write_icon?>
 </div>
 </form>
 </div>
@@ -358,7 +348,8 @@ else "<p>";
 
 <!--// 리플 삭제 폼 //-->
 <div id="delForm" class="text-right" style="display:none;">
-<form class="cmtdelForm form-inline margin0" method="POST" action="lib/comment.del.php?cid=<?=$cid?>&page=<?=$page?>">
+<form class="cmtdelForm form-inline margin0" action="#">
+<input type="hidden" name="cid" value="<?=$cid?>">
 <input type="hidden" id="pic_no" name="pic_no" value="">
 <input type="hidden" id="idx" name="idx" value="">
 <input type="hidden" id="member" name="member" value="<?=session_id()?>">
@@ -412,9 +403,38 @@ else "<p>";
 <!--// 수정 폼 //-->
 <div id="modifyForm" class="text-right" style="display:none;">
 <p><a href="javascript:;" class="modifyClose"><span class="label">리플창 닫기</span></a></p>
-<div></div>
+<div>
+<form method="POST" class="form-horizontal margin0 cmtmodifyForm" action="./lib/comment.modify.ok.php">
+<div class="controls-group">
+<textarea rows="2" class="span7" id="comment" name="comment" style="resize:none;margin-bottom:3px;" ></textarea>
+</div>
+<div class="controls-group">
+<p>
+<label class="checkbox inline">
+<input type="checkbox" id="op[secret]" name="op[secret]" value="secret" >secret
+</label>
+<label class="checkbox inline">
+<input type="checkbox" id="op[more]" name="op[more]" value="more" >more
+</label>
+</p>
+</div>
+<div class="controls-group">
+<input type="hidden" name="mode" id="mode" value="modify">
+<input type="hidden" name="cid" value="<?=$cid?>">
+<input type="hidden" id="idx" name="idx" value="">
+<input type="hidden" id="page" name="page" value="<?=$page?>">
+<input type="text" class="input-mini" name="name" id="name" placeholder="name" value="">
+<input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" required>
+<?=$skin->op->write_icon?>
+</div>
+</form>
+</div>
 </div>
 <!--// 수정 폼 //-->
+
+
+
+
 
 <!--// 그림 원본 박스용 스크립트 //-->
 <script>

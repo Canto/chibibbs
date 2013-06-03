@@ -19,11 +19,14 @@ $tpl = str_replace("\$DBPASSWD","'error'",$tpl);
 $tpl = str_replace("\$DBNAME","'error'",$tpl);
 $tpl = str_replace("mysql_query","'error'",$tpl);
 $tpl = str_replace("mysql_result","'error'",$tpl);
+$tpl = str_replace("MYSQL_QUERY","'error'",$tpl);
 
 /* 입력 값 설정 */
 $tpl_file=fopen("../data/tpl/$cid.tpl.php","w");
 if($tpl_file){
 fwrite($tpl_file,$tpl);
+$content = convert($tpl);
+compiled($cid,$content);
 }else{
 $error = "템플릿 파일 열기 실패!!";
 }

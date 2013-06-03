@@ -184,7 +184,7 @@ $admin_option = array(
 if(is_dir(dirname(__FILE__)."/data/free")==false){
 		umask(0);
 		mkdir(dirname(__FILE__)."/data/free",0755);
-		mkdir(dirname(__FILE__)."/data/tpl",0755);
+		mkdir(dirname(__FILE__)."/data/free/tpl",0755);
 		mkdir(dirname(__FILE__)."/data/free/emoticon",0755);
 }else{
 	if(!is_writable(dirname(__FILE__)."/data/free")){
@@ -193,8 +193,8 @@ if(is_dir(dirname(__FILE__)."/data/free")==false){
 			if(is_dir(dirname(__FILE__)."/data/free/emoticon"==false)){
 			mkdir(dirname(__FILE__)."/data/free/emoticon",0755);
 		}
-		if(is_dir(dirname(__FILE__)."/data/tpl"==false)){
-			mkdir(dirname(__FILE__)."/data/tpl",0755);
+		if(is_dir(dirname(__FILE__)."/data/free/tpl"==false)){
+			mkdir(dirname(__FILE__)."/data/free/tpl",0755);
 		}
 	}
 }
@@ -236,11 +236,13 @@ $tpl_file = '';
 while (!feof($tpl)){
 $tpl_file = $tpl_file.fgets($tpl);
 }
-$fp=fopen(dirname(__FILE__)."/data/tpl/free.tpl.php","w");
+$fp=fopen(dirname(__FILE__)."/data/free/tpl/free.tpl.php","w");
 fwrite($fp,$tpl_file);
 fclose($fp);
 fclose($tpl);
-chmod(dirname(__FILE__)."/data/tpl/free.tpl.php",0644);
+chmod(dirname(__FILE__)."/data/free/tpl/free.tpl.php",0644);
+$content = convert($tpl_file);
+compiled($cid,$content);
 
 /* tpl 테이블 생성 */
 if($db_check->status == true && $db_check->tpl == false ){

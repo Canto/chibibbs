@@ -10,14 +10,16 @@ var m_height = ($(".movie").width()/4)*3;
 $(".movie").height(m_height);
 
 
-/* 로드 관련 */
-$('#openLoad').click(function(){/* 로드폼 표시 */
+$('#openLoad').click(function(){
 	$('#loadForm').show();
 });
-$('#closeLoad').click(function(){/* 로드폼 숨김 */
+$('#closeLoad').click(function(){
 	$('#loadForm').hide();
 });
-$("#loadSelect").change(function () { /* 로드방식 선택 */
+
+
+
+$("#loadSelect").change(function () {
           var str = ""		  
 		  $("#loadSelect > option:selected").each(function(){
 			  str = $(this).val();
@@ -34,15 +36,29 @@ $("#loadSelect").change(function () { /* 로드방식 선택 */
 		  }
         });
 });
-/* 로드 관련 */
 
 
 /* 관리자패널 그림 삭제 */
 $(".adminPicDel").submit(function(){
 if($(document).find(".picidx").is(':checked')){
-	var idx = $('input:checkbox[class=picidx]').serialize();
-	$(this).children('input:hidden[name=idx]').val(idx);
-	return true;
+	  $.ajax({
+   url: './lib/pic.admin.del.php',
+   cache: false,
+   type: 'POST',
+   data: {'idx':$('input:checkbox[class=picidx]').serialize(),'cid':'<?=$cid?>'},
+   dataType: 'html',
+   success: function(data){
+	   if(data == true){
+	     alert("그림 삭제 완료!!");
+		 location.href="./index.php?cid=<?=$cid?>&page=<?=$page?>";
+	   }else{
+		 alert("그림 삭제 실패!!");
+ 		 return false;
+	   }
+   
+   }
+  });
+	  return false;
 }else{
 	 alert('삭제할 그림을 선택하여 주세요.');
 	 return false;
@@ -50,19 +66,6 @@ if($(document).find(".picidx").is(':checked')){
   return false;
 });
 /* 관리자패널 그림 삭제 */
-/* 관리자패널 코멘트(리플) 삭제 */
-$(".adminCmtDel").submit(function(){
-if($(document).find(".idx").is(':checked')){
-	var idx = $('input:checkbox[class=idx]').serialize();
-	$(this).children('input:hidden[name=idx]').val(idx);
-	return true;
-}else{
-	 alert('삭제할 리플을 선택하여 주세요.');
-	 return false;
-}
-  return false;
-});
-/* 관리자패널 코멘트(리플) 삭제 */
 
 
 /* 코멘트(리플) 삭제 */
@@ -83,7 +86,23 @@ if($(this).find("#passwd").val() == ""){
 	  $('#delForm').show();
 	  return false;
 }else{
-	return true;
+		var formData = $(this).serialize();
+   $.ajax({
+   url: './lib/comment.del.php',
+   cache: false,
+   type: 'POST',
+   data: formData,
+   dataType: 'html',
+   success: function(data){
+	   if(data == true){
+	     alert("리플 삭제 완료!!");
+		 location.href="./index.php?cid=<?=$cid?>&page=<?=$page?>";
+	   }else{
+		 alert("리플 삭제 실패!!");
+ 		 return false;
+	   }
+   }
+  });
 }
   return false;
 });
@@ -175,18 +194,49 @@ if($(this).find("#passwd").val() == ""){
 /* 그림 삭제 */
 
 
-
+/* 관리자패널 코멘트(리플) 삭제 */
+$(".adminCmtDel").submit(function(){
+if($(document).find(".idx").is(':checked')){
+	  $.ajax({
+   url: './lib/comment.admin.del.php',
+   cache: false,
+   type: 'POST',
+   data: {'idx':$('input:checkbox[class=idx]').serialize(),'cid':'<?=$cid?>','session':'<?=session_id()?>'},
+   dataType: 'html',
+   success: function(data){
+	   if(data == true){
+	     alert("리플 삭제 완료!!");
+		 location.href="./index.php?cid=<?=$cid?>&page=<?=$page?>";
+	   }else{
+		 alert("리플 삭제 실패!!");
+ 		 return false;
+	   }
+   return false;
+   }
+  });
+	  return false;
+}else{
+	 alert('삭제할 리플을 선택하여 주세요.');
+	 return false;
+}
+  return false;
+});
+/* 관리자패널 코멘트(리플) 삭제 */
 
 
 $(".modify").click(function(){
 	$(this).hide();
 	  $.ajax({
-   url: './skin/CB_default/comment.modify.php',
+   url: './lib/comment.modify.php',
    type: 'POST',
    data: {'idx':$(this).attr("idx"),'cid':'<?=$cid?>','page':'<?=$page?>'},
-   dataType: 'html',
+   dataType: 'json',
    success: function(data){
-	   $("#modifyForm").children('p').next().html(data);
+	   $(".cmtmodifyForm").find("#comment").val(data['comment']);
+	   $(".cmtmodifyForm").find("#name").val(data['name']);
+	   $(".cmtmodifyForm").find("#idx").val(data['idx']);
+	   if(data['more']=="more") $(".cmtmodifyForm").find("input:checkbox[id='op[more]']").attr("checked",true);
+	   if(data['secret']=="secret") $(".cmtmodifyForm").find("input:checkbox[id='op[secret]']").attr("checked",true);
    }
   });
   $('#modifyForm').appendTo($(this).parent().next());
@@ -231,27 +281,8 @@ $(".cmtForm").submit(function(){
 	  return false;
 }else{
 $(this).find("button").show();
-var formData = $(this).serialize();
-  $.ajax({
-   url: './lib/comment.submit.php',
-   cache: false,
-   type: 'POST',
-   data: formData,
-   dataType: 'html',
-   success: function(data){
-	   if(data == true){
-	     alert("코멘트 작성 완료!!");
-		 location.href="./index.php?cid=<?=$cid?>&page=<?=$page?>";
-	   }else if(data == false){
-		 alert("코멘트 작성 실패!!");
- 		 return false;
-	   }else{
-			alert('"'+data+'" 은(는) 사용 금지된 단어입니다.');
-			return false;
-	   }
-   }
-  });
- }
+return true;
+}
  return false;
 }
 );
@@ -363,3 +394,30 @@ function uploadV(){
 			bindEvents(this);
 		});
 	};
+
+
+function Twitter(msg,url) {
+ var href = "https://twitter.com/intent/tweet?text="+encodeURIComponent(msg)+"&lang=ko&url="+encodeURIComponent(url);
+ var a = window.open(href, 'twitter', '');
+ if ( a ) {
+  a.focus();
+ }
+}
+<?php if($device=="mobile"){?>
+function FaceBook(msg,url,img) {
+ var href = "https://m.facebook.com/sharer.php?u=" + url + "&t=" + encodeURIComponent(msg);
+ var a = window.open(href, 'facebook', '');
+ if ( a ) {
+  a.focus();
+ }
+}
+<?php }else{ ?>
+function FaceBook(msg,url,img) {
+ var href = "http://www.facebook.com/sharer.php?s=100&p[title]="+encodeURIComponent(msg) + "&p[url]=" + encodeURIComponent(url) + "&p[images][0]=" + encodeURIComponent(img);
+// var href = "http://www.facebook.com/sharer.php?u=" + url + "&t=" + encodeURIComponent(msg);
+ var a = window.open(href, 'facebook', '');
+ if ( a ) {
+  a.focus();
+ }
+}
+<?php } ?>

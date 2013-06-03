@@ -42,7 +42,7 @@ thead tr{background:#d9edf7}
 			<td class="td-center"><?php echo $member_list->point?></td>
 			<td class="td-center"><?php echo $member_list->pic?></td>
 			<td class="td-center"><?php echo $member_list->comment?></td>
-			<td class="td-center"><?php if($device=="pc"){echo date("Y/m/d h:i:s",$member_list->lastlogin);}else{echo date("m/d h:s ",$member_list->lastlogin);}?></td>
+			<td class="td-center"><?php if($device=="pc"){echo date("Y/m/d H:i:s",$member_list->lastlogin);}else{echo date("m/d H:s ",$member_list->lastlogin);}?></td>
 			<td class="td-btn td-center">
 			<?php 
 			if($device=="pc"){

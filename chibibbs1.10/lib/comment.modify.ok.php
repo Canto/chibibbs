@@ -4,10 +4,6 @@ header ('Cache-Control: no-cache, must-revalidate');
 header ('Pragma: no-cache');
 header ('Content-type: text/html; charset=UTF-8');
 define("__CHIBI__",time());
-foreach($_POST as $key => $value){ //register_globals = off 환경을 위해 POST변수 재설정
-if(get_magic_quotes_gpc()) ${$key} = stripslashes($value);
-else ${$key} = $value;
-}
 $cid = $_POST['cid'];
 $page = $_POST['page'];
 $name = $_POST['name'];
@@ -53,7 +49,7 @@ if(empty($spam)==false){
 		history.go(-1);
 		</script>";
 		}else{
-		$sql = "UPDATE `chibi_comment` SET `name`='".mysql_real_escape_string($name)."' , `comment`='".mysql_real_escape_string($comment)."' WHERE `idx`='".mysql_real_escape_string($idx)."' AND `passwd`='".mysql_real_escape_string(md5($passwd))."'";
+		$sql = "UPDATE `chibi_comment` SET `name`='".mysql_real_escape_string($name)."' , `comment`='".mysql_real_escape_string($comment)."' , `op`='".mysql_real_escape_string($op)."' WHERE `idx`='".mysql_real_escape_string($idx)."' AND `passwd`='".mysql_real_escape_string(md5($passwd))."'";
 		mysql_query($sql,$chibi_conn);
 			echo "<script>alert('수정 완료!!');
 	location.href = '../index.php?cid=".$cid."&page=".$page."';

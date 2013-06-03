@@ -5,6 +5,7 @@ $skin = (object) mysql_fetch_array($query);
 $skin->op = unserialize($skin->op);
 if(get_magic_quotes_gpc()) $skin->op = array_map('stripslashes', $skin->op);
 $skin->op = (object) $skin->op;
+if(empty($skin->op->painter_icon)) $skin->op->painter_icon = "[작가글]";
 if(bbs_permission($member->permission,$skin->cid)=="true"){
 ?>
 <form class="form-horizontal" method="post" action="admin.php?cAct=adminSkinSetupOk">
@@ -40,6 +41,17 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 <td class="span9 td-right">
 <input id="cid" class="input-xlarge" type="text" placeholder="게시판 ID"  value="<?php echo $cid;?>" disabled >
 <input name="cid" type="hidden" value="<?php echo $cid;?>">
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>링크 색상</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xlarge" type="text" name="op[link_color]" placeholder="링크 색" value="<?php echo $skin->op->link_color;?>"  >
+<p class="help-inline">링크 색상을 입력하여 주세요. 예 > <code>#ffffff</code></p><br/><br/>
+<input class="input-xlarge" type="text" name="op[hover_color]" placeholder="링크 마우스 오버 색" value="<?php echo $skin->op->hover_color;?>"  >
+<p class="help-inline">링크에 마우스오버를 했을경우의 색상을 입력하여 주세요. 예 > <code>#ffffff</code></p>
 </td>
 </tr>
 <tr>
@@ -87,7 +99,7 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 <p class="help-block">공지사항 선 색과 굵기를 입력하여 주세요.예 > <code>#ffffff 1px</code></p>
 <input class="input-xlarge" type="text" name="op[notice_background_color]" placeholder="공지 배경 색" value="<?php echo $skin->op->notice_background_color;?>">
 <p class="help-block">공지사항 배경 색을 입력하여 주세요. 예> <code>#ffffff</code></p>
-<input class="input-xlarge" type="text" name="op[notice_font_color]" placeholder="공지 글자 색" value="<?php echo $skin->op->notice_font_color;?>">
+<input class="input-xlarge" type="text" name="op[notice_font_color]" placeholder="공지 배경 색" value="<?php echo $skin->op->notice_font_color;?>">
 <p class="help-block">공지사항 글자 색을 입력하여 주세요. 예> <code>#ffffff</code></p>
 </td>
 </tr>
@@ -118,7 +130,9 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 <p>로그 선 색</p>
 </td>
 <td class="span9 td-right">
-<input class="input-xlarge" type="text" name="op[pic_border_hover]" placeholder="로그 선 색" value="<?php echo $skin->op->pic_border_hover;?>">
+<input class="input-xlarge" type="text" name="op[pic_border_color]" placeholder="로그 선 색" value="<?php echo $skin->op->pic_border_color;?>">
+<p class="help-block">로그 선 색상을 지정하여 주세요.</p>
+<input class="input-xlarge" type="text" name="op[pic_border_hover]" placeholder="로그 마우스 오버 선 색" value="<?php echo $skin->op->pic_border_hover;?>">
 <p class="help-block">로그에 마우스를 올렸을 시 변할 선 색상을 지정하여 주세요.</p>
 </td>
 </tr>
@@ -172,7 +186,7 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 <p>메뉴<br/>&<br/>로그번호 아이콘 배경 색상</p>
 </td>
 <td class="span9 td-right">
-<input class="input-xlarge" type="text" name="op[top_menu_icon_color]" placeholder="아이콘 배경 색" value="<?php echo $skin->op->reply_text_color;?>">
+<input class="input-xlarge" type="text" name="op[top_menu_icon_color]" placeholder="아이콘 배경 색" value="<?php echo $skin->op->top_menu_icon_color;?>">
 <p class="help-block">메뉴(새로고침,관리자,로그아웃,이어그리기,리플,수정,삭제,옵션등)와 로그번호 아이콘 배경색을 지정 하실수 있습니다.</p>
 </td>
 </tr>
@@ -228,6 +242,24 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 <td class="span9 td-right">
 <input class="input-xxlarge" type="text" name="op[del_icon]" placeholder="삭제 아이콘" required value='<?php echo $skin->op->del_icon;?>'>
 <p class="help-block">삭제 아이콘을 지정 할 수 있습니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>글쓰기 아이콘</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xxlarge" type="text" name="op[write_icon]" placeholder="글쓰기 아이콘" required value='<?php echo $skin->op->write_icon;?>'>
+<p class="help-block">글쓰기 아이콘을 지정 할 수 있습니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>작가글 아이콘</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xxlarge" type="text" name="op[painter_icon]" placeholder="작가글 아이콘" required value='<?php echo $skin->op->painter_icon;?>'>
+<p class="help-block">작가글 아이콘을 지정 할 수 있습니다.</p>
 </td>
 </tr>
 <tr>
