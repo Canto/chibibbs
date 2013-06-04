@@ -40,10 +40,6 @@ $bbs_sql = "SELECT * FROM `chibi_admin` where `cid`='".mysql_real_escape_string(
 $bbs_query = mysql_query($bbs_sql,$chibi_conn);
 $bbs = (object) mysql_fetch_array($bbs_query);
 $bbs->op = (object) unserialize($bbs->op);
-if($bbs->op->secret=="all"){
-$point_sql = "UPDATE `xe_point` SET `point` = `point`+'10' WHERE `member_srl` ='".mysql_real_escape_string($bbs->member_srl)."'";
-mysql_query($point_sql);
-}
 		$chk = true;
 		echo $chk;
 mysql_close($chibi_conn);

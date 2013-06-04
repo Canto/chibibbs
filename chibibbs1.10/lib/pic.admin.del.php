@@ -46,14 +46,6 @@ if(bbs_permission($member2->permission,$cid)=="true"){
 	$mi = $i;
 	}
 
-	$bbs_query = select($cid,$chibi_conn);
-		$bbs = (object) mysql_fetch_array($bbs_query);
-		$bbs->op = (object) unserialize($bbs->op);
-		if($bbs->op->secret=="all"){
-		$mi = ($mi+1)*10;
-		$point_sql = "UPDATE `xe_point` SET `point` = `point`-'".$mi."' WHERE `member_srl` ='".mysql_real_escape_string($bbs->member_srl)."'";
-		mysql_query($point_sql);
-		}
 
 	
 
