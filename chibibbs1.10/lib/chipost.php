@@ -44,7 +44,6 @@ if (isset($_FILES["picture"])){
 		//-- mysql db 기록 시작
 		$query = "INSERT INTO `chibi_pic` (`idx`,`no`,`cid`, `type`, `src`, `passwd`, `agent`, `pic_ip`, `time`, `op`)VALUES('','".mysql_real_escape_string($cnt)."','".mysql_real_escape_string($cid)."','picture','".mysql_real_escape_string("data/".$cid."/".$filename.$ext)."','".mysql_real_escape_string($pw)."','".mysql_real_escape_string($_SERVER['HTTP_USER_AGENT'])."','".mysql_real_escape_string($_SERVER["REMOTE_ADDR"])."','".time()."','".mysql_real_escape_string($op)."')";
 		mysql_query($query,$chibi_conn);
-		}
 		mysql_close($chibi_conn);
 		echo "CHIBIOK";
 	}else {
