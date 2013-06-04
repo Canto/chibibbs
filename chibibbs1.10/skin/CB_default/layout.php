@@ -90,7 +90,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <a href="./index.php?cid=<?=$cid?>&page=<?=$_GET['page']?>"><span class="label label-info">새로고침</span></a>
 <?php if(empty($permission)==true){?><a href="./login.php?cid=<?=$cid?>"><span class="label label-info">관리자 모드</span></a>
 <?php }else if($permission=="true"){ ?>
-<a href="./admin/admin.php" target="_blank"><span class="label label-info">게시판 관리</span></a>
+<a href="./admin/admin.php?cid=<?=$cid?>" target="_blank"><span class="label label-info">게시판 관리</span></a>
 <a href="./logout.php?user_id=<?=$member->user_id?>"><span class="label label-info">로그아웃</span></a>
 <?php }else{ ?>
 <a href="./logout.php?user_id=<?=$member->user_id?>"><span class="label label-info">로그아웃</span></a>

@@ -119,7 +119,7 @@ if(login_check($chibi_conn)==false){/* 로그인 상태가 아닐 때*/
 				if($member->permission=="super"){
 			  ?>
 		      <li class="">
-                <a href="?cAct=Uninstall" >언인스톨</a>
+                <a href="?cAct=uninstall" >언인스톨</a>
               </li>
 			  <?php
 			}

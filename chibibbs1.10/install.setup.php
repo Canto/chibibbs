@@ -35,7 +35,7 @@ body{background:#e8e8e8;font-size:12px;margin:20px;font-family:돋움,dotum;}
 </head>
 <body>
 <div align="center" id="setupDiv">
-<form method="post" id="install" action="install.ok.php" class="form-horizontal">
+<form method="post" id="install" action="install.check.php" class="form-horizontal">
 <div class="control-group">
 <input type="hidden" name="mode" value="install">
 <input type="hidden" name="type" value="install">

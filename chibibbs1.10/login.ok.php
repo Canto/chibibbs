@@ -52,7 +52,7 @@ body{margin:20px;background:#e8e8e8;}
 		if($mode == "admin"){/* 관리자 페이지로 이동 */
 			echo "<script type=\"text/javascript\">
 			alert(\"로그인이 완료되었습니다.\");
-			location.href=\"admin/admin.php\";
+			location.href=\"admin/admin.php?cid=".$cid."\";
 			</script>";
 		}
 		if(empty($cid)==false){

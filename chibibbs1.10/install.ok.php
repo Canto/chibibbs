@@ -333,7 +333,7 @@ if(($db_check->admin && $db_check->skin && $db_check->pic && $db_check->comment 
 <div id="installed" class="alert alert-error">
 <a class="close" href="javascript:history.go(-1);">&times;</a>
 치비BBS 게시판이 이미 설치되어 있습니다.<br/><br/>
-<a class="btn btn-danger" href="javascript:history.go(-1);">돌아가기</a>
+<a class="btn btn-danger" href="./install.setup.php">돌아가기</a>
 </div>
 <?php
 exit();
@@ -342,7 +342,7 @@ exit();
 <div id="installed" class="alert alert-error">
 <a class="close" href="javascript:history.go(-1);">&times;</a>
 DB 정보가 틀립니다. 호스팅업체에서 다시 확인하시기 바랍니다.<br/><br/>
-<a class="btn btn-danger" href="javascript:history.go(-1);">돌아가기</a>
+<a class="btn btn-danger" href="./install.setup.php">돌아가기</a>
 </div>
 <script type="text/javascript">
 $('#installed').bind('closed', function () {

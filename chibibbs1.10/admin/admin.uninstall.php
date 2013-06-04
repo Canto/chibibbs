@@ -1,9 +1,8 @@
 <?php
 if(!defined("__CHIBI__")) exit();
-if(strstr($_SERVER['HTTP_REFERER'],$_SERVER['SERVER_NAME'])&&strstr($_SERVER['HTTP_REFERER'],'cAct=Uninstall')){ /* 접속경로 체크 */
-
-$connect_page=true;
+if(strstr($_SERVER['HTTP_REFERER'],$_SERVER['SERVER_NAME'])&&strstr($_SERVER['HTTP_REFERER'],'cAct=uninstall')){ /* 접속경로 체크 */
 $cid = $_GET['cid'];
+$connect_page=true;
 if($member->permission=="all" || $member->permission=="super"){
 $member_permission = "all";
 $error='';
@@ -21,12 +20,10 @@ function deleteDirectory($dir) {
     return rmdir($dir);
 }
 deleteDirectory("../data");
-}
-}else{
-$connect_page=false;
-}
-}
 
+}
+}
+}
 
 ?>
 <div class="span8 offset2">

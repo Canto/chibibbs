@@ -186,7 +186,7 @@ while($news_cmt_array=mysql_fetch_array($news_cmt_query)){
 	$news_cmt = (object) $news_cmt_array;
 ?>
 <li style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">
-&raquo;&nbsp;&nbsp;<a href="http://<?=$news_cmt->cid?>.pann.me/index.php?cid=<?=$news_cmt->cid?>&search=name&keyword=<?=$news_cmt->name?>" target="_blank"><?php echo $news_cmt->name; ?></a>&nbsp;-&nbsp;<a href="http://<?=$news_cmt->cid?>.pann.me/index.php?cid=<?=$news_cmt->cid?>&search=no&keyword=<?=$news_cmt->pic_no?>" target="_blank"><?php echo stripslashes($news_cmt->comment);?></a>
+&raquo;&nbsp;&nbsp;<a href="../index.php?cid=<?=$news_cmt->cid?>&search=name&keyword=<?=$news_cmt->name?>" target="_blank"><?php echo $news_cmt->name; ?></a>&nbsp;-&nbsp;<a href="../index.php?cid=<?=$news_cmt->cid?>&search=no&keyword=<?=$news_cmt->pic_no?>" target="_blank"><?php echo stripslashes($news_cmt->comment);?></a>
 </li>
 <?php
 }
@@ -250,7 +250,7 @@ while($news_cmt_array=mysql_fetch_array($news_cmt_query)){
 		case "adminMemberDelete" : /* 맴버 삭제 */
 			include_once "admin.member.delete.php";
 			break;
-		case "Uninstall" : /* 언인스톨 */
+		case "uninstall" : /* 언인스톨 */
 			include_once "admin.uninstall.php";
 			break;
 		default :
