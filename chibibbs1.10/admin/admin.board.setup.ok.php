@@ -1,5 +1,5 @@
 <?php
-if(!defined("__CHIBI__")) exti();
+if(!defined("__CHIBI__")) exit();
 if(strstr($_SERVER['HTTP_REFERER'],$_SERVER['SERVER_NAME'])&&strstr($_SERVER['HTTP_REFERER'],'cAct=adminBoardSetup')){ /* 접속경로 체크 */
 $connect_page=true;
 /* $_POST 변수 재 설정 */
