@@ -34,6 +34,8 @@ $d_op = array(
 	'rereply_bar_color'=>'',
 	'rereply_text_color'=>'',
 	'top_menu_icon_color'=>'',
+	'resize'=>'400',
+	'table_down'=>'9999',
 	'more_icon'=>'<img src="skin/default/images/more.png">',
 	'secret_icon'=>'<img src="skin/default/images/secret.png">',
 	'btool_icon'=>'<img src="skin/default/images/btool.png">',
@@ -49,7 +51,8 @@ $d_op = array(
 	'op_icon'=>'<img src="skin/default/images/op.png">',
 	'reflash_icon'=>'<img src="skin/default/images/reflash.png">',
 	'admin_icon'=>'<img src="skin/default/images/admin.png">',
-	'write_icon'=>'<input type="images" src="skin/default/images/write.png" class="cmtmodify-submit" />',
+	'write_icon'=>'<input type="image" src="skin/default/images/write.png" class="cmtmodify-submit" />',
+	'hp_icon'=>'<img src="skin/default/images/hp.png">',
 	'pinater_icon'=>'[작가글]'
 ); // 스킨에서 사용되는 사용자 옵션
 

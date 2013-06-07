@@ -9,6 +9,8 @@ $page = $_POST['page'];
 $name = $_POST['name'];
 $passwd = $_POST['passwd'];
 $comment = $_POST['comment'];
+$memo = $_POST['memo'];
+$hpurl = $_POST['hpurl'];
 $idx = $_POST['idx'];
 $op = $_POST['op'];
 $depth = $_POST['depth'];
@@ -38,8 +40,6 @@ else{
 	$op = '';
 }
 
-$hpurl ='';
-
 
 /* DB정보취득 */
 include_once "../data/config/db.config.php";
@@ -64,7 +64,7 @@ if(empty($spam)==false){
 	exit;
 
 }else{
-	  $query = "INSERT INTO `chibi_comment` (`idx`,`cid`,`pic_no`,`no`, `depth`, `name`, `passwd`, `rtime`, `comment`, `memo`, `hpurl`, `ip`, `op`)VALUES('','".mysql_real_escape_string($cid)."','".mysql_real_escape_string($pic_no)."','".mysql_real_escape_string($no)."','".mysql_real_escape_string($depth)."','".mysql_real_escape_string($name)."','".mysql_real_escape_string(md5($passwd))."','".time()."','".mysql_real_escape_string($comment)."','','".mysql_real_escape_string($hpurl)."','".$_SERVER["REMOTE_ADDR"]."','".mysql_real_escape_string($op)."')";
+	  $query = "INSERT INTO `chibi_comment` (`idx`,`cid`,`pic_no`,`no`, `depth`, `name`, `passwd`, `rtime`, `comment`, `memo`, `hpurl`, `ip`, `op`)VALUES('','".mysql_real_escape_string($cid)."','".mysql_real_escape_string($pic_no)."','".mysql_real_escape_string($no)."','".mysql_real_escape_string($depth)."','".mysql_real_escape_string($name)."','".mysql_real_escape_string(md5($passwd))."','".time()."','".mysql_real_escape_string($comment)."','".mysql_real_escape_string($memo)."','".mysql_real_escape_string($hpurl)."','".$_SERVER["REMOTE_ADDR"]."','".mysql_real_escape_string($op)."')";
 	  mysql_query($query,$chibi_conn);	  
 		echo "<script>alert('등록 완료!!');
 	location.href = '../index.php?cid=".$cid."&page=".$page."';

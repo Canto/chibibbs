@@ -19,11 +19,13 @@ jQuery.fn.highlight = function (text, o) {
 $(document).ready(function(){
 	
 $(".comment").autolink();
-var search = <?=$search;?>;
-var keyword = <?=$keyword;?>;
-if(keyword && search=="name") $(".name").highlight("<?=$keyword;?>", '<span style="color:#FF001E;background-color:#FFF000;">$1</span>');
-if(keyword && search=="comment") $(".comment").highlight("<?=$keyword;?>", '<span style="color:#FF001E;background-color:#FFF000;">$1</span>');
 
+<?php if($search) echo "var search =".$search.";";?>
+<?php if($keyword) echo "var keyword =".$keyword.";";?>
+<?php if($keyword&&$seach){
+echo 'if(keyword && search=="name") $(".name").highlight("'.$keyword.'", "<span style=\"color:#FF001E;background-color:#FFF000;\">$1</span>");';
+echo 'if(keyword && search=="comment") $(".comment").highlight("'.$keyword.'", ""<span style=\"color:#FF001E;background-color:#FFF000;\">$1</span>");';
+}?>
 $("textarea").autoGrow(); 
 
 var m_height = ($(".movie").width()/4)*3;
@@ -253,6 +255,8 @@ $(".modify").click(function(){
 	   $(".cmtmodifyForm").find("#comment").val(data['comment']);
 	   $(".cmtmodifyForm").find("#name").val(data['name']);
 	   $(".cmtmodifyForm").find("#idx").val(data['idx']);
+	   $(".cmtmodifyForm").find("#memo").val(data['memo']);
+	   $(".cmtmodifyForm").find("#hpurl").val(data['hpurl']);
 	   if(data['more']=="more") $(".cmtmodifyForm").find("input:checkbox[id='op[more]']").attr("checked",true);
 	   if(data['secret']=="secret") $(".cmtmodifyForm").find("input:checkbox[id='op[secret]']").attr("checked",true);
 	   if(data['dice']) $(".cmtmodifyForm").find("input[name='op[dice]']").val(data['dice']);

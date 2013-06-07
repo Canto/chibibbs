@@ -127,17 +127,6 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 </tr>
 <tr>
 <td class="span3 td-left">
-<p>로그 선 색</p>
-</td>
-<td class="span9 td-right">
-<input class="input-xlarge" type="text" name="op[pic_border_color]" placeholder="로그 선 색" value="<?php echo $skin->op->pic_border_color;?>">
-<p class="help-block">로그 선 색상을 지정하여 주세요.</p>
-<input class="input-xlarge" type="text" name="op[pic_border_hover]" placeholder="로그 마우스 오버 선 색" value="<?php echo $skin->op->pic_border_hover;?>">
-<p class="help-block">로그에 마우스를 올렸을 시 변할 선 색상을 지정하여 주세요.</p>
-</td>
-</tr>
-<tr>
-<td class="span3 td-left">
 <p>로그 배경 색</p>
 </td>
 <td class="span9 td-right">
@@ -183,6 +172,24 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 </tr>
 <tr>
 <td class="span3 td-left">
+<p>하단 정렬 그림 사이즈</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xlarge" type="text" name="op[table_down]" placeholder="하단 정렬" value="<?php echo $skin->op->table_down;?>">
+<p class="help-block">그림 너비가 지정수치 이상일 경우 코멘트가 그림 하단으로 이동합니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>그림 리사이즈 너비</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xlarge" type="text" name="op[resize]" placeholder="리사이즈" value="<?php echo $skin->op->resize;?>">
+<p class="help-block">그림을 리사이즈 할 너비 값을 지정 할 수 있습니다.(경우에 따라 자동으로 리사이즈 되는 경우도 있습니다.)</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
 <p>비툴 아이콘</p>
 </td>
 <td class="span9 td-right">
@@ -206,6 +213,51 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 <td class="span9 td-right">
 <input class="input-xxlarge" type="text" name="op[load_icon]" placeholder="로드 아이콘" required value='<?php echo $skin->op->load_icon;?>'>
 <p class="help-block">로드 아이콘을 지정 할 수 있습니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>새로고침 아이콘</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xxlarge" type="text" name="op[reflash_icon]" placeholder="새로고침 아이콘" required value='<?php echo $skin->op->reflash_icon;?>'>
+<p class="help-block">새로고침 아이콘을 지정 할 수 있습니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>로그인 아이콘</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xxlarge" type="text" name="op[login_icon]" placeholder="로그인 아이콘" required value='<?php echo $skin->op->login_icon;?>'>
+<p class="help-block">로그인 아이콘을 지정 할 수 있습니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>로그아웃 아이콘</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xxlarge" type="text" name="op[logout_icon]" placeholder="로그아웃 아이콘" required value='<?php echo $skin->op->logout_icon;?>'>
+<p class="help-block">로그아웃 아이콘을 지정 할 수 있습니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>게시판관리 아이콘</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xxlarge" type="text" name="op[admin_icon]" placeholder="게시판관리 아이콘" required value='<?php echo $skin->op->admin_icon;?>'>
+<p class="help-block">게시판관리 아이콘을 지정 할 수 있습니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>이모티콘 리스트 아이콘</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xxlarge" type="text" name="op[emoticon_icon]" placeholder="이모티콘 리스트 아이콘" required value='<?php echo $skin->op->emoticon_icon;?>'>
+<p class="help-block">이모티콘 리스트 아이콘을 지정 할 수 있습니다.</p>
 </td>
 </tr>
 <tr>
@@ -237,11 +289,56 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 </tr>
 <tr>
 <td class="span3 td-left">
+<p>그림옵션 아이콘</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xxlarge" type="text" name="op[op_icon]" placeholder="그림 옵션 아이콘" required value='<?php echo $skin->op->op_icon;?>'>
+<p class="help-block">그림 옵션 아이콘을 지정 할 수 있습니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>이어그리기 아이콘</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xxlarge" type="text" name="op[continue_icon]" placeholder="이어그리기 아이콘" required value='<?php echo $skin->op->continue_icon;?>'>
+<p class="help-block">이어그리기 아이콘을 지정 할 수 있습니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
 <p>글쓰기 아이콘</p>
 </td>
 <td class="span9 td-right">
 <input class="input-xxlarge" type="text" name="op[write_icon]" placeholder="글쓰기 아이콘" required value='<?php echo $skin->op->write_icon;?>'>
 <p class="help-block">글쓰기 아이콘을 지정 할 수 있습니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>접기 아이콘</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xxlarge" type="text" name="op[more_icon]" placeholder="접기 아이콘" required value='<?php echo $skin->op->more_icon;?>'>
+<p class="help-block">접기 아이콘을 지정 할 수 있습니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>비밀 아이콘</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xxlarge" type="text" name="op[secret_icon]" placeholder="비밀 아이콘" required value='<?php echo $skin->op->secret_icon;?>'>
+<p class="help-block">비밀 아이콘을 지정 할 수 있습니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>홈페이지 아이콘</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xxlarge" type="text" name="op[hp_icon]" placeholder="홈페이지 아이콘" required value='<?php echo $skin->op->hp_icon;?>'>
+<p class="help-block">홈페이지 아이콘을 지정 할 수 있습니다.</p>
 </td>
 </tr>
 <tr>
