@@ -3,12 +3,21 @@ $(window).resize(function(){
 var m_height = ($(".movie").width()/4)*3;
 $(".movie").height(m_height);
 });
+jQuery.fn.autolink = function () {
+	return this.each( function(){
+		var re = /((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g;
+		$(this).html( $(this).html().replace(re, '<a href="$1" target="_blank">$1</a> ') );
+	});
+}
 $(document).ready(function(){
+	
+$(".comment").autolink();
+	
+
 $("textarea").autoGrow(); 
 
 var m_height = ($(".movie").width()/4)*3;
 $(".movie").height(m_height);
-
 
 $('#openLoad').click(function(){
 	$('#loadForm').show();
@@ -16,7 +25,6 @@ $('#openLoad').click(function(){
 $('#closeLoad').click(function(){
 	$('#loadForm').hide();
 });
-
 
 
 $("#loadSelect").change(function () {
@@ -397,6 +405,8 @@ function uploadV(){
 	};
 
 
+
+	
 function Twitter(msg,url) {
  var href = "https://twitter.com/intent/tweet?text="+encodeURIComponent(msg)+"&lang=ko&url="+encodeURIComponent(url);
  var a = window.open(href, 'twitter', '');
