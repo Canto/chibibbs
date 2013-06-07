@@ -60,6 +60,34 @@ $skin_select = mysql_fetch_array($skin_select_query);
 if($skin_select['skin_name']!=$skin){
 	include_once '../skin/'.$skin.'/skin.sql.php';
 	mysql_query($uskin_db,$chibi_conn);
+	
+	
+	$tpl=fopen("../data/".$cid."/tpl/".$cid.".tpl.php","r");
+	$tpl_file = '';
+	while (!feof($tpl)){
+		$tpl_file = $tpl_file.fgets($tpl);
+	}
+	fclose($tpl);
+	$tpl_file = htmlspecialchars($tpl_file);
+	$reset_tpl=fopen("../skin/".$skin."/layout.php","r");
+	$reset_tpl_file = '';
+	while (!feof($reset_tpl)){
+		$reset_tpl_file = $reset_tpl_file.fgets($reset_tpl);
+	}
+	fclose($reset_tpl);
+	
+	/* 입력 값 설정 */
+	$tpl_file=fopen("../data/".$cid."/tpl/$cid.tpl.php","w");
+	if($tpl_file){
+		fwrite($tpl_file,$reset_tpl_file);
+		$content = convert($reset_tpl_file);
+		compiled($cid,$content);
+	}else{
+		$error = "템플릿 파일 열기 실패!!";
+	}
+	fclose($tpl_file);
+	
+	
 }
 
 
