@@ -564,7 +564,7 @@ jQuery(document).ready(function($) {
 		var image_href = $(this).attr("href");
 		var scrolltop = $(window).scrollTop();
 		if ($('#lightbox').length > 0) { 
-			$('#lightbox').css('top','0');	
+			$('#lightbox').css('top',scrolltop);	
 			$('#content').html('<a href="javascript:close();"><img src="' + image_href +'" /></a>');
 			$('#lightbox').show();
 		}
@@ -576,7 +576,7 @@ jQuery(document).ready(function($) {
 				'</div>' +	
 			'</div>';
 			$('body').append(lightbox);
-			$('#lightbox').css('top','0');
+			$('#lightbox').css('top',scrolltop);
 			var win_h = $(document).height();
 			$('#lightbox').height(win_h);
 		}
