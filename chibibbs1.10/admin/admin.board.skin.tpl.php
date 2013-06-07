@@ -3,26 +3,27 @@ if(!defined("__CHIBI__")) exit();
 $tpl=fopen("../data/".$cid."/tpl/".$cid.".tpl.php","r");
 $tpl_file = '';
 while (!feof($tpl)){
-$tpl_file = $tpl_file.fgets($tpl);
+	$tpl_file = $tpl_file.fgets($tpl);
 }
 fclose($tpl);
 $tpl_file = htmlspecialchars($tpl_file);
-$reset_tpl=fopen("../skin/".$skin."/layout.php","r");
-$reset_tpl_file = '';
-while (!feof($reset_tpl)){
-$reset_tpl_file = $reset_tpl_file.fgets($reset_tpl);
-}
-fclose($reset_tpl);
-$reset_tpl_file = htmlspecialchars($reset_tpl_file);
+
 if(bbs_permission($member->permission,$cid)=="true"){
 ?>
 <script>
 $(document).ready(function(){
 $('#reset').click(function(){
-	var reset_tpl = $('#reset_tpl').val();
-	$("#tpl").val(reset_tpl);
-	alert("스킨 초기화 완료!!");
-	$("#tpl").focus();
+	$.ajax({
+		   url: './admin.board.skin.tpl.load.php',
+		   type: 'POST',
+		   data: {'cid':'<?=$cid?>','skin':'<?=$skin?>'},
+		   dataType: 'text',
+		   success: function(data){
+				$("#tpl").val(data);
+				alert("스킨 초기화 완료!!");
+				$("#tpl").focus();	   
+		   }
+	});
 });
 });
 </script>

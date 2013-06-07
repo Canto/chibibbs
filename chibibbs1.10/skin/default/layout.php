@@ -333,9 +333,9 @@ if($pic->type=="youtube"){// 유투브 동영상
 							<?php 
 								if(empty($comment->op->more)==false){ echo"<a class=\"cmt_more\" more=\"0\" href=\"javascript:;\">".$skin->op->more_icon."</a><p class=\"comment\" style=\"display:none;\">";}
 								else{ echo "<p class=\"comment\">";}
-								if($comment->op->secret=="secret") echo $skin->op->secret_icon."</br>"
+								if($comment->op->secret=="secret") echo $skin->op->secret_icon."</br>";
+								if($comment->memo) echo "Memo :: ".$comment->memo."<br/>";
 							?>
-							Memo :: <?=$comment->memo?><br/>
 							<?=$comment->comment?>
 							</p>
 							<!--//코멘트//-->
