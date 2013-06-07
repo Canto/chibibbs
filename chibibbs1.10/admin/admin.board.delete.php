@@ -22,7 +22,7 @@ mysql_query($sql5,$chibi_conn);
 $sql6 = "DELETE FROM `chibi_comment` WHERE `cid`='".mysql_real_escape_string($cid)."'";
 mysql_query($sql6,$chibi_conn);
 rmdir_rf("../data/".$cid."/emoticon");
-rmemoticon("../data/tpl/".$cid.".tpl.php");
+unlink("../data/".$cid."/tpl/".$cid.".tpl.php");
 rmdir_rf("../data/".$cid);
 }
 }else{

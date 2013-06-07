@@ -15,9 +15,9 @@ $sql = "DELETE FROM `chibi_member` WHERE `user_id`='".mysql_real_escape_string($
 mysql_query($sql,$chibi_conn);
 $error = mysql_error();
 }
+}
 }else{
 $connect_page=false;
-}
 }
 ?>
 <div class="span8 offset2">
