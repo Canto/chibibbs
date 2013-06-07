@@ -53,6 +53,16 @@ $spam = array( /* 스팸 입력 값 */
 $spam = serialize($spam); /* 배열의 직렬화 */
 
 
+$skin_select_sql = "SELECT * FROM `chibi_skin` where `cid`='".mysql_real_escape_string($cid)."'";
+$skin_select_query = mysql_query($skin_select_sql,$chibi_conn);
+$skin_select = mysql_fetch_array($skin_select_query);
+
+if($skin_select['skin_name']!=$skin){
+	include_once '../skin/'.$skin.'/skin.sql.php';
+	mysql_query($uskin_db,$chibi_conn);
+}
+
+
 $sql = "UPDATE `chibi_admin` SET `cid` = '".mysql_real_escape_string($cid)."', `skin` = '".mysql_real_escape_string($skin)."', `passwd` = '".mysql_real_escape_string($passwd)."', `title` = '".mysql_real_escape_string($title)."', `notice` = '".mysql_real_escape_string($notice)."', `tag` = '".mysql_real_escape_string($tag)."', `spam` = '".mysql_real_escape_string($spam)."', `op` = '".mysql_real_escape_string($option)."' WHERE `cid` = '".mysql_real_escape_string($cid)."'";
 
 mysql_query($sql,$chibi_conn);
