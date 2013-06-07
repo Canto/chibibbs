@@ -9,10 +9,20 @@ jQuery.fn.autolink = function () {
 		$(this).html( $(this).html().replace(re, '<a href="$1" target="_blank">$1</a> ') );
 	});
 }
+jQuery.fn.highlight = function (text, o) {
+	return this.each( function(){
+		var replace = o || '<span class="highlight">$1</span>';
+		$(this).html( $(this).html().replace( new RegExp('('+text+'(?![\\w\\s?&.\\/;#~%"=-]*>))', "ig"), replace) );
+	});
+}
+
 $(document).ready(function(){
 	
 $(".comment").autolink();
-	
+var search = <?=$search;?>;
+var keyword = <?=$keyword;?>;
+if(keyword && search=="name") $(".name").highlight("<?=$keyword;?>", '<span style="color:#FF001E;background-color:#FFF000;">$1</span>');
+if(keyword && search=="comment") $(".comment").highlight("<?=$keyword;?>", '<span style="color:#FF001E;background-color:#FFF000;">$1</span>');
 
 $("textarea").autoGrow(); 
 
