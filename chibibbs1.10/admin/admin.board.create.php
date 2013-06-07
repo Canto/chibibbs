@@ -18,12 +18,16 @@ if($member->permission=="all" || $member->permission =="super"){
 </td>
 <td class="span9 td-right">
 <input id="cid" class="input-xlarge" type="text" name="cid" placeholder="게시판 ID"  onblur="checkID()" required><p id="chk_id" class="help-inline"></p>
-<p class="help-block">게시판 ID를 입력하여 주세요.<span class="text-warning">※ 영문+숫자만 가능</span></p>
+<p class="help-block">게시판 ID를 입력하여 주세요.<span class="text-warning">※ 영문(소문자)+숫자만 가능</span></p>
 <script type="text/javascript">
 function checkID(){
+var pattern = /^[a-z]+[a-z0-9_]*$/; 
 	 if($("#cid").val() == ""){
 	  alert("게시판 ID를 입력해 주세요.");
-	  $('#cid').focus();
+	  $("#cid").focus();
+ }else if(!pattern.test($("#cid").val())){
+	 alert("게시판 ID는 영문 소문자 혹은 영문(소문자)+숫자,언더바(_)로만 입력가능합니다.");
+	 $("#cid").focus();
  }else{
   $.ajax({
    url: './admin.board.id.check.php',
