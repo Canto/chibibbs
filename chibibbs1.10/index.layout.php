@@ -51,7 +51,7 @@ if($bbs->op->include_head){
 ?>
 
 <?php
-	if(($bbs->op->secret=="on" && $connect_permission == false) && $member->permission != "super" ){/* 게시판이 비공개 일 경우*/
+	if(($bbs->op->secret=="on" && $connect_permission == false) && ($member->permission != "super" || $member->permission !="all") ){/* 게시판이 비공개 일 경우*/
 ?>
 <div class="span6 offset3 alert alert-info">
 <form class="form-horizontal" id="sercretForm" method="post" enctype="multipart/form-data">
