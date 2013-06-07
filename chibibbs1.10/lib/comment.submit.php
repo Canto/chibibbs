@@ -3,6 +3,8 @@ header('P3P: CP="ALL CURa ADMa DEVa TAIa OUR BUS IND PHY ONL UNI PUR FIN COM NAV
 header ('Cache-Control: no-cache, must-revalidate'); 
 header ('Pragma: no-cache');
 header ('Content-type: text/html; charset=UTF-8');
+session_set_cookie_params(0);
+session_start();
 define("__CHIBI__",time());
 $cid = $_POST['cid'];
 $page = $_POST['page'];
@@ -64,6 +66,13 @@ if(empty($spam)==false){
 	exit;
 
 }else{
+	if(login_check($chibi_conn)==true){
+		$bbs = mysql_fetch_array(select($cid,$chibi_conn));
+		$bbs_op = unserialize($bbs['op']);
+		$point = $bbs_op['comment_point'];
+		$p_sql = "UPDATE `chibi_member` SET `point` = point+'".mysql_real_escape_string($point)."' WHERE `user_id` = '".mysql_real_escape_string($member->user_id)."'";
+		mysql_query($p_sql,$chibi_conn);
+	}
 	  $query = "INSERT INTO `chibi_comment` (`idx`,`cid`,`pic_no`,`no`, `depth`, `name`, `passwd`, `rtime`, `comment`, `memo`, `hpurl`, `ip`, `op`)VALUES('','".mysql_real_escape_string($cid)."','".mysql_real_escape_string($pic_no)."','".mysql_real_escape_string($no)."','".mysql_real_escape_string($depth)."','".mysql_real_escape_string($name)."','".mysql_real_escape_string(md5($passwd))."','".time()."','".mysql_real_escape_string($comment)."','".mysql_real_escape_string($memo)."','".mysql_real_escape_string($hpurl)."','".$_SERVER["REMOTE_ADDR"]."','".mysql_real_escape_string($op)."')";
 	  mysql_query($query,$chibi_conn);	  
 		echo "<script>alert('등록 완료!!');
