@@ -270,6 +270,7 @@ if($comment->op->secret=="secret") echo "<span class=\"label comment\"><i class=
 <input type="hidden" name="page" value="<?=$page?>">
   <input type="hidden" name="no" value="<?=$no?>">
   <input type="hidden" name="pic_no" value="<?=$pic->no?>">
+  <input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
   <input type="text" class="input-mini" name="name" id="name" placeholder="name" <?php if($_COOKIE['nickname']) echo 'value="'.$_COOKIE['nickname'].'"';?>>
   <input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" <?php if($_COOKIE['passwd']) echo 'value="'.$_COOKIE['passwd'].'"';?>>
   <?=$skin->op->write_icon?>
@@ -336,6 +337,7 @@ if($comment->op->secret=="secret") echo "<span class=\"label comment\"><i class=
 <input type="hidden" name="mode" id="mode" value="">
 <input type="hidden" name="cid" value="<?=$cid?>">
   <input type="hidden" id="no" name="no" value="">
+  <input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
   <input type="hidden" id="pic_no" name="pic_no" value="">
     <input type="hidden" id="depth" name="depth" value="">
   <input type="text" class="input-mini" name="name" id="name" placeholder="name" <?php if($_COOKIE['nickname']) echo 'value="'.$_COOKIE['nickname'].'"';?>>
@@ -394,6 +396,7 @@ if($comment->op->secret=="secret") echo "<span class=\"label comment\"><i class=
 <option value="more">접기</option>
 <option value="secret">비밀</option>
 </select>
+<input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
 <button type="submit" class="btn btn-mini btn-danger" >확인</button> 
 <a href="javascript:;" class="opClose btn btn-mini btn-danger">옵션창 닫기</a>
 </form>
@@ -424,6 +427,7 @@ if($comment->op->secret=="secret") echo "<span class=\"label comment\"><i class=
 <input type="hidden" name="op[dice]" value="">
 <input type="hidden" id="idx" name="idx" value="">
 <input type="hidden" id="page" name="page" value="<?=$page?>">
+<input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
 <input type="text" class="input-mini" name="name" id="name" placeholder="name" value="">
 <input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" required>
 <?=$skin->op->write_icon?>

@@ -206,7 +206,7 @@ $admin_notice = array('head'=>'','foot'=>'');
 $admin_tag = "img,embed,object,b,param,strike";
 $admin_spam =  array('ip'=> '','op'=>'ban','word'=>'aloha,viagra');
 $admin_insert_string ="INSERT INTO `chibi_admin` (
-`cid`, `skin`, `passwd`, `permission`, `title`, `notice`, `tag`, `spam`, `op`) VALUES ('free', 'CB_default', MD5('1234'), '', 'Chibi Tool BBS', '".mysql_real_escape_string(serialize($admin_notice))."', '".mysql_real_escape_string($admin_tag)."', '".mysql_real_escape_string(serialize($admin_spam))."', '".mysql_real_escape_string(serialize($admin_option))."');";
+`cid`, `skin`, `passwd`, `permission`, `title`, `notice`, `tag`, `spam`, `op`) VALUES ('free', 'default', MD5('1234'), '', 'Chibi Tool BBS', '".mysql_real_escape_string(serialize($admin_notice))."', '".mysql_real_escape_string($admin_tag)."', '".mysql_real_escape_string(serialize($admin_spam))."', '".mysql_real_escape_string(serialize($admin_option))."');";
 
 /* admin 테이블 생성 */
 if($db_check->status == true && $db_check->admin == false ){
@@ -220,7 +220,7 @@ if($db_check->status == true && $db_check->admin == false ){
 
 /* 스킨 초기 설정 */
 $cid = 'free';
-include_once "skin/CB_default/skin.sql.php";
+include_once "skin/default/skin.sql.php";
 /* skin 테이블 생성 */
 if($db_check->status == true && $db_check->skin == false ){
 	mysql_query($skin_string,$chibi_conn);
@@ -232,7 +232,7 @@ if($db_check->status == true && $db_check->skin == false ){
 }
 /* 템플릿 초기 설정 */
 include "lib/bbs.fn.php";
-$tpl = fopen(dirname(__FILE__)."/skin/CB_default/layout.php", "r");
+$tpl = fopen(dirname(__FILE__)."/skin/default/layout.php", "r");
 $tpl_file = '';
 while (!feof($tpl)){
 $tpl_file = $tpl_file.fgets($tpl);
