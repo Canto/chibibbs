@@ -103,9 +103,10 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <form class="form-horizontal" id="uploadForm" action="lib/load.submit.php" onsubmit="return upload()" method="post" enctype="multipart/form-data">
 <input name="image" class="input-large" id="inputFile" type="file" required>
 <input type="password" name="passwd" class="span5" placeholder="패스워드" required>
-<input type="image" src="skin/default/images/load.png" id="uploadBtn" >로드</button>
+<input type="image" src="skin/default/images/load.png" id="uploadBtn" >
 <input type="hidden" id="type" class="type" name="type">
 <input type="hidden" id="cid" name="cid" value="<?=$cid?>">
+<input type="hidden" id="user_id" name="user_id" value="<?=$member->user_id?>">
 </form>
 </div>
 <div class="video">
@@ -115,6 +116,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <input type="image" src="skin/default/images/load.png" id="uploadVBtn" class="marginTop5">
 <input type="hidden" id="type" class="type" name="type">
 <input type="hidden" id="cid" name="cid" value="<?=$cid?>">
+<input type="hidden" id="user_id" name="user_id" value="<?=$member->user_id?>">
 </form>
 </div>
 <p class="text-right"><a id="closeLoad" href="javascript:;"><img src="skin/default/images/close.png"></a></p>
@@ -194,7 +196,7 @@ if($pic->type=="youtube"){// 유투브 동영상
 			 $more = "style=\"display:none;\"";
 			 $more_btn = "<a class=\"pic_more\" more=\"0\" href=\"javascript:;\">".$skin->op->more_icon."</a>";
 		}
-		$picture = $more_btn."<a class=\"lightbox_trigger\" href=\"".$pic->src."\" ".$more." ><img src=\"".$pic->src."\" style=\"width:100%;max-width:".$skin->op->resize."px;\"></a>"; //리사이즈
+		$picture = $more_btn."<a class=\"lightbox_trigger\" href=\"".$pic->src."\" ".$more." ><img src=\"".$pic->src."\" id=\"".$pic->idx."\"style=\"width:100%;max-width:".$skin->op->resize."px;\"></a>"; //리사이즈
 		if($pic->op->pic=="secret" || $pic->op->pic=="moresecret") $picture = "<p class=\"text-center\">".$skin->op->secret_icon."</p>".$picture;
 	}
 }else{// 텍스트 일 경우
@@ -241,9 +243,9 @@ if($pic->type=="youtube"){// 유투브 동영상
 								&nbsp;|&nbsp;
 								원본크기: <?=$size[0]?>×<?=$size[1]?>
 								<script type="text/javascript">
-								function resize(){
-									var resize_w = $(".lightbox_trigger > img").width();
-									var resize_h = $(".lightbox_trigger > img").height();
+								function resize<?=$pic->idx?>(){
+									var resize_w = $("#<?=$pic->idx?>").width();
+									var resize_h = $("#<?=$pic->idx?>").height();
 									if(<?=$skin->op->resize?> < resize_w || <?=$size[0]?> > resize_w){
 									$('#resize<?=$pic->idx?>').html('(리사이즈:'+resize_w+'×'+resize_h+')');
 									}else{
@@ -251,10 +253,10 @@ if($pic->type=="youtube"){// 유투브 동영상
 									}
 								}
 								$(window).load(function(){
-									resize();
+									resize<?=$pic->idx?>();
 								});	
 								$(window).resize(function(){
-									resize();
+									resize<?=$pic->idx?>();
 								});
 								</script>
 								<span id="resize<?=$pic->idx?>" style="color: red;">
@@ -291,6 +293,8 @@ if($pic->type=="youtube"){// 유투브 동영상
 						$comment->memo = htmlFilter($comment->memo,1,$bbs->tag); //HTML 필터링(메모)
 						$comment->comment = emoticon($comment->comment,$cid,$chibi_conn); //이모티콘
 						$comment->comment = nl2br($comment->comment); //줄바꿈
+						if($keyword && $search=="comment") $comment->comment = str_replace($keyword,"<span style='color:#FF001E;background-color:#FFF000;'>".$keyword."</span>",$comment->comment);
+						if($keyword && $search=="name") $comment->name = str_replace($keyword,"<span style='color:#FF001E;background-color:#FFF000;'>".$keyword."</span>",$comment->name);
 						}
 						if($comment->op->dice) $dice = explode("+",$comment->op->dice); //주사위가 있을경우 주사위 배치
 						else $dice = ''; //주사위가 없을 경우
@@ -378,6 +382,7 @@ if($pic->type=="youtube"){// 유투브 동영상
 									<input type="hidden" name="page" value="<?=$page?>">
   									<input type="hidden" name="no" value="<?=$no?>">
   									<input type="hidden" name="pic_no" value="<?=$pic->no?>">
+  									<input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
   									<input type="text" class="input-mini" name="name" id="name" placeholder="name" <?php if($_COOKIE['nickname']) echo 'value="'.$_COOKIE['nickname'].'"';?>>
   									<input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" <?php if($_COOKIE['passwd']) echo 'value="'.$_COOKIE['passwd'].'"';?>>
   									<?=$skin->op->write_icon?>
@@ -452,6 +457,7 @@ if($pic->type=="youtube"){// 유투브 동영상
   			<input type="hidden" id="no" name="no" value="">
   			<input type="hidden" id="pic_no" name="pic_no" value="">
     		<input type="hidden" id="depth" name="depth" value="">
+    		<input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
   			<input type="text" class="input-mini" name="name" id="name" placeholder="name" <?php if($_COOKIE['nickname']) echo 'value="'.$_COOKIE['nickname'].'"';?>>
   			<input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" <?php if($_COOKIE['passwd']) echo 'value="'.$_COOKIE['passwd'].'"';?>>
   			<?=$skin->op->write_icon?>
@@ -509,6 +515,7 @@ if($pic->type=="youtube"){// 유투브 동영상
 <option value="secret">비밀</option>
 <option value="moresecret">접기+비밀</option>
 </select>
+<input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
 <input type="image" src="skin/default/images/ok.png" /> 
 <a href="javascript:;" class="opClose"><img src="skin/default/images/close.png"></a>
 </form>
@@ -543,6 +550,7 @@ if($pic->type=="youtube"){// 유투브 동영상
 <input type="hidden" name="op[dice]" value="">
 <input type="hidden" id="idx" name="idx" value="">
 <input type="hidden" id="page" name="page" value="<?=$page?>">
+<input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
 <input type="text" class="input-mini" name="name" id="name" placeholder="name" value="">
 <input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" required>
 <?=$skin->op->write_icon?>

@@ -20,12 +20,6 @@ $(document).ready(function(){
 	
 $(".comment").autolink();
 
-<?php if($search) echo "var search =".$search.";";?>
-<?php if($keyword) echo "var keyword =".$keyword.";";?>
-<?php if($keyword&&$seach){
-echo 'if(keyword && search=="name") $(".name").highlight("'.$keyword.'", "<span style=\"color:#FF001E;background-color:#FFF000;\">$1</span>");';
-echo 'if(keyword && search=="comment") $(".comment").highlight("'.$keyword.'", ""<span style=\"color:#FF001E;background-color:#FFF000;\">$1</span>");';
-}?>
 $("textarea").autoGrow(); 
 
 var m_height = ($(".movie").width()/4)*3;

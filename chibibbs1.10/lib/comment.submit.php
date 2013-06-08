@@ -70,7 +70,7 @@ if(empty($spam)==false){
 		$bbs = mysql_fetch_array(select($cid,$chibi_conn));
 		$bbs_op = unserialize($bbs['op']);
 		$point = $bbs_op['comment_point'];
-		$p_sql = "UPDATE `chibi_member` SET `point` = point+'".mysql_real_escape_string($point)."' WHERE `user_id` = '".mysql_real_escape_string($member->user_id)."'";
+		$p_sql = "UPDATE `chibi_member` SET `point` = point+'".mysql_real_escape_string($point)."', `comment`=comment+'1' WHERE `user_id` = '".mysql_real_escape_string($member->user_id)."'";
 		mysql_query($p_sql,$chibi_conn);
 	}
 	  $query = "INSERT INTO `chibi_comment` (`idx`,`cid`,`pic_no`,`no`, `depth`, `name`, `passwd`, `rtime`, `comment`, `memo`, `hpurl`, `ip`, `op`)VALUES('','".mysql_real_escape_string($cid)."','".mysql_real_escape_string($pic_no)."','".mysql_real_escape_string($no)."','".mysql_real_escape_string($depth)."','".mysql_real_escape_string($name)."','".mysql_real_escape_string(md5($passwd))."','".time()."','".mysql_real_escape_string($comment)."','".mysql_real_escape_string($memo)."','".mysql_real_escape_string($hpurl)."','".$_SERVER["REMOTE_ADDR"]."','".mysql_real_escape_string($op)."')";

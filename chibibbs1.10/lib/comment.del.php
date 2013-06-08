@@ -37,6 +37,22 @@ if($cid && $idx && $pic_no){
 			echo $chk;
 		}else{
 			if($cmt['passwd']==md5($passwd)){
+				
+				$bbs = mysql_fetch_array(select($cid,$chibi_conn));
+				$bbs_op = unserialize($bbs['op']);
+				$point = $bbs_op['comment_point'];
+				
+				$select = "SELECT * FROM `chibi_comment` WHERE `idx`='".mysql_real_escape_string($idx)."'";
+				$s_query = mysql_query($select,$chibi_conn);
+				$comment = mysql_fetch_array($s_query);
+				$commentop = unserialize($comment["op"]);
+				$user_id = $commentop['user_id'];
+				if(empty($user_id)==false){
+					$p_sql = "UPDATE `chibi_member` SET `point` = point-'".mysql_real_escape_string($point)."' , `comment` = comment-'1' WHERE `user_id` = '".mysql_real_escape_string($user_id)."'";
+				}
+				mysql_query($p_sql,$chibi_conn);
+				
+				
 				$query = "DELETE FROM `chibi_comment` WHERE `cid`='".mysql_real_escape_string($cid)."' AND `idx`='".mysql_real_escape_string($idx)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' AND `passwd`='".mysql_real_escape_string(md5($passwd))."'";
 				 mysql_query($query,$chibi_conn);
 				$chk = true;

@@ -20,7 +20,7 @@ include_once "./bbs.fn.php";
 if($passwd=="")$pw = "";
 else $pw = md5($passwd);
 
-$op = array("secret"=>"","more"=>"");
+$op = array("secret"=>"","more"=>"","user_id"=>$user_id);
 $op = serialize($op);
 
 $count_sql = "SELECT * FROM `chibi_pic` WHERE `cid`='".mysql_real_escape_string($cid)."' ORDER BY `idx` DESC";
@@ -44,6 +44,13 @@ if (isset($_FILES["picture"])){
 		//-- mysql db 기록 시작
 		$query = "INSERT INTO `chibi_pic` (`idx`,`no`,`cid`, `type`, `src`, `passwd`, `agent`, `pic_ip`, `time`, `op`)VALUES('','".mysql_real_escape_string($cnt)."','".mysql_real_escape_string($cid)."','picture','".mysql_real_escape_string("data/".$cid."/".$filename.$ext)."','".mysql_real_escape_string($pw)."','".mysql_real_escape_string($_SERVER['HTTP_USER_AGENT'])."','".mysql_real_escape_string($_SERVER["REMOTE_ADDR"])."','".time()."','".mysql_real_escape_string($op)."')";
 		mysql_query($query,$chibi_conn);
+		if(empty($user_id)==false){
+			$bbs = mysql_fetch_array(select($cid,$chibi_conn));
+			$bbs_op = unserialize($bbs['op']);
+			$point = $bbs_op['pic_point'];
+			$p_sql = "UPDATE `chibi_member` SET `point` = point+'".mysql_real_escape_string($point)."', `pic`=pic+'1' WHERE `user_id` = '".mysql_real_escape_string($user_id)."'";
+			mysql_query($p_sql,$chibi_conn);
+		}
 		mysql_close($chibi_conn);
 		echo "CHIBIOK";
 	}else {

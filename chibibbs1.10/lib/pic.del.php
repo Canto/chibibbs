@@ -27,13 +27,19 @@ if((empty($cid) && empty($idx))==false){
 		delfile("../".$picture['src']);
 	}
 	
-	$bbs_query = select($cid,$chibi_conn);
-		$bbs = (object) mysql_fetch_array($bbs_query);
-		$bbs->op = (object) unserialize($bbs->op);
-		if($bbs->op->secret=="all"){
-		$point_sql = "UPDATE `xe_point` SET `point` = `point`-'10' WHERE `member_srl` ='".mysql_real_escape_string($bbs->member_srl)."'";
-		mysql_query($point_sql);
+	$bbs = mysql_fetch_array(select($cid,$chibi_conn));
+	$bbs_op = unserialize($bbs['op']);
+	$point = $bbs_op['pic_point'];
+	
+	$select = "SELECT * FROM `chibi_pic` WHERE `idx`='".mysql_real_escape_string($tmp[1])."'";
+		$s_query = mysql_query($select,$chibi_conn);
+		$picture = mysql_fetch_array($s_query);
+		$picop = unserialize($picture["op"]);
+		$user_id = $picop['user_id'];
+		if(empty($user_id)==false){
+			$p_sql = "UPDATE `chibi_member` SET `point` = point-'".mysql_real_escape_string($point)."', `pic`=pic-'1' WHERE `user_id` = '".mysql_real_escape_string($user_id)."'";
 		}
+		mysql_query($p_sql,$chibi_conn);
 
 	$query = "DELETE FROM `chibi_pic` WHERE `idx`='".mysql_real_escape_string($idx)."' AND `cid` = '".mysql_real_escape_string($cid)."'";
 	$cmt_query = "DELETE FROM `chibi_comment` WHERE `pic_no`='".mysql_real_escape_string($picture['no'])."' AND `cid` = '".mysql_real_escape_string($cid)."'";

@@ -130,13 +130,11 @@ if(login_check($chibi_conn)==false){/* 로그인 상태가 아닐 때*/
 </div>
 <div class="container margin70">
 <div class="row-fluid">
-<div class="span12">
 <?php
 	include_once "admin.setup.php";
 	}
 }
 ?>
-</div>
 <p style="text-align:right;">
 Chibi Tool BBS ver <?=$chibi_ver?> Beta &copy; <a href='http://canto.btool.kr' target='_blank'>Canto</a><br/><br/></p>
 </div>
