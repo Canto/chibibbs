@@ -1,7 +1,5 @@
 <script type="text/javascript">
 jQuery(window).load(function(){
-	var table_w = $("table").width();
-	$("thead > tr > th").width(table_w);
 
 	$('.cmt_more').click(function(){
 		if($(this).attr('more')==0){
@@ -33,8 +31,7 @@ jQuery(window).resize(function(){
 	if(<?=$skin->op->resize?>>img_w){
 	$("pic_log > a > img").width(img_w);
 	}
-	var table_w = $("table").width();
-	$("thead > tr > th").width(table_w);
+
 });
 
 </script>
@@ -179,15 +176,19 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 if($pic->type=="youtube"){// 유투브 동영상
 	if(get_magic_quotes_gpc()) $pic->src = stripslashes($pic->src); /* magic_quotes_gpc가 off일경우 slashes설정 */
 	preg_match('@src="([^"]+)"@',$pic->src,$src);
-	$size[0] = preg_match('@width="([^"]+)"@',$pic->src,$src);
-	$size[1] = preg_match('@height="([^"]+)"@',$pic->src,$src);
-	$picture = "<p class=\"movie\"><iframe width=\"100%\" height=\"100%\" src=\"".$src[1]."\" frameborder=\"0\" allowfullscreen></iframe></p>";
+	preg_match('@width="([^"]+)"@',$pic->src,$width);
+	preg_match('@height="([^"]+)"@',$pic->src,$height);
+	$size[0] = $width[1];
+	$size[1] = $height[1];
+	$picture = "<p class=\"movie\" style=\"max-height:".$size[1]."px;\"><iframe width=\"100%\" height=\"100%\" src=\"".$src[1]."\" style=\"max-width:".$size[0]."px;max-height:".$size[1]."px;\"frameborder=\"0\" allowfullscreen></iframe></p>";
 }else if($pic->type=="naver"){// 네이버 동영상
 	if(get_magic_quotes_gpc()) $pic->src = stripslashes($pic->src); /* magic_quotes_gpc가 off일경우 slashes설정 */
 	preg_match( '@src="([^"]+)"@' , $pic->src , $src );
-	$size[0] = preg_match('@width="([^"]+)"@',$pic->src,$src);
-	$size[1] = preg_match('@height="([^"]+)"@',$pic->src,$src);
-	$picture = "<p class=\"movie\"><iframe width=\"100%\" height=\"100%\" src=\"".$src[1]."\" frameborder=\"no\" scrolling=\"no\" ></iframe></p>";
+	preg_match('@width="([^"]+)"@',$pic->src,$width);
+	preg_match('@height="([^"]+)"@',$pic->src,$height);
+	$size[0] = $width[1];
+	$size[1] = $height[1];
+	$picture = "<p class=\"movie\" style=\"max-height:".$size[1]."px;\"><iframe width=\"100%\" height=\"100%\" src=\"".$src[1]."\" style=\"max-width:".$size[0]."px;max-height:".$size[1]."px;\"frameborder=\"0\" allowfullscreen></iframe></p>";
 }else if($pic->type=="picture"){//그림 일 경우
 	$size = GetImageSize($pic->src); // 그림 크기 취득
 	if((($pic->op->pic=="secret" || $pic->op->pic=="moresecret") && $pic->pic_ip != $_SERVER['REMOTE_ADDR'])&& empty($permission)==true) $picture = "<p class=\"text-center\">".$skin->op->secret_icon."</p>"; // 비밀 그림 일경우
@@ -196,7 +197,9 @@ if($pic->type=="youtube"){// 유투브 동영상
 			 $more = "style=\"display:none;\"";
 			 $more_btn = "<a class=\"pic_more\" more=\"0\" href=\"javascript:;\">".$skin->op->more_icon."</a>";
 		}
-		$picture = $more_btn."<a class=\"lightbox_trigger\" href=\"".$pic->src."\" ".$more." ><img src=\"".$pic->src."\" id=\"".$pic->idx."\"style=\"width:100%;max-width:".$skin->op->resize."px;\"></a>"; //리사이즈
+		if($skin->op->resize>=$size[0]) $pic_size = $size[0];
+		else $pic_size = $skin->op->resize; 
+		$picture = $more_btn."<a class=\"lightbox_trigger\" href=\"".$pic->src."\" ".$more." ><img src=\"".$pic->src."\" id=\"".$pic->idx."\"style=\"width:100%;max-width:".$pic_size."px;\"></a>"; //리사이즈
 		if($pic->op->pic=="secret" || $pic->op->pic=="moresecret") $picture = "<p class=\"text-center\">".$skin->op->secret_icon."</p>".$picture;
 	}
 }else{// 텍스트 일 경우
@@ -206,9 +209,9 @@ if($pic->type=="youtube"){// 유투브 동영상
 
 <!--// 본문 시작 //-->
 	<div class="container">
-		<table class="span12 table table-bordered user_table_border_color user_table_border_size user_table_border_type">
-			<thead>
-				<tr>
+		<table class="log table table-bordered user_table_border_color user_table_border_size user_table_border_type">
+			<thead >
+				<tr >
 					<th class="font-size" colspan="2">
 						<ul class="unstyled inline margin0">
 							<li>
@@ -242,6 +245,7 @@ if($pic->type=="youtube"){// 유투브 동영상
 								작성시간: <?=date("Y년m월d일 H시i분s초",$pic->time)?>
 								&nbsp;|&nbsp;
 								원본크기: <?=$size[0]?>×<?=$size[1]?>
+								<?php if($pic->type=="picture"){?>
 								<script type="text/javascript">
 								function resize<?=$pic->idx?>(){
 									var resize_w = $("#<?=$pic->idx?>").width();
@@ -261,6 +265,7 @@ if($pic->type=="youtube"){// 유투브 동영상
 								</script>
 								<span id="resize<?=$pic->idx?>" style="color: red;">
 								</span>
+								<?php } ?>
 								&nbsp;|&nbsp;
 								작성툴: <?php if(strstr($pic->agent,"ChibiPaint")){ echo "치비 툴"; }else{ echo "로드 툴"; } ?>
 								<?php if($bbs->op->showip=="on"){ echo "작성자IP: ".$pic->ip; }else if($bbs->op->showip=="admin" && $permission==ture){ echo "&nbsp;|&nbsp;작성자IP: ".$pic->ip; } else { } ?>
@@ -274,13 +279,13 @@ if($pic->type=="youtube"){// 유투브 동영상
 		<tbody>
 			<tr>
 				<!--//그림 출력//-->
-				<td class="pic_log user_pic_background_color" <?php if($skin->op->table_down<$size[0] || $device=="mobile") echo "colspan=\"2\"";?> style="width:<?php if($size[0]<$skin->op->resize){ echo $size[0]; }else{ echo $skin->op->resize; }?>px;">
+				<td class="pic_log user_pic_background_color user_table_inner_border_top_size user_table_inner_border_top_type user_table_inner_border_color" <?php if($skin->op->table_down<=$size[0] || $device=="mobile") echo "colspan=\"2\"";?> style="width:<?php if($size[0]<=$skin->op->resize){ echo $size[0]; }else{ echo $skin->op->resize; }?>px;">
 					<?=$picture?>
 				</td>
 				<!--//그림 출력//-->
-				<?php if($skin->op->table_down<$size[0] || $device=="mobile") echo "</tr><tr>";?>
+				<?php if($skin->op->table_down<=$size[0] || $device=="mobile") echo "</tr><tr>";?>
 				<!--//코멘트 출력//-->
-				<td class="user_reply_background_color">
+				<td class="user_reply_background_color user_table_inner_border_top_size user_table_inner_border_top_type user_table_inner_border_color <?php if($skin->op->table_down>$size[0] && $device!="mobile") echo "user_table_inner_border_left_size user_table_inner_border_left_type";?> ">
 					<ul class="unstyled">
 					<!--// 코멘트를 불러오기 위한 반복문 시작 //-->
 					<@--START:COMMENT--@>
@@ -566,28 +571,74 @@ if($pic->type=="youtube"){// 유투브 동영상
 
 <!--// 그림 원본 박스용 스크립트 //-->
 <script>
+(function($) {
+    $.fn.drags = function(opt) {
+
+        opt = $.extend({handle:"",cursor:"move"}, opt);
+
+        if(opt.handle === "") {
+            var $el = this;
+        } else {
+            var $el = this.find(opt.handle);
+        }
+
+        return $el.css('cursor', opt.cursor).on("mousedown", function(e) {
+            if(opt.handle === "") {
+                var $drag = $(this).addClass('draggable');
+            } else {
+                var $drag = $(this).addClass('active-handle').parent().addClass('draggable');
+            }
+            var z_idx = $drag.css('z-index'),
+                drg_h = $drag.outerHeight(),
+                drg_w = $drag.outerWidth(),
+                pos_y = $drag.offset().top + drg_h - e.pageY,
+                pos_x = $drag.offset().left + drg_w - e.pageX;
+            $drag.css('z-index', 1000).parents().on("mousemove", function(e) {
+                $('.draggable').offset({
+                    top:e.pageY + pos_y - drg_h,
+                    left:e.pageX + pos_x - drg_w
+                }).on("mouseup", function() {
+                    $(this).removeClass('draggable').css('z-index', z_idx);
+                });
+            });
+            e.preventDefault(); // disable selection
+        }).on("mouseup", function() {
+            if(opt.handle === "") {
+                $(this).removeClass('draggable');
+            } else {
+                $(this).removeClass('active-handle').parent().removeClass('draggable');
+            }
+        });
+
+    }
+})(jQuery);
 jQuery(document).ready(function($) {
 	$('.lightbox_trigger').click(function(e) {
 		e.preventDefault();
 		var image_href = $(this).attr("href");
 		var scrolltop = $(window).scrollTop();
 		if ($('#lightbox').length > 0) { 
-			$('#lightbox').css('top',scrolltop);	
-			$('#content').html('<a href="javascript:close();"><img src="' + image_href +'" /></a>');
+			$('#lightbox').css('top',0);	
+			$('#content').css('top',scrolltop);
+			$('#content').html('<a href="javascript:close();"><img src="skin/default/images/x.png" style="position:absolute;margin-top:-10px;margin-left:-10px;"/></a><img src="' + image_href +'" />');
 			$('#lightbox').show();
+			$('#overlay').show();
 		}
 		else { 
 			var lightbox = 
 			'<div id="lightbox">' +
 				'<div id="content">' + 
-					'<a href="javascript:close();"><img src="' + image_href +'" /></a>' +
+					'<a href="javascript:close();"><img src="skin/default/images/x.png" style="position:absolute;margin-top:-10px;margin-left:-10px;"/></a><img src="' + image_href +'" />' +
 				'</div>' +	
-			'</div>';
+			'</div>'+
+			'<div id="overlay"></div>';
 			$('body').append(lightbox);
-			$('#lightbox').css('top',scrolltop);
+			$('#lightbox').css('top',0);
+			$('#content').css('top',scrolltop);
 			var win_h = $(document).height();
 			$('#lightbox').height(win_h);
 		}
+		$("#content").drags();
 	});
 });
 jQuery(window).resize(function(){
@@ -596,6 +647,8 @@ jQuery(window).resize(function(){
 });
 function close() { 
 		$('#lightbox').hide();
+		$('#overlay').hide();
 	}
+
 </script>
 <!--// 그림 원본 박스용 스크립트 //-->

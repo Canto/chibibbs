@@ -9,7 +9,19 @@ top:0;
 left:0; 
 min-width:100%; 
 text-align:center;
+z-index: 101;
+}
+#overlay{
+position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 100;
 background:url('skin/default/images/overlay.png') repeat;
+}
+#content {
+position:absolute;
+z-index: 102;
+top:0; 
+left:0; 
+min-width:100%; 
+text-align:center;
 }
 #lightbox p {
 color:#fff; 

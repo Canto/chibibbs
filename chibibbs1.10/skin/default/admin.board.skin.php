@@ -105,23 +105,45 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 </tr>
 <tr>
 <td class="span3 td-left">
-<p>테이블 선</p>
+<p>테이블 외각 선</p>
 </td>
 <td class="span9 td-right">
 <input class="input-xlarge" type="text" name="op[table_border_color]" placeholder="테이블 선 색상" value="<?php echo $skin->op->table_border_color;?>">
-<p class="help-block">테이블 선 색상 를 지정 할 수 있습니다.</p>
+<p class="help-block">테이블 외각 선 색상 를 지정 할 수 있습니다.</p>
 <input class="input-xlarge" type="text" name="op[table_border_size]" placeholder="테이블 선 굵기" value="<?php echo $skin->op->table_border_size;?>">
-<p class="help-block">테이블 선 굵기 를 지정 할 수 있습니다.</p>
+<p class="help-block">테이블 외각 선 굵기 를 지정 할 수 있습니다.</p>
 <select name="op[table_border_type]">
 <option value="">선 종류</option>
 <option value="solid" <?php if($skin->op->table_border_type=='solid') echo 'selected="selected"';?>>일반 선</option>
 <option value="dotted" <?php if($skin->op->table_border_type=='dotted') echo 'selected="selected"';?>>점(・) 선</option>
 <option value="dashed" <?php if($skin->op->table_border_type=='dashed') echo 'selected="selected"';?>>대쉬(-) 선</option>
 <option value="double" <?php if($skin->op->table_border_type=='double') echo 'selected="selected"';?>>이중 선</option>
-<option value="groove" <?php if($skin->op->table_border_type=='solid') echo 'selected="selected"';?>>홈 모양 선</option>
+<option value="groove" <?php if($skin->op->table_border_type=='groove') echo 'selected="selected"';?>>홈 모양 선</option>
 <option value="ridge" <?php if($skin->op->table_border_type=='ridge') echo 'selected="selected"';?>>돌출 선</option>
 <option value="inset" <?php if($skin->op->table_border_type=='inset') echo 'selected="selected"';?>>내부 엠보싱</option>
 <option value="outset" <?php if($skin->op->table_border_type=='ouset') echo 'selected="selected"';?>>외부 엠보싱</option>
+</select>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>테이블 내부 선</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xlarge" type="text" name="op[table_inner_border_color]" placeholder="테이블 내부 선 색상" value="<?php echo $skin->op->table_inner_border_color;?>">
+<p class="help-block">테이블 내부 선 색상 를 지정 할 수 있습니다.</p>
+<input class="input-xlarge" type="text" name="op[table_inner_border_size]" placeholder="테이블 내부 선 굵기" value="<?php echo $skin->op->table_inner_border_size;?>">
+<p class="help-block">테이블 내부 선 굵기 를 지정 할 수 있습니다.</p>
+<select name="op[table_inner_border_type]">
+<option value="">선 종류</option>
+<option value="solid" <?php if($skin->op->table_inner_border_type=='solid') echo 'selected="selected"';?>>일반 선</option>
+<option value="dotted" <?php if($skin->op->table_inner_border_type=='dotted') echo 'selected="selected"';?>>점(・) 선</option>
+<option value="dashed" <?php if($skin->op->table_inner_border_type=='dashed') echo 'selected="selected"';?>>대쉬(-) 선</option>
+<option value="double" <?php if($skin->op->table_inner_border_type=='double') echo 'selected="selected"';?>>이중 선</option>
+<option value="groove" <?php if($skin->op->table_inner_border_type=='groove') echo 'selected="selected"';?>>홈 모양 선</option>
+<option value="ridge" <?php if($skin->op->table_inner_border_type=='ridge') echo 'selected="selected"';?>>돌출 선</option>
+<option value="inset" <?php if($skin->op->table_inner_border_type=='inset') echo 'selected="selected"';?>>내부 엠보싱</option>
+<option value="outset" <?php if($skin->op->table_inner_border_type=='ouset') echo 'selected="selected"';?>>외부 엠보싱</option>
 </select>
 </td>
 </tr>
