@@ -199,7 +199,7 @@ if($pic->type=="youtube"){// 유투브 동영상
 		}
 		if($skin->op->resize>=$size[0]) $pic_size = $size[0];
 		else $pic_size = $skin->op->resize; 
-		$picture = $more_btn."<a class=\"lightbox_trigger\" href=\"".$pic->src."\" ".$more." ><img src=\"".$pic->src."\" id=\"".$pic->idx."\"style=\"width:100%;max-width:".$pic_size."px;\"></a>"; //리사이즈
+		$picture = $more_btn."<a class=\"lightbox_trigger\" href=\"".$pic->src."\" size=\"".$size[1]."\" ".$more." ><img src=\"".$pic->src."\" id=\"".$pic->idx."\"style=\"width:100%;max-width:".$pic_size."px;\"></a>"; //리사이즈
 		if($pic->op->pic=="secret" || $pic->op->pic=="moresecret") $picture = "<p class=\"text-center\">".$skin->op->secret_icon."</p>".$picture;
 	}
 }else{// 텍스트 일 경우
@@ -616,10 +616,15 @@ jQuery(document).ready(function($) {
 	$('.lightbox_trigger').click(function(e) {
 		e.preventDefault();
 		var image_href = $(this).attr("href");
-		var scrolltop = $(window).scrollTop();
+		var image_height = ($(window).scrollTop()+($(window).height()/2))-($(this).attr("size")/2);
+		var scrolltop = $(window).scrollTop()+10;
 		if ($('#lightbox').length > 0) { 
-			$('#lightbox').css('top',0);	
-			$('#content').css('top',scrolltop);
+			$('#lightbox').css('top',0);
+			if($(window).height()>$(this).attr("size")){
+			$('#content').css('top',image_height+'px');
+			}else{
+				$('#content').css('top',scrolltop);
+			}
 			$('#content').html('<a href="javascript:close();"><img src="skin/default/images/x.png" style="position:absolute;margin-top:-10px;margin-left:-10px;"/></a><img src="' + image_href +'" />');
 			$('#lightbox').show();
 			$('#overlay').show();
@@ -634,7 +639,11 @@ jQuery(document).ready(function($) {
 			'<div id="overlay"></div>';
 			$('body').append(lightbox);
 			$('#lightbox').css('top',0);
-			$('#content').css('top',scrolltop);
+			if($(window).height()>$(this).attr("size")){
+				$('#content').css('top',image_height+'px');
+				}else{
+					$('#content').css('top',scrolltop);
+				}
 			var win_h = $(document).height();
 			$('#lightbox').height(win_h);
 		}

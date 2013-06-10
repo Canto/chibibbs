@@ -28,10 +28,6 @@ color:#fff;
 margin-right:20px; 
 font-size:12px; 
 }
-#lightbox img {
-padding:20px;
-max-width:100%;
-}
 body{font-size:12px !important;}
 .comment{font-size:12px !important;}
 #replyForm{margin-bottom:20px;display:none;}

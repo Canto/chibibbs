@@ -6,9 +6,12 @@
 <meta name="robots" content="noindex,nofollow">
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <?php 
-if($skin->op->bootstrap=="off"){ echo '<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">';
-}else{ echo '<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">\n
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>';}
+if($skin->op->bootstrap=="off"){ 
+	echo '<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">';
+}else{ 
+echo '<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">';
+echo '<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>';
+}
 ?>
 <script type="text/javascript">
 function secret(){
@@ -91,7 +94,7 @@ if($bbs->op->include_foot){
 </div>
 <div class="container text-right">
 <?php if(empty($cAct)==true){?>
-<p><form class="form-search form-inline" method="GET" action="index.php">
+<form class="form-search form-inline" method="GET" action="index.php">
 <input type="hidden" name="cid" value="<?=$cid?>">
 <select name="search" style="width:100px">
 <option>선택</option>
@@ -103,7 +106,6 @@ if($bbs->op->include_foot){
 
 <button type="submit" class="btn btn-info">검색</button>
 </form>
-</p>
 <?php } ?>
 <p>
 Chibi Tool BBS ver <?=$chibi_ver?> Beta &copy; <a href='http://canto.btool.kr' target='_blank'>Canto</a><br/><br/></p>
