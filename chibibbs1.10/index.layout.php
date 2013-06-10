@@ -108,7 +108,7 @@ if($bbs->op->include_foot){
 </form>
 <?php } ?>
 <p>
-Chibi Tool BBS ver <?=$chibi_ver?> Beta &copy; <a href='http://canto.btool.kr' target='_blank'>Canto</a><br/><br/></p>
+Chibi Tool BBS ver <?=$chibi_ver?> &copy; <a href='http://canto.btool.kr' target='_blank'>Canto</a><br/><br/></p>
 </div>
 </div>
 </div>

@@ -136,7 +136,7 @@ if(login_check($chibi_conn)==false){/* 로그인 상태가 아닐 때*/
 }
 ?>
 <p style="text-align:right;">
-Chibi Tool BBS ver <?=$chibi_ver?> Beta &copy; <a href='http://canto.btool.kr' target='_blank'>Canto</a><br/><br/></p>
+Chibi Tool BBS ver <?=$chibi_ver?> &copy; <a href='http://canto.btool.kr' target='_blank'>Canto</a><br/><br/></p>
 </div>
 </body>
 </html>
