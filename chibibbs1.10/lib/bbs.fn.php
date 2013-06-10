@@ -311,7 +311,77 @@ function convert($content){ // 템플릿 변수를 PHP변수로 컴파일
 		\$pic->op = unserialize(\$pic->op);
 		\$pic->op = (object) \$pic->op;
 		}
-		?>";
+		if(\$pic->type==\"youtube\"){// 유투브 동영상
+	if(get_magic_quotes_gpc()) \$pic->src = stripslashes(\$pic->src); /* magic_quotes_gpc가 off일경우 slashes설정 */
+	preg_match('@src=\"([^\"]+)\"@',\$pic->src,\$src);
+	preg_match('@width=\"([^\"]+)\"@',\$pic->src,\$width);
+	preg_match('@height=\"([^\"]+)\"@',\$pic->src,\$height);
+	\$size[0] = \$width[1];
+	\$size[1] = \$height[1];
+	if(((\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") && \$pic->pic_ip != \$_SERVER['REMOTE_ADDR'])&& empty(\$permission)==true) \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\"; // 비밀 그림 일경우
+	else{
+		if(\$pic->op->pic==\"more\" || \$pic->op->pic==\"moresecret\"){
+			\$more = \"display:none;\";
+			\$more_btn = \"<a class=\\\"movie_more\\\" more=\\\"0\\\" href=\\\"javascript:;\\\">\".\$skin->op->more_icon.\"</a>\";
+		}else{
+			\$more = \"\";
+			\$more_btn = \"\";
+		}
+		\$picture = \$more_btn.\"<p class=\\\"movie\\\" style=\\\"max-height:\".\$size[1].\"px;\\\"><iframe width=\\\"100%\\\" height=\\\"100%\\\" src=\\\"\".\$src[1].\"\\\" style=\\\"max-width:\".\$size[0].\"px;max-height:\".\$size[1].\"px;\".\$more.\"\\\"frameborder=\\\"0\\\" allowfullscreen></iframe></p>\";
+		if(\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\".\$picture;
+	}
+}else if(\$pic->type==\"naver\"){// 네이버 동영상
+	if(get_magic_quotes_gpc()) \$pic->src = stripslashes(\$pic->src); /* magic_quotes_gpc가 off일경우 slashes설정 */
+	preg_match( '@src=\"([^\"]+)\"@' , \$pic->src , \$src );
+	preg_match('@width=\"([^\"]+)\"@',\$pic->src,\$width);
+	preg_match('@height=\"([^\"]+)\"@',\$pic->src,\$height);
+	\$size[0] = \$width[1];
+	\$size[1] = \$height[1];
+	if(((\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") && \$pic->pic_ip != \$_SERVER['REMOTE_ADDR'])&& empty(\$permission)==true) \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\"; // 비밀 그림 일경우
+	else{
+		if(\$pic->op->pic==\"more\" || \$pic->op->pic==\"moresecret\"){
+			\$more = \"display:none;\";
+			\$more_btn = \"<a class=\\\"movie_more\\\" more=\\\"0\\\" href=\\\"javascript:;\\\">\".\$skin->op->more_icon.\"</a>\";
+		}else{
+			\$more = \"\";
+			\$more_btn = \"\";
+		}
+		\$picture = \$more_btn.\"<p class=\\\"movie\\\" style=\\\"max-height:\".\$size[1].\"px;\\\"><iframe width=\\\"100%\\\" height=\\\"100%\\\" src=\\\"\".\$src[1].\"\\\" style=\\\"max-width:\".\$size[0].\"px;max-height:\".\$size[1].\"px;\".\$more.\"\\\"frameborder=\\\"0\\\" allowfullscreen></iframe></p>\";
+		if(\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\".\$picture;
+	}
+}else if(\$pic->type==\"picture\"){//그림 일 경우
+	\$size = GetImageSize(\$pic->src); // 그림 크기 취득
+	if(((\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") && \$pic->pic_ip != \$_SERVER['REMOTE_ADDR'])&& empty(\$permission)==true) \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\"; // 비밀 그림 일경우
+	else{
+		if(\$pic->op->pic==\"more\" || \$pic->op->pic==\"moresecret\"){
+			 \$more = \"style=\\\"display:none;\\\"\";
+			 \$more_btn = \"<a class=\\\"pic_more\\\" more=\\\"0\\\" href=\\\"javascript:;\\\">\".\$skin->op->more_icon.\"</a>\";
+		}else{
+			\$more = \"\";
+			\$more_btn = \"\";
+		}
+		if(\$skin->op->resize>=\$size[0]) \$pic_size = \$size[0];
+		else \$pic_size = \$skin->op->resize; 
+		\$picture = \$more_btn.\"<a class=\\\"lightbox_trigger\\\" href=\\\"\".\$pic->src.\"\\\" size=\\\"\".\$size[1].\"\\\" \".\$more.\" ><img src=\\\"\".\$pic->src.\"\\\" id=\\\"\".\$pic->idx.\"\\\"style=\\\"width:100%;max-width:\".\$pic_size.\"px;\\\"></a>\"; //리사이즈
+		if(\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\".\$picture;
+	}
+}else{// 텍스트 일 경우
+	if(((\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") && \$pic->pic_ip != \$_SERVER['REMOTE_ADDR'])&& empty(\$permission)==true) \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\"; // 비밀 그림 일경우
+	else{
+		if(\$pic->op->pic==\"more\" || \$pic->op->pic==\"moresecret\"){
+			\$more = \"style=\\\"display:none;\\\"\";
+			\$more_btn = \"<a class=\\\"pic_more\\\" more=\\\"0\\\" href=\\\"javascript:;\\\">\".\$skin->op->more_icon.\"</a>\";
+		}else{
+			\$more = \"\";
+			\$more_btn = \"\";
+		}
+		if(\$skin->op->resize>=\$size[0]) \$pic_size = \$size[0];
+		else \$pic_size = \$skin->op->resize;
+		\$picture = \$more_btn.\"<p .\$more.>\".\$pic->idx.\"</p>\"; //리사이즈
+		if(\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\".\$picture;
+	}
+}
+?>";
 		$startcomment = "<?php
 		\$no = 0;
 		\$cmt_query = comment(\$cid,\$pic->no,\$chibi_conn);
@@ -322,7 +392,21 @@ function convert($content){ // 템플릿 변수를 PHP변수로 컴파일
 		\$comment->op = (object) \$comment->op;
 		\$no = \$comment->no;
 		if(get_magic_quotes_gpc()) \$comment->comment = stripslashes(\$comment->comment); 
-		}
+		}	
+				if((\$comment->op->secret==\"secret\" && \$comment->ip != \$_SERVER['REMOTE_ADDR']) && empty(\$permission)==true ){ 
+						\$comment->comment = ''; //비밀글 일때
+						}else{
+						\$comment->comment = htmlFilter(\$comment->comment,1,\$bbs->tag); //HTML 필터링(코멘트)
+						\$comment->name = htmlFilter(\$comment->name,1,\$bbs->tag); //HTML 필터링(이름)
+						\$comment->memo = htmlFilter(\$comment->memo,1,\$bbs->tag); //HTML 필터링(메모)
+						\$comment->comment = emoticon(\$comment->comment,\$cid,\$chibi_conn); //이모티콘
+						\$comment->comment = nl2br(\$comment->comment); //줄바꿈
+						if(\$keyword && \$search==\"comment\") \$comment->comment = str_replace(\$keyword,\"<span style='color:#FF001E;background-color:#FFF000;'>\".\$keyword.\"</span>\",\$comment->comment);
+						if(\$keyword && \$search==\"name\") \$comment->name = str_replace(\$keyword,\"<span style='color:#FF001E;background-color:#FFF000;'>\".\$keyword.\"</span>\",\$comment->name);
+						}
+						if(\$comment->op->dice) \$dice = explode(\"+\",\$comment->op->dice); //주사위가 있을경우 주사위 배치
+						else \$dice = ''; //주사위가 없을 경우
+
 		?>";
 		$content = str_replace('<@--START:PIC--@>',$startpic, $content);
 		$content = str_replace('<@--END:PIC--@>',"<?php } ?>", $content);

@@ -1,31 +1,4 @@
 <script type="text/javascript">
-jQuery(window).load(function(){
-
-	$('.cmt_more').click(function(){
-		if($(this).attr('more')==0){
-		$(this).attr('more','1');
-		$(this).children('img').attr('src','skin/default/images/close.png');
-		$(this).next('p').attr('style','display:block;');
-		}else{
-		$(this).attr('more','0');
-		$(this).children('img').attr('src','skin/default/images/more.png');
-		$(this).next().attr('style','display:none;');
-		}
-	});
-
-	$('.pic_more').click(function(){
-		if($(this).attr('more')==0){
-		$(this).attr('more','1');
-		$(this).children('img').attr('src','skin/default/images/close.png');
-		$(this).next('a').attr('style','display:block;');
-		}else{
-		$(this).attr('more','0');
-		$(this).children('img').attr('src','skin/default/images/more.png');
-		$(this).next('a').attr('style','display:none;');
-		}
-	});
-		
-});
 jQuery(window).resize(function(){
 	var img_w = $("pic_log").width();
 	if(<?=$skin->op->resize?>>img_w){
@@ -172,40 +145,6 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <!--// 그림을 불러오기 위한 반복문 시작 //-->
 <@--START:PIC--@>
 
-<?php
-if($pic->type=="youtube"){// 유투브 동영상
-	if(get_magic_quotes_gpc()) $pic->src = stripslashes($pic->src); /* magic_quotes_gpc가 off일경우 slashes설정 */
-	preg_match('@src="([^"]+)"@',$pic->src,$src);
-	preg_match('@width="([^"]+)"@',$pic->src,$width);
-	preg_match('@height="([^"]+)"@',$pic->src,$height);
-	$size[0] = $width[1];
-	$size[1] = $height[1];
-	$picture = "<p class=\"movie\" style=\"max-height:".$size[1]."px;\"><iframe width=\"100%\" height=\"100%\" src=\"".$src[1]."\" style=\"max-width:".$size[0]."px;max-height:".$size[1]."px;\"frameborder=\"0\" allowfullscreen></iframe></p>";
-}else if($pic->type=="naver"){// 네이버 동영상
-	if(get_magic_quotes_gpc()) $pic->src = stripslashes($pic->src); /* magic_quotes_gpc가 off일경우 slashes설정 */
-	preg_match( '@src="([^"]+)"@' , $pic->src , $src );
-	preg_match('@width="([^"]+)"@',$pic->src,$width);
-	preg_match('@height="([^"]+)"@',$pic->src,$height);
-	$size[0] = $width[1];
-	$size[1] = $height[1];
-	$picture = "<p class=\"movie\" style=\"max-height:".$size[1]."px;\"><iframe width=\"100%\" height=\"100%\" src=\"".$src[1]."\" style=\"max-width:".$size[0]."px;max-height:".$size[1]."px;\"frameborder=\"0\" allowfullscreen></iframe></p>";
-}else if($pic->type=="picture"){//그림 일 경우
-	$size = GetImageSize($pic->src); // 그림 크기 취득
-	if((($pic->op->pic=="secret" || $pic->op->pic=="moresecret") && $pic->pic_ip != $_SERVER['REMOTE_ADDR'])&& empty($permission)==true) $picture = "<p class=\"text-center\">".$skin->op->secret_icon."</p>"; // 비밀 그림 일경우
-	else{
-		if($pic->op->pic=="more" || $pic->op->pic=="moresecret"){
-			 $more = "style=\"display:none;\"";
-			 $more_btn = "<a class=\"pic_more\" more=\"0\" href=\"javascript:;\">".$skin->op->more_icon."</a>";
-		}
-		if($skin->op->resize>=$size[0]) $pic_size = $size[0];
-		else $pic_size = $skin->op->resize; 
-		$picture = $more_btn."<a class=\"lightbox_trigger\" href=\"".$pic->src."\" size=\"".$size[1]."\" ".$more." ><img src=\"".$pic->src."\" id=\"".$pic->idx."\"style=\"width:100%;max-width:".$pic_size."px;\"></a>"; //리사이즈
-		if($pic->op->pic=="secret" || $pic->op->pic=="moresecret") $picture = "<p class=\"text-center\">".$skin->op->secret_icon."</p>".$picture;
-	}
-}else{// 텍스트 일 경우
-	$picture = '';
-}
-?>
 
 <!--// 본문 시작 //-->
 	<div class="container">
@@ -289,21 +228,6 @@ if($pic->type=="youtube"){// 유투브 동영상
 					<ul class="unstyled">
 					<!--// 코멘트를 불러오기 위한 반복문 시작 //-->
 					<@--START:COMMENT--@>
-					<?php
-						if(($comment->op->secret=="secret" && $comment->ip != $_SERVER['REMOTE_ADDR']) && empty($permission)==true ){ 
-						$comment->comment = ''; //비밀글 일때
-						}else{
-						$comment->comment = htmlFilter($comment->comment,1,$bbs->tag); //HTML 필터링(코멘트)
-						$comment->name = htmlFilter($comment->name,1,$bbs->tag); //HTML 필터링(이름)
-						$comment->memo = htmlFilter($comment->memo,1,$bbs->tag); //HTML 필터링(메모)
-						$comment->comment = emoticon($comment->comment,$cid,$chibi_conn); //이모티콘
-						$comment->comment = nl2br($comment->comment); //줄바꿈
-						if($keyword && $search=="comment") $comment->comment = str_replace($keyword,"<span style='color:#FF001E;background-color:#FFF000;'>".$keyword."</span>",$comment->comment);
-						if($keyword && $search=="name") $comment->name = str_replace($keyword,"<span style='color:#FF001E;background-color:#FFF000;'>".$keyword."</span>",$comment->name);
-						}
-						if($comment->op->dice) $dice = explode("+",$comment->op->dice); //주사위가 있을경우 주사위 배치
-						else $dice = ''; //주사위가 없을 경우
-					?>
 						<li class="user_reply_text_color">
 							<?php if($comment->depth > 1) for($i=1;$i<$comment->depth;$i++) echo "<blockquote class=\"user_rereply_bar_color user_rereply_text_color\">"; //리플 구분바?>
  

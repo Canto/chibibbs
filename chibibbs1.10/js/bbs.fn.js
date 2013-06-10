@@ -22,8 +22,6 @@ $(".comment").autolink();
 
 $("textarea").autoGrow(); 
 
-var m_height = ($(".movie").width()/4)*3;
-$(".movie").height(m_height);
 
 $('#openLoad').click(function(){
 	$('#loadForm').show();
@@ -328,7 +326,45 @@ $('.picmore').click(function(){
 	$(this).children('i').attr('class','icon-chevron-down');
 	}
 });
+$('.cmt_more').click(function(){
+	if($(this).attr('more')==0){
+	$(this).attr('more','1');
+	$(this).children('img').attr('src','skin/default/images/close.png');
+	$(this).next('p').attr('style','display:block;');
+	}else{
+	$(this).attr('more','0');
+	$(this).children('img').attr('src','skin/default/images/more.png');
+	$(this).next().attr('style','display:none;');
+	}
+});
 
+$('.pic_more').click(function(){
+	if($(this).attr('more')==0){
+	$(this).attr('more','1');
+	$(this).children('img').attr('src','skin/default/images/close.png');
+	$(this).next('a').attr('style','display:block;');
+	}else{
+	$(this).attr('more','0');
+	$(this).children('img').attr('src','skin/default/images/more.png');
+	$(this).next('a').attr('style','display:none;');
+	}
+});
+
+$('.movie_more').click(function(){
+	var max_height = ($(this).next('p').width()/4)*3;
+	var min_height = $(this).parent('td').height();
+	if($(this).attr('more')==0){
+	$(this).attr('more','1');
+	$(this).children('img').attr('src','skin/default/images/close.png');
+	$(this).next('p').children('iframe').show();
+	$(this).next('p').height(max_height);
+	}else{
+	$(this).attr('more','0');
+	$(this).children('img').attr('src','skin/default/images/more.png');
+	$(this).next('p').children('iframe').hide();
+	$(this).next('p').height('0');
+	}
+});
 
 });
 /* jQuery 종료 */
@@ -440,3 +476,6 @@ function FaceBook(msg,url,img) {
  }
 }
 <?php } ?>
+
+	
+		
