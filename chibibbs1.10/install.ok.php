@@ -41,9 +41,9 @@ if(is_resource(@mysql_query("DESC chibi_log",$chibi_conn))) $db_check->log = tru
 else $db_check->log = false;
 
 if($db_check->status == true){
-if(is_file(dirname(__FILE__)."/data/config/db.config.php")==false){
+
 /*
-DB설정파일 db.config.php 가 없을 경우
+DB설정파일 db.config.php 생성
 */
 $config_string = "<?php
 if(!defined(\"__CHIBI__\")) exit();
@@ -72,7 +72,7 @@ if(!defined(\"__CHIBI__\")) exit();
 			fclose($db_config_file);
 		}
 	}
-}
+
 
 /* sql */
 $admin_string = "CREATE TABLE `chibi_admin` (
