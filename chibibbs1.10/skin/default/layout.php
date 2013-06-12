@@ -14,7 +14,7 @@ jQuery(window).resize(function(){
 <!--// 상단 공지사항 시작 //-->
 <?php if($bbs->notice->head){?>
 <div class="span8 offset2">
-	<div class="user_notice_border_color user_notice_border_type user_notice_background_color">
+	<div class="alert alert-info user_notice_border_color user_notice_border_type user_notice_background_color">
 		<?php echo nl2br($bbs->notice->head);?>
 	</div>
 </div>

@@ -38,7 +38,7 @@ function secret(){
 .secret-passwd{border-bottom:1px solid #3a87ad !important;}
 .offsetreset{width:0px !important;height:0px;min-height:0px !important;}
 </style>
-<?php include "skin/".$bbs->skin."/css.php"; /* 스킨기본 CSS */ ?>
+<link href="skin/<?=$bbs->skin?>/skin.css" rel="stylesheet">
 <style type="text/css">
 <?php include "skin/".$bbs->skin."/skin.css.php"; /* 유저설정 CSS */ ?>
 </style>
