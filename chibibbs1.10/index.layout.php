@@ -48,6 +48,11 @@ function secret(){
 <div class="row-fluid">
 <div class="span12 marginTop20">
 <div class="span8 offset2 offsetreset"></div>
+<input type="hidden" id="bbs_cid" value="<?=$cid?>">
+<input type="hidden" id="bbs_page" value="<?=$page?>">
+<input type="hidden" id="bbs_session_id" value="<?=session_id()?>">
+<input type="hidden" id="pic_d_width" value="<?=$bbs->op->pic_d_width?>">
+<input type="hidden" id="pic_d_height" value="<?=$bbs->op->pic_d_height?>">
 <?php 
 if($bbs->op->include_head){
 	include_once $bbs->op->include_head;
@@ -69,11 +74,6 @@ if($bbs->op->include_head){
 <p class="text-right"><a href="javascript:secret();" id="addEmoticon" class="btn btn-primary">게시판 들어가기</a></p>
 </form>
 </div>
-<input type="hidden" id="bbs_cid" value="<?=$cid?>">
-<input type="hidden" id="bbs_page" value="<?=$page?>">
-<input type="hidden" id="bbs_session_id" value="<?=session_id()?>">
-<input type="hidden" id="pic_d_width" value="<?=$bbs->op->pic_d_width?>">
-<input type="hidden" id="pic_d_height" value="<?=$bbs->op->pic_d_height?>">
 <?php
 }else{
 	switch($cAct){

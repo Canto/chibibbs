@@ -15,10 +15,9 @@ jQuery.fn.autolink = function () {
 }
 
 
-var cid = jQuery("#bbs_cid").val();
-var page = jQuery("#bbs_page").val();
-
 $(document).ready(function(){
+
+
 	
 $(".comment").autolink();
 $("textarea").autoGrow(); 
@@ -58,12 +57,12 @@ if($(document).find(".picidx").is(':checked')){
    url: './lib/pic.admin.del.php',
    cache: false,
    type: 'POST',
-   data: {'idx':$('input:checkbox[class=picidx]').serialize(),'cid':cid},
+   data: {'idx':$('input:checkbox[class=picidx]').serialize(),'cid':jQuery("#bbs_cid").val()},
    dataType: 'html',
    success: function(data){
 	   if(data == true){
 	     alert("그림 삭제 완료!!");
-		 location.href="./index.php?cid="+cid+"&page="+page;
+		 location.href="./index.php?cid="+jQuery("#bbs_cid").val()+"&page="+jQuery("#bbs_page").val();
 	   }else{
 		 alert("그림 삭제 실패!!");
  		 return false;
@@ -109,7 +108,7 @@ if($(this).find("#passwd").val() == ""){
    success: function(data){
 	   if(data == true){
 	     alert("리플 삭제 완료!!");
-		 location.href="./index.php?cid="+cid+"&page="+page;
+		 location.href="./index.php?cid="+jQuery("#bbs_cid").val()+"&page="+jQuery("#bbs_page").val();
 	   }else{
 		 alert("리플 삭제 실패!!");
  		 return false;
@@ -142,7 +141,7 @@ $(".opForm").submit(function(){
    success: function(data){
 	   if(data == true){
 	     alert("옵션 적용 완료!!");
-		 location.href="./index.php?cid="+cid+"&page="+page;
+		 location.href="./index.php?cid="+jQuery("#bbs_cid").val()+"&page="+jQuery("#bbs_page").val();
 	   }else{
 		 alert("옵션 적용 실패!!");
  		 return false;
@@ -194,7 +193,7 @@ if($(this).find("#passwd").val() == ""){
    success: function(data){
 	   if(data == true){
 	     alert("그림 삭제 완료!!");
-		 location.href="./index.php?cid="+cid+"&page="+page;
+		 location.href="./index.php?cid="+jQuery("#bbs_cid").val()+"&page="+jQuery("#bbs_page").val();
 	   }else{
 		 alert("그림 삭제 실패!!");
  		 return false;
@@ -214,12 +213,12 @@ if($(document).find(".idx").is(':checked')){
    url: './lib/comment.admin.del.php',
    cache: false,
    type: 'POST',
-   data: {'idx':$('input:checkbox[class=idx]').serialize(),'cid':cid,'session':'<?=session_id()?>'},
+   data: {'idx':$('input:checkbox[class=idx]').serialize(),'cid':jQuery("#bbs_cid").val(),'session':jQuery("#bbs_session_id").val()},
    dataType: 'html',
    success: function(data){
 	   if(data == true){
 	     alert("리플 삭제 완료!!");
-		 location.href="./index.php?cid="+cid+"&page="+page;
+		 location.href="./index.php?cid="+jQuery("#bbs_cid").val()+"&page="+jQuery("#bbs_page").val();
 	   }else{
 		 alert("리플 삭제 실패!!");
  		 return false;
@@ -242,7 +241,7 @@ $(".modify").click(function(){
 	  $.ajax({
    url: './lib/comment.modify.php',
    type: 'POST',
-   data: {'idx':$(this).attr("idx"),'cid':cid,'page':page},
+   data: {'idx':$(this).attr("idx"),'cid':jQuery("#bbs_cid").val(),'page':jQuery("#bbs_page").val()},
    dataType: 'json',
    success: function(data){
 	   $(".cmtmodifyForm").find("#comment").val(data['comment']);
@@ -390,7 +389,7 @@ function upload(){
 	 document.getElementById("uploadIFrame").onload = function()
 	{
 			alert('업로드 완료!!');
-			location.href="index.php?cid="+cid+"&page="+page;
+			location.href="index.php?cid="+jQuery("#bbs_cid").val()+"&page="+jQuery("#bbs_page").val();
 			
 	}
 	return true;
@@ -401,7 +400,7 @@ function uploadV(){
 	 document.getElementById("uploadIFrame").onload = function()
 	{
 			alert('업로드 완료!!');
-			location.href="index.php?cid="+cid+"&page="+page;
+			location.href="index.php?cid="+jQuery("#bbs_cid").val()+"&page="+jQuery("#bbs_page").val();
 			
 	}
 	return true;
