@@ -3,23 +3,24 @@ $(window).resize(function(){
 var m_height = ($(".movie").width()/4)*3;
 $(".movie").height(m_height);
 });
+$(window).load(function(){
+	var m_height = ($(".movie").width()/4)*3;
+	$(".movie").height(m_height);
+	});
 jQuery.fn.autolink = function () {
 	return this.each( function(){
 		var re = /((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g;
 		$(this).html( $(this).html().replace(re, '<a href="$1" target="_blank">$1</a> ') );
 	});
 }
-jQuery.fn.highlight = function (text, o) {
-	return this.each( function(){
-		var replace = o || '<span class="highlight">$1</span>';
-		$(this).html( $(this).html().replace( new RegExp('('+text+'(?![\\w\\s?&.\\/;#~%"=-]*>))', "ig"), replace) );
-	});
-}
+
+
+var cid = jQuery("#bbs_cid").val();
+var page = jQuery("#bbs_page").val();
 
 $(document).ready(function(){
 	
 $(".comment").autolink();
-
 $("textarea").autoGrow(); 
 
 
@@ -57,12 +58,12 @@ if($(document).find(".picidx").is(':checked')){
    url: './lib/pic.admin.del.php',
    cache: false,
    type: 'POST',
-   data: {'idx':$('input:checkbox[class=picidx]').serialize(),'cid':'<?=$cid?>'},
+   data: {'idx':$('input:checkbox[class=picidx]').serialize(),'cid':cid},
    dataType: 'html',
    success: function(data){
 	   if(data == true){
 	     alert("그림 삭제 완료!!");
-		 location.href="./index.php?cid=<?=$cid?>&page=<?=$page?>";
+		 location.href="./index.php?cid="+cid+"&page="+page;
 	   }else{
 		 alert("그림 삭제 실패!!");
  		 return false;
@@ -108,7 +109,7 @@ if($(this).find("#passwd").val() == ""){
    success: function(data){
 	   if(data == true){
 	     alert("리플 삭제 완료!!");
-		 location.href="./index.php?cid=<?=$cid?>&page=<?=$page?>";
+		 location.href="./index.php?cid="+cid+"&page="+page;
 	   }else{
 		 alert("리플 삭제 실패!!");
  		 return false;
@@ -141,7 +142,7 @@ $(".opForm").submit(function(){
    success: function(data){
 	   if(data == true){
 	     alert("옵션 적용 완료!!");
-		 location.href="./index.php?cid=<?=$cid?>&page=<?=$page?>";
+		 location.href="./index.php?cid="+cid+"&page="+page;
 	   }else{
 		 alert("옵션 적용 실패!!");
  		 return false;
@@ -193,7 +194,7 @@ if($(this).find("#passwd").val() == ""){
    success: function(data){
 	   if(data == true){
 	     alert("그림 삭제 완료!!");
-		 location.href="./index.php?cid=<?=$cid?>&page=<?=$page?>";
+		 location.href="./index.php?cid="+cid+"&page="+page;
 	   }else{
 		 alert("그림 삭제 실패!!");
  		 return false;
@@ -213,12 +214,12 @@ if($(document).find(".idx").is(':checked')){
    url: './lib/comment.admin.del.php',
    cache: false,
    type: 'POST',
-   data: {'idx':$('input:checkbox[class=idx]').serialize(),'cid':'<?=$cid?>','session':'<?=session_id()?>'},
+   data: {'idx':$('input:checkbox[class=idx]').serialize(),'cid':cid,'session':'<?=session_id()?>'},
    dataType: 'html',
    success: function(data){
 	   if(data == true){
 	     alert("리플 삭제 완료!!");
-		 location.href="./index.php?cid=<?=$cid?>&page=<?=$page?>";
+		 location.href="./index.php?cid="+cid+"&page="+page;
 	   }else{
 		 alert("리플 삭제 실패!!");
  		 return false;
@@ -241,7 +242,7 @@ $(".modify").click(function(){
 	  $.ajax({
    url: './lib/comment.modify.php',
    type: 'POST',
-   data: {'idx':$(this).attr("idx"),'cid':'<?=$cid?>','page':'<?=$page?>'},
+   data: {'idx':$(this).attr("idx"),'cid':cid,'page':page},
    dataType: 'json',
    success: function(data){
 	   $(".cmtmodifyForm").find("#comment").val(data['comment']);
@@ -374,10 +375,10 @@ function selectTool(tool){
 	if(tool=='chibi') jQuery("#tool").val('chibi');
 	if(tool=='btool') jQuery("#tool").val('btool');
 	if(jQuery("#width").val()==""){
-		jQuery("#width").val("<?=$bbs->op->pic_d_width?>");
+		jQuery("#width").val(jQuery("#pic_d_width").val());
 	}
 	if(jQuery("#height").val()==""){
-		jQuery("#height").val("<?=$bbs->op->pic_d_height?>");
+		jQuery("#height").val(jQuery("#pic_d_height").val());
 	}
 	jQuery("#drawForm").submit();
 }
@@ -389,7 +390,7 @@ function upload(){
 	 document.getElementById("uploadIFrame").onload = function()
 	{
 			alert('업로드 완료!!');
-			location.href="index.php?cid=<?=$cid?>&page=<?=$page?>";
+			location.href="index.php?cid="+cid+"&page="+page;
 			
 	}
 	return true;
@@ -400,7 +401,7 @@ function uploadV(){
 	 document.getElementById("uploadIFrame").onload = function()
 	{
 			alert('업로드 완료!!');
-			location.href="index.php?cid=<?=$cid?>&page=<?=$page?>";
+			location.href="index.php?cid="+cid+"&page="+page;
 			
 	}
 	return true;
@@ -458,7 +459,7 @@ function Twitter(msg,url) {
   a.focus();
  }
 }
-<?php if($device=="mobile"){?>
+
 function FaceBook(msg,url,img) {
  var href = "https://m.facebook.com/sharer.php?u=" + url + "&t=" + encodeURIComponent(msg);
  var a = window.open(href, 'facebook', '');
@@ -466,8 +467,8 @@ function FaceBook(msg,url,img) {
   a.focus();
  }
 }
-<?php }else{ ?>
-function FaceBook(msg,url,img) {
+
+function FaceBook2(msg,url,img) {
  var href = "http://www.facebook.com/sharer.php?s=100&p[title]="+encodeURIComponent(msg) + "&p[url]=" + encodeURIComponent(url) + "&p[images][0]=" + encodeURIComponent(img);
 // var href = "http://www.facebook.com/sharer.php?u=" + url + "&t=" + encodeURIComponent(msg);
  var a = window.open(href, 'facebook', '');
@@ -475,7 +476,7 @@ function FaceBook(msg,url,img) {
   a.focus();
  }
 }
-<?php } ?>
+
 
 	
 		

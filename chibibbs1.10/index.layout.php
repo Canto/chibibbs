@@ -31,9 +31,7 @@ function secret(){
   });
 }
 </script>
-<script type="text/javascript">
-<?php include "js/bbs.fn.js"; ?>
-</script>
+<script src="js/bbs.fn.js"></script>
 <title><?php echo $bbs->title?></title>
 <style type="text/css">
 .marginTop20{margin-top:20px;}
@@ -71,6 +69,11 @@ if($bbs->op->include_head){
 <p class="text-right"><a href="javascript:secret();" id="addEmoticon" class="btn btn-primary">게시판 들어가기</a></p>
 </form>
 </div>
+<input type="hidden" id="bbs_cid" value="<?=$cid?>">
+<input type="hidden" id="bbs_page" value="<?=$page?>">
+<input type="hidden" id="bbs_session_id" value="<?=session_id()?>">
+<input type="hidden" id="pic_d_width" value="<?=$bbs->op->pic_d_width?>">
+<input type="hidden" id="pic_d_height" value="<?=$bbs->op->pic_d_height?>">
 <?php
 }else{
 	switch($cAct){
