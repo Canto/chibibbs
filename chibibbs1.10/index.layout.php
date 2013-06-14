@@ -7,13 +7,25 @@
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <?php 
 if($skin->op->bootstrap=="off"){ 
-	echo '<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">';
+	echo '<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">';
 }else{ 
 echo '<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">';
 echo '<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>';
 }
 ?>
 <script type="text/javascript">
+$(document).ready(function() {
+
+    $("#bbs_passwd").keypress(function(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+
+        if (code == 13) {
+        	secret();
+            return false;
+        }
+    });
+
+});
 function secret(){
 	$.ajax({
    url: './admin/admin.board.secret.check.php',
@@ -23,7 +35,7 @@ function secret(){
    success: function(data){
 	   if(data == true){
 			alert("접속 완료!!");
-			location.reload();
+			location.href="./index.php?cid=<?=$cid?>";
 	   }else{
 	    alert("비밀번호가 틀립니다.");
 	   }
@@ -44,10 +56,8 @@ function secret(){
 </style>
 </head>
 <body>
-<div class="container">
 <div class="row-fluid">
 <div class="span12 marginTop20">
-<div class="span8 offset2 offsetreset"></div>
 <input type="hidden" id="bbs_cid" value="<?=$cid?>">
 <input type="hidden" id="bbs_page" value="<?=$page?>">
 <input type="hidden" id="bbs_session_id" value="<?=session_id()?>">
@@ -62,8 +72,9 @@ if($bbs->op->include_head){
 <?php
 	if($bbs->op->secret=="on" && $connect_permission == false && $permission == false){/* 게시판이 비공개 일 경우*/
 ?>
+<div class="container">
 <div class="span6 offset3 alert alert-info">
-<form class="form-horizontal" id="sercretForm" method="post" enctype="multipart/form-data">
+<form class="form-horizontal" id="secretForm" method="post" enctype="multipart/form-data">
 <legend class="secret-passwd"><span class="text-info">게시판 접속 패스워드 입력 :: 게시판 - <?php echo $cid;?></span></legend>
 <div class="control-group">
     <label class="control-label" for="inputInst">패스워드</label>
@@ -73,6 +84,7 @@ if($bbs->op->include_head){
 </div>
 <p class="text-right"><a href="javascript:secret();" id="addEmoticon" class="btn btn-primary">게시판 들어가기</a></p>
 </form>
+</div>
 </div>
 <?php
 }else{
@@ -105,14 +117,13 @@ if($bbs->op->include_foot){
 <option value="name" <?php if($search=="name") echo "selected=\"selected\"";?>>이름</option>
 <option value="comment" <?php if($search=="comment") echo "selected=\"selected\"";?>>코멘트</option>
 </select>
-<input name="keyword" type="text" class="span2" value="<?=$keyword?>">
+<input name="keyword" type="text" class="span2 input-keyword" value="<?=$keyword?>">
 
-<button type="submit" class="btn btn-info">검색</button>
+<button type="submit" class="btn btn-info btn-search">검색</button>
 </form>
 <?php } ?>
 <p>
 Chibi Tool BBS ver <?=$chibi_ver?> &copy; <a href='http://canto.btool.kr' target='_blank'>Canto</a><br/><br/></p>
-</div>
 </div>
 </div>
 </body>

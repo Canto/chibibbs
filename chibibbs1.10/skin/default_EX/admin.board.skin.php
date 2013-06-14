@@ -6,7 +6,6 @@ $skin->op = unserialize($skin->op);
 if(get_magic_quotes_gpc()) $skin->op = array_map('stripslashes', $skin->op);
 $skin->op = (object) $skin->op;
 if(empty($skin->op->painter_icon)) $skin->op->painter_icon = "[작가글]";
-if(empty($skin->op->bootstrap)) $skin->op->bootstrap = "off";
 if(bbs_permission($member->permission,$skin->cid)=="true"){
 ?>
 <form class="form-horizontal" method="post" action="admin.php?cAct=adminSkinSetupOk">
@@ -27,7 +26,7 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 <tr>
 <th colspan="2" class="span12">
 <pre>
-스킨 이름	: 치비BBS Default 스킨
+스킨 이름	: 치비BBS Default_EX 스킨
 제작자		: Canto
 홈페이지	: <a href="http://canto.btool.kr" target="_blank">http://canto.btool.kr</a>
 버젼		: 1.10
@@ -107,6 +106,15 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 </tr>
 <tr>
 <td class="span3 td-left">
+<p>테이블 배경색(헤더)</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xlarge" type="text" name="op[table_background_color]" placeholder="테이블 배경색" value="<?php echo $skin->op->table_background_color;?>"  >
+<p class="help-inline">테이블 배경색(헤더)을 입력하여 주세요. 예 > <code>#ffffff</code></p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
 <p>테이블 외각 선</p>
 </td>
 <td class="span9 td-right">
@@ -147,15 +155,6 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 <option value="inset" <?php if($skin->op->table_inner_border_type=='inset') echo 'selected="selected"';?>>내부 엠보싱</option>
 <option value="outset" <?php if($skin->op->table_inner_border_type=='ouset') echo 'selected="selected"';?>>외부 엠보싱</option>
 </select>
-</td>
-</tr>
-<tr>
-<td class="span3 td-left">
-<p>테이블 배경색(헤더)</p>
-</td>
-<td class="span9 td-right">
-<input class="input-xlarge" type="text" name="op[table_background_color]" placeholder="테이블 배경색" value="<?php echo $skin->op->table_background_color;?>"  >
-<p class="help-inline">테이블 배경색(헤더)을 입력하여 주세요. 예 > <code>#ffffff</code></p>
 </td>
 </tr>
 <tr>
@@ -219,6 +218,36 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 <td class="span9 td-right">
 <input class="input-xlarge" type="text" name="op[resize]" placeholder="리사이즈" value="<?php echo $skin->op->resize;?>">
 <p class="help-block">그림을 리사이즈 할 너비 값을 지정 할 수 있습니다.(경우에 따라 자동으로 리사이즈 되는 경우도 있습니다.)</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>로그 정보 표시</p>
+</td>
+<td class="span9 td-right">
+<div class="controls-group">
+	<p>
+		<label class="checkbox inline">
+			<input type="checkbox" id="op['tool']" name="op[tool]" value="show" <?php if($skin->op->tool=="show") echo "checked";?>>작성 툴 정보
+		</label>
+		<label class="checkbox inline">
+			<input type="checkbox" id="op['size']" name="op[size]" value="show" <?php if($skin->op->size=="show") echo "checked";?>>원본 사이즈 & 리사이즈 정보
+		</label>
+		<label class="checkbox inline">
+			<input type="checkbox" id="op['time']" name="op[time]" value="show" <?php if($skin->op->time=="show") echo "checked";?>>로그 시간 정보
+		</label>
+	</p>
+</div>
+<p class="help-block">로그 상단에 해당 로그의 정보를 표시합니다.</p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
+<p>시간 표시 방법</p>
+</td>
+<td class="span9 td-right">
+<input class="input-xlarge" type="text" name="op[time_type]" placeholder="시간표시 방법" value="<?php echo $skin->op->time_type;?>">
+<p class="help-block">시간 표시 방법을 설정합니다 예> <code>Y년m월d일 H시i분s초</code></p>
 </td>
 </tr>
 <tr>

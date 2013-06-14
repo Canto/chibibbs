@@ -189,9 +189,39 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 								<!--// 삭제 아이콘 //-->
 							<!--// 로그정보 //-->
 								<span class="log_info">
-								<?=date("Y/m/d H:i:s",$pic->time)?>
+								<?php if($skin->op->time=="show"){?>
+								작성시간: <?=date($skin->op->time_type,$pic->time)?>
 								&nbsp;|&nbsp;
-								<?=$size[0]?>×<?=$size[1]?>
+								<?php }?>
+								<?php if($skin->op->size=="show"){?>
+								원본크기: <?=$size[0]?>×<?=$size[1]?>
+								<?php if($pic->type=="picture"){?>
+								<script type="text/javascript">
+								function resize<?=$pic->idx?>(){
+									var resize_w = $("#<?=$pic->idx?>").width();
+									var resize_h = $("#<?=$pic->idx?>").height();
+									if(<?=$skin->op->resize?> < resize_w || <?=$size[0]?> > resize_w){
+									$('#resize<?=$pic->idx?>').html('(리사이즈:'+resize_w+'×'+resize_h+')');
+									}else{
+									$('#resize<?=$pic->idx?>').html('');
+									}
+								}
+								$(window).load(function(){
+									resize<?=$pic->idx?>();
+								});	
+								$(window).resize(function(){
+									resize<?=$pic->idx?>();
+								});
+								</script>
+								<span id="resize<?=$pic->idx?>" style="color: red;">
+								</span>
+								<?php } ?>
+								&nbsp;|&nbsp;
+								<?php } ?>
+								<?php if($skin->op->tool=="show"){?>
+								작성툴: <?php if(strstr($pic->agent,"ChibiPaint")){ echo "치비 툴"; }else{ echo "로드 툴"; } ?>
+								<?php } ?>
+								<?php if($bbs->op->showip=="all"){ echo "작성자IP: ".$pic->ip; }else if($bbs->op->showip=="admin" && $permission==ture){ echo "&nbsp;|&nbsp;작성자IP: ".$pic->ip; } else { } ?>
 								</span>
 							<!--// 로그정보 //-->
 							</li>
@@ -206,7 +236,11 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 					<?=$picture?>
 				</td>
 				<!--//그림 출력//-->
+				
+				<!--// 모바일 사이즈 조절 & 반응형디자인 사이즈 조절 //-->
 				<?php if($skin->op->table_down<=$size[0] || $device=="mobile") echo "</tr><tr>";?>
+				<!--// //-->
+				
 				<!--//코멘트 출력//-->
 				<td class="user_reply_background_color user_table_inner_border_top_size user_table_inner_border_top_type user_table_inner_border_color <?php if($skin->op->table_down>$size[0] && $device!="mobile") echo "user_table_inner_border_left_size user_table_inner_border_left_type";?> ">
 					<ul class="unstyled">
@@ -223,7 +257,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 								<!--//홈페이지아이콘//-->
 								&nbsp;::&nbsp;
 								<?php if(empty($dice)==false) echo "<img src=\"images/".$dice[0].".gif\"><img src=\"images/".$dice[1].".gif\">"; //주사위 출력?>
-								<?=date("Y/m/d(D) H:i:s",$comment->rtime)//작성시간출력?> 
+								<span style="font-size: 11px;"><?=date($skin->op->time_type,$comment->rtime)//작성시간출력?></span> 
 								&nbsp;
 								<!--//리플아이콘//-->
 								<a href="javascript:;" no="<?=$comment->no?>" pic_no="<?=$comment->pic_no?>" depth="<?=$comment->depth?>" class="reply"><?=$skin->op->reply_icon?></a>
@@ -275,8 +309,8 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 							<form class="margin0 cmtForm" method="POST" action="./lib/comment.submit.php">
 								<div class="controls">
 									
-										<input type="text"  name="memo" id="memo" placeholder="memo" >
-										<input type="text" name="hpurl" id="hpurl" placeholder="homepage" >
+										<input type="text"  class="span" name="memo" id="memo" placeholder="memo" >
+										<input type="text" class="span" name="hpurl" id="hpurl" placeholder="homepage" >
 									
 								</div>
 								<div class="controls">
@@ -352,8 +386,8 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 	<p><a href="javascript:;" class="replyClose"><img alt="리플창 닫기" src="skin/default/images/close.png"></a></p>
 	<form class="margin0 cmtForm" method="POST" action="./lib/comment.submit.php" >
 		<div class="controls" style="margin-bottom: 3px">
-			<input type="text"  name="memo" id="memo" placeholder="memo" >
-			<input type="text" name="hpurl" id="hpurl" placeholder="homepage" >
+			<input type="text"  class="span" name="memo" id="memo" placeholder="memo" >
+			<input type="text" class="span" name="hpurl" id="hpurl" placeholder="homepage" >
 		</div>
 		<div class="controls-group">
 			<textarea rows="1" class="span12" id="comment" name="comment" style="resize:none;" ></textarea>
@@ -452,7 +486,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <div>
 <form method="POST" class="margin0 cmtmodifyForm" action="./lib/comment.modify.ok.php">
 <div class="controls">
-<input type="text" name="memo" id="memo" placeholder="memo"><input type="text" name="hpurl" id="hpurl" placeholder="homepage" style="margin-left:3px">
+<input type="text" class="span" name="memo" id="memo" placeholder="memo"><input type="text" class="span" name="hpurl" id="hpurl" placeholder="homepage" >
 </div>
 <div class="controls-group">
 <textarea rows="2" id="comment" class="span12" name="comment" style="resize:none;margin-bottom:3px;" ></textarea>

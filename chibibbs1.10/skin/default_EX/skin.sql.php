@@ -15,7 +15,7 @@ $op변수 하단 'messege'=>serialize($messege) 뒤에, 를 붙임
 
 /////////////////////////////////////////////////////////////////
 /*기본 설정*/
-$d_skin = "default"; //스킨명 (영문,폴더명과 일치하여야함)
+$d_skin = "default_EX"; //스킨명 (영문,폴더명과 일치하여야함)
 
 $d_op = array(
 	'background_color'=>'#ffffff',
@@ -29,10 +29,10 @@ $d_op = array(
 	'table_border_type'=>'solid',
 	'table_inner_border_color'=>'#dddddd',
 	'table_inner_border_size'=>'1px',
-	'table_inner_border_type'=>'solid',
-	'table_background_color'=>'#ffffff',
+	'table_inner_border_type'=>'solid',		
 	'pic_border_hover'=>'',
 	'pic_background_color'=>'#ffffff',
+	'table_background_color'=>'#ffffff',
 	'reply_background_color'=>'#ffffff',
 	'reply_text_color'=>'',
 	'rereply_bar_color'=>'',
@@ -40,25 +40,29 @@ $d_op = array(
 	'top_menu_icon_color'=>'',
 	'resize'=>'400',
 	'table_down'=>'9999',
-	'more_icon'=>'<img src="skin/default/images/more.png">',
-	'secret_icon'=>'<img src="skin/default/images/secret.png">',
-	'btool_icon'=>'<img src="skin/default/images/btool.png">',
-	'chibi_icon'=>'<img src="skin/default/images/chibi.png">',
-	'load_icon'=>'<img src="skin/default/images/load.png">',
-	'reply_icon'=>'<img src="skin/default/images/re.png">',
-	'modify_icon'=>'<img src="skin/default/images/mod.png">',
-	'del_icon'=>'<img src="skin/default/images/del.png">',
-	'emoticon_icon'=>'<img src="skin/default/images/emoticon.png">',
-	'continue_icon'=>'<img src="skin/default/images/continue.png">',
-	'login_icon'=>'<img src="skin/default/images/login.png">',
-	'logout_icon'=>'<img src="skin/default/images/logout.png">',
-	'op_icon'=>'<img src="skin/default/images/op.png">',
-	'reflash_icon'=>'<img src="skin/default/images/reflash.png">',
-	'admin_icon'=>'<img src="skin/default/images/admin.png">',
-	'write_icon'=>'<input type="image" src="skin/default/images/write.png" class="cmtmodify-submit" />',
-	'hp_icon'=>'<img src="skin/default/images/hp.png">',
+	'size'=>'show',
+	'tool'=>'show',
+	'time'=>'show',
+	'time_type'=>'Y년m월d일 H시i분s초',
+	'more_icon'=>'<img src="skin/default_EX/images/more.png">',
+	'secret_icon'=>'<img src="skin/default_EX/images/secret.png">',
+	'btool_icon'=>'<img src="skin/default_EX/images/btool.png">',
+	'chibi_icon'=>'<img src="skin/default_EX/images/chibi.png">',
+	'load_icon'=>'<img src="skin/default_EX/images/load.png">',
+	'reply_icon'=>'<img src="skin/default_EX/images/re.png">',
+	'modify_icon'=>'<img src="skin/default_EX/images/mod.png">',
+	'del_icon'=>'<img src="skin/default_EX/images/del.png">',
+	'emoticon_icon'=>'<img src="skin/default_EX/images/emoticon.png">',
+	'continue_icon'=>'<img src="skin/default_EX/images/continue.png">',
+	'login_icon'=>'<img src="skin/default_EX/images/login.png">',
+	'logout_icon'=>'<img src="skin/default_EX/images/logout.png">',
+	'op_icon'=>'<img src="skin/default_EX/images/op.png">',
+	'reflash_icon'=>'<img src="skin/default_EX/images/reflash.png">',
+	'admin_icon'=>'<img src="skin/default_EX/images/admin.png">',
+	'write_icon'=>'<input type="image" src="skin/default_EX/images/write.png" class="cmtmodify-submit" />',
+	'hp_icon'=>'<img src="skin/default_EX/images/hp.png">',
 	'pinater_icon'=>'[작가글]',
-	'bootstrap'=>'off'
+	'bootstrap'=>'on'
 ); // 스킨에서 사용되는 사용자 옵션
 
 
