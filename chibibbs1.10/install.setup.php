@@ -4,17 +4,20 @@ header ('Cache-Control: no-cache, must-revalidate');
 header ('Pragma: no-cache');
 header ('Content-type: text/html; charset=UTF-8');
 session_start();
-/*
-if(is_resource(@mysql_query("DESC chibi_admin", $chibi_conn))
-{
-	echo "
+define("__CHIBI__",time());
+if(is_file("data/config/db.config.php")==true){
+	include_once 'data/config/db.config.php';
+	include_once "lib/db.conn.php";
+	if(is_resource(mysql_query("DESC chibi_admin", $chibi_conn)) && is_resource(mysql_query("DESC chibi_skin",$chibi_conn)) && is_resource(mysql_query("DESC chibi_pic",$chibi_conn)) && is_resource(mysql_query("DESC chibi_comment",$chibi_conn)) && is_resource(mysql_query("DESC chibi_tpl",$chibi_conn)) && is_resource(mysql_query("DESC chibi_member",$chibi_conn)) && is_resource(mysql_query("DESC chibi_emoticon",$chibi_conn)) && is_resource(mysql_query("DESC chibi_log",$chibi_conn)))
+	{
+		echo "
 	<script language=\"javascript\">
-	alret('CHIBIBBS 가 이미 설치되어 있습니다.');
+	alert('CHIBIBBS 가 이미 설치되어 있습니다.');
 	</script>
 	";
-	exit;
+		exit;
+	}
 }
-*/
 $_SESSION['rndkey'] = time();
 $_SESSION['setup'] = $_SESSION['rndkey'].'adminsetup';
 ?>

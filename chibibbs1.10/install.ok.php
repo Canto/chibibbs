@@ -20,7 +20,7 @@ $S_ADMIN_PASSWD = $admin_pass;
 require_once "lib/db.conn.php";
 
 /* DB Table 생성 확인*/
-$db_check = (object) array("status"=>"","admin"=>"","skin"=>"","pic"=>"","comment"=>"","tpl"=>"","member"=>"","emoticon"=>"","log"=>"");
+$db_check = (object) array("status"=>"","admin"=>"","skin"=>"","pic"=>"","comment"=>"","tpl"=>"","member"=>"","emoticon"=>"","log"=>"","dbname"=>"");
 if(is_resource($chibi_conn)) $db_check->status = true;
 else $db_check->status = false;
 if(is_resource(@mysql_query("DESC chibi_admin",$chibi_conn))) $db_check->admin = true;
@@ -39,7 +39,8 @@ if(is_resource(@mysql_query("DESC chibi_emoticon",$chibi_conn))) $db_check->emot
 else $db_check->emoticon = false;
 if(is_resource(@mysql_query("DESC chibi_log",$chibi_conn))) $db_check->log = true;
 else $db_check->log = false;
-
+if(is_resource(@mysql_select_db($DBNAME,$chibi_conn))) $db_check->dbname = true;
+else $db_check->dbname = false;
 if($db_check->status == true){
 
 /*

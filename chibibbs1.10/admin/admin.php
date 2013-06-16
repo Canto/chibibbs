@@ -55,6 +55,21 @@ td{font-size:12px;}
 #board-create .td-left{background:#eeeeee;font-size:12px;}
 #board-create .td-right{background:#ffffff;font-size:12px;}
 </style>
+<script type="text/javascript">
+$(function(){
+	$("#uninstall").click(function(){
+		var answer = confirm("모든 게시판 데이터와 그림 , 댓글이 사라집니다.\n Chibi Tool BBS를 삭제하겠습니까?");
+		if(answer){
+			location.href = "./admin.php?cAct=uninstall";
+		}else{
+			return false;
+		}
+
+
+		
+	});
+});
+</script>
 </head>
 <body>
 <?php
@@ -118,7 +133,7 @@ if(login_check($chibi_conn)==false){/* 로그인 상태가 아닐 때*/
 				if($member->permission=="super"){
 			  ?>
 		      <li class="">
-                <a href="?cAct=uninstall" >언인스톨</a>
+                <a id="uninstall" href="javascript:;" >언인스톨</a>
               </li>
 			  <?php
 			}

@@ -65,9 +65,9 @@ $('#installed').bind('closed', function () {
 <?php
 }else{
 ?>
-
-<div id="installed">
-<table class="table table-bordered span8 offset2">
+<div class="container">
+<div id="row">
+<table class="table table-bordered container" style="width:70%">
 	<caption>치비 BBS 설치 가능 여부 체크</caption>
 	<thead>
 	<tr>
@@ -123,7 +123,7 @@ $('#installed').bind('closed', function () {
 	</tbody>
 </table>
 </div>
-
+</div>
 
 <?php
 }

@@ -9,8 +9,9 @@ $page = $_POST['page'];
 $name = $_POST['name'];
 $passwd = $_POST['passwd'];
 $comment = $_POST['comment'];
+$memo = $_POST['memo'];
+$hpurl = $_POST['hpurl'];
 $idx = $_POST['idx'];
-$hpurl ='';
 if(empty($_POST['op'])==false){
 	$op = $_POST['op'];
 	$op = serialize($op);
@@ -49,7 +50,7 @@ if(empty($spam)==false){
 		history.go(-1);
 		</script>";
 		}else{
-		$sql = "UPDATE `chibi_comment` SET `name`='".mysql_real_escape_string($name)."' , `comment`='".mysql_real_escape_string($comment)."' , `op`='".mysql_real_escape_string($op)."' WHERE `idx`='".mysql_real_escape_string($idx)."' AND `passwd`='".mysql_real_escape_string(md5($passwd))."'";
+		$sql = "UPDATE `chibi_comment` SET `hpurl`='".mysql_real_escape_string($hpurl)."' ,`memo`='".mysql_real_escape_string($memo)."' , `name`='".mysql_real_escape_string($name)."' , `comment`='".mysql_real_escape_string($comment)."' , `op`='".mysql_real_escape_string($op)."' WHERE `idx`='".mysql_real_escape_string($idx)."' AND `passwd`='".mysql_real_escape_string(md5($passwd))."'";
 		mysql_query($sql,$chibi_conn);
 			echo "<script>alert('수정 완료!!');
 	location.href = '../index.php?cid=".$cid."&page=".$page."';

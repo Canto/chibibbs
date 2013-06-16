@@ -73,6 +73,13 @@ if(empty($spam)==false){
 		$p_sql = "UPDATE `chibi_member` SET `point` = point+'".mysql_real_escape_string($point)."', `comment`=comment+'1' WHERE `user_id` = '".mysql_real_escape_string($member->user_id)."'";
 		mysql_query($p_sql,$chibi_conn);
 	}
+	if($depth==1){
+		$old_sql = "SELECT `chibi_comment`.`no` FROM `chibi_comment` WHERE `pic_no`='".mysql_real_escape_string($pic_no)."' ORDER BY `no` DESC LIMIT 0,1";
+		$old_query = mysql_query($old_sql,$chibi_conn);
+		$old = mysql_fetch_array($old_query);
+		$no = $old['no']+1;
+	}
+	
 	  $query = "INSERT INTO `chibi_comment` (`idx`,`cid`,`pic_no`,`no`, `depth`, `name`, `passwd`, `rtime`, `comment`, `memo`, `hpurl`, `ip`, `op`)VALUES('','".mysql_real_escape_string($cid)."','".mysql_real_escape_string($pic_no)."','".mysql_real_escape_string($no)."','".mysql_real_escape_string($depth)."','".mysql_real_escape_string($name)."','".mysql_real_escape_string(md5($passwd))."','".time()."','".mysql_real_escape_string($comment)."','".mysql_real_escape_string($memo)."','".mysql_real_escape_string($hpurl)."','".$_SERVER["REMOTE_ADDR"]."','".mysql_real_escape_string($op)."')";
 	  mysql_query($query,$chibi_conn);	  
 		echo "<script>alert('등록 완료!!');

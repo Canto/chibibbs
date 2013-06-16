@@ -40,16 +40,8 @@ else echo count_bbs("log",$count_log,$chibi_conn);
 if ($device=="mobile"){
 }else{
 	?>
-<td rowspan="4" class="content span8">
-<div style="width:100%;max-height:187px;overflow-y:scroll;">
-<ul class="unstyle news" style="font-size:12px;">
-<li>치비툴에 관련된 질문 및 건의 사항은 <a href="http://canto.btool.kr">개발자 홈페이지</a> 에 남겨주세요.</li>
-<li class="old_news">치비툴은 JAVA 가 설치되어 있어야 사용가능합니다. <br/><a href="https://www.java.com/ko/download/ie_manual.jsp?locale=ko&amp;host=www.java.com" target="_blank"><b>:: JAVA 다운로드 ::</b></a>&nbsp;&nbsp;&nbsp;
-<a href="http://sketchstudio.cellosoft.com/downloads/JTabletSetupv0.9.5.exe" target="_blank"><b>:: 필압플로그인(IE용) ::</b></a> &nbsp;&nbsp;&nbsp;<a href="http://jtablet.cellosoft.com/jtablet2/release/JTabletSetup-1.2.5-alpha.exe" target="_blank"><b>:: 필압플로그인(기타브라우저용) ::</b></a>
-</li>
-</ul>
-<iframe src ="http://chibi.kr/update.php" width=00%" height="200" scrolling="no" frameborder="0" style="border:0;"></iframe>
-</div>
+<td rowspan="4" class="content span8" style="padding: 0px;height:100%;">
+<iframe src ="http://chibi.kr/update2.php" width="100%" height="100%" scrolling="auto" frameborder="0" style="border:0;"></iframe>
 </td>
 <?php
 }
