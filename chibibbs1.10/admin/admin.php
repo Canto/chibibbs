@@ -64,9 +64,6 @@ $(function(){
 		}else{
 			return false;
 		}
-
-
-		
 	});
 });
 </script>

@@ -10,7 +10,7 @@ $type = $_POST['type'];
 $cid = $_POST['cid'];
 $passwd = $_POST['passwd'];
 $user_id = $_POST['user_id'];
-;if(empty($type)==false){
+if(empty($type)==false){
 if($type=="picture"){
 
 	$file=$_FILES['image']['name'];

@@ -33,7 +33,7 @@ body{font-size:12px !important;}
 #replyForm{margin-bottom:20px;display:none;}
 ul.comment, blockquote{margin-bottom:5px;}
 .adminpanel{position:fixed;right:5px;top:40%;}
-.loadpic , #loadForm , .video{display:none;}
+.loadpic , #loadForm , .video, .text{display:none;}
 textarea{font-size:12px;max-width:401px;width:100%;border:1px solid #dddddd;}
 .well {word-wrap:break-word;word-break:break-all;}
 .tool_width,.tool_height{max-height:15px;font-size:12px;}

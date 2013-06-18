@@ -365,19 +365,22 @@ function convert($content){ // 템플릿 변수를 PHP변수로 컴파일
 		\$picture = \$more_btn.\"<a class=\\\"lightbox_trigger\\\" href=\\\"\".\$pic->src.\"\\\" size=\\\"\".\$size[1].\"\\\" \".\$more.\" ><img src=\\\"\".\$pic->src.\"\\\" id=\\\"\".\$pic->idx.\"\\\"style=\\\"width:100%;max-width:\".\$pic_size.\"px;\\\"></a>\"; //리사이즈
 		if(\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\".\$picture;
 	}
-}else{// 텍스트 일 경우
+}else if(\$pic->type==\"text\"){// 텍스트 일 경우
 	if(((\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") && \$pic->pic_ip != \$_SERVER['REMOTE_ADDR'])&& empty(\$permission)==true) \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\"; // 비밀 그림 일경우
 	else{
 		if(\$pic->op->pic==\"more\" || \$pic->op->pic==\"moresecret\"){
 			\$more = \"style=\\\"display:none;\\\"\";
-			\$more_btn = \"<a class=\\\"pic_more\\\" more=\\\"0\\\" href=\\\"javascript:;\\\">\".\$skin->op->more_icon.\"</a>\";
+			\$more_btn = \"<a class=\\\"cmt_more\\\" more=\\\"0\\\" href=\\\"javascript:;\\\">\".\$skin->op->more_icon.\"</a>\";
 		}else{
 			\$more = \"\";
 			\$more_btn = \"\";
 		}
+		if(get_magic_quotes_gpc()) \$pic->src = stripslashes(\$pic->src); 
+		\$pic->src = htmlFilter(\$pic->src,1,\$bbs->tag);
+		\$pic->src = nl2br(\$pic->src);
 		if(\$skin->op->resize>=\$size[0]) \$pic_size = \$size[0];
 		else \$pic_size = \$skin->op->resize;
-		\$picture = \$more_btn.\"<p .\$more.>\".\$pic->idx.\"</p>\"; //리사이즈
+		\$picture = \$more_btn.\"<p \".\$more.\" style=\\\"text-align:left;padding:10px;\\\">\".\$pic->src.\"</p>\"; //리사이즈
 		if(\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\".\$picture;
 	}
 }

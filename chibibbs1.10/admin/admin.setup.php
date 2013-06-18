@@ -41,7 +41,7 @@ if ($device=="mobile"){
 }else{
 	?>
 <td rowspan="4" class="content span8" style="padding: 0px;height:100%;">
-<iframe src ="http://chibi.kr/update2.php" width="100%" height="100%" scrolling="auto" frameborder="0" style="border:0;"></iframe>
+<iframe src ="http://chibi.kr/update2.php?ver=<?=$chibi_ver?>" width="100%" height="100%" scrolling="auto" frameborder="0" style="border:0;"></iframe>
 </td>
 <?php
 }

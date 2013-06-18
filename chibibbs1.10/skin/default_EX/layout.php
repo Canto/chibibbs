@@ -6,7 +6,33 @@ jQuery(window).resize(function(){
 	}
 
 });
-
+jQuery(document).ready(function(){
+$("#loadSelect2").change(function () {
+    var str = ""		  
+	  $("#loadSelect2 > option:selected").each(function(){
+		  str = $(this).val();
+    if(str == "picture"){
+			$(".video").hide();
+			$(".text").hide();
+			$(".loadpic").show();
+			$(".type").val("picture");
+			str = '';
+	  }else if(str == "youtube" || str == "naver"){
+			$(".loadpic").hide();
+			$(".text").hide();
+			$(".video").show();
+			$(".type").val(str);
+			str = '';
+	  }else{
+		  $(".loadpic").hide();
+		  $(".video").hide();
+			$(".text").show();
+			$(".type").val("text");
+			str = '';
+	  }
+  });
+});
+});
 </script>
 
 <!--// 스킨 디자인 시작 //-->
@@ -66,11 +92,12 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <div id="loadForm" class="text-center user_notice_border_color user_notice_border_type user_notice_background_color span4 offset4" style="padding:5px;">
 <ul class="unstyled">
 <li>
-<select id="loadSelect">
+<select id="loadSelect2">
 <option selected="selected">로드 방식</option>
 <option value="picture">그림</option>
 <option value="youtube">유튜브</option>
 <option value="naver">네이버동영상</option>
+<option value="text">텍스트</option>
 </select>
 </li>
 <li>
@@ -90,6 +117,16 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <textarea rows="3" class="span12" id="video" name="image" style="resize:none;margin-bottom:3px;" required placeholder="동영상의 <iframe> 태그를 입력해주세요"></textarea>
 <input type="password" name="passwd" class="span5" placeholder="패스워드" required>
 <input type="image" src="skin/default/images/load.png" id="uploadVBtn" class="marginTop5">
+<input type="hidden" id="type" class="type" name="type">
+<input type="hidden" id="cid" name="cid" value="<?=$cid?>">
+<input type="hidden" id="user_id" name="user_id" value="<?=$member->user_id?>">
+</form>
+</div>
+<div class="text">
+<form class="form-horizontal" id="uploadTForm" action="lib/load.submit.php" onsubmit="return uploadT()" method="post" enctype="multipart/form-data">
+<textarea rows="3" class="span12" id="text" name="image" style="resize:none;margin-bottom:3px;" required placeholder="텍스트 입력"></textarea>
+<input type="password" name="passwd" class="span5" placeholder="패스워드" required>
+<input type="image" src="skin/default/images/load.png" id="uploadTBtn" class="marginTop5">
 <input type="hidden" id="type" class="type" name="type">
 <input type="hidden" id="cid" name="cid" value="<?=$cid?>">
 <input type="hidden" id="user_id" name="user_id" value="<?=$member->user_id?>">
@@ -116,6 +153,12 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 	<a href="./logout.php?user_id=<?=$member->user_id?>"><?=$skin->op->logout_icon?></a>
 	<?php } ?>
 	<a href="javascript:;" onclick="javascript:window.open('./emoticon.php?cid=<?=$cid?>','이모티콘리스트','scrollbars=yes,toolbar=no,menubar=no,width=300,height=500')"><?=$skin->op->emoticon_icon?></a>
+	<form class="form-horizontal" id="secretForm" method="post" enctype="multipart/form-data">
+	<div class="input-append">
+ 		<input class="input-mini" id="bbs_passwd" type="password" style="height:14px; padding:0px;border-color:#333333;">
+		<a href="javascript:secret();"><img src="skin/default_EX/images/member.png" ></a>
+	</div>
+	</form>
 </div>
 </div>
 <!--// 상단 메뉴 종료 //-->
@@ -233,7 +276,14 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 			<tr>
 				<!--//그림 출력//-->
 				<td class="pic_log user_pic_background_color user_table_inner_border_top_size user_table_inner_border_top_type user_table_inner_border_color" <?php if($skin->op->table_down<=$size[0] || $device=="mobile") echo "colspan=\"2\"";?> style="width:<?php if($size[0]<=$skin->op->resize){ echo $size[0]; }else{ echo $skin->op->resize; }?>px;">
-					<?=$picture?>
+					<?php 
+					if( $pic->op->member == "secret"){
+						if($connect_permission == true || $pic->pic_ip == $_SERVER['REMOTE_ADDR'] || empty($permission)==false ) echo "<img src=\"skin/default_EX/images/membersecret.png\"><br/>".$picture;
+						else echo "<img src=\"skin/default_EX/images/membersecret.png\">";
+					}else{
+						echo $picture;
+					}
+					?>
 				</td>
 				<!--//그림 출력//-->
 				
@@ -463,7 +513,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <!--// 이어 그리기 폼 //-->
 
 <!--// 옵션 폼 //-->
-<div id="opFormDiv" class="text-center marginTop5" style="width:250px;height:35px;line-height:34px;display:none;position:absolute;background-color:#ffffff;border:1px solid #999999;">
+<div id="opFormDiv" class="text-center marginTop5" style="width:250px;height:65px;line-height:34px;display:none;position:absolute;background-color:#ffffff;border:1px solid #999999;">
 <form class="opForm form-inline margin0" method="POST" action="#">
 <input type="hidden" name="cid" value="<?=$cid?>">
 <input type="hidden" id="idx" name="idx" value="">
@@ -473,6 +523,10 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <option value="secret">비밀</option>
 <option value="moresecret">접기+비밀</option>
 </select>
+&nbsp;&nbsp;
+<label class="checkbox inline">
+<input type="checkbox" name=op[member] value="secret">멤버공개
+</label><br/>
 <input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
 <input type="image" src="skin/default/images/ok.png" /> 
 <a href="javascript:;" class="opClose"><img src="skin/default/images/close.png"></a>

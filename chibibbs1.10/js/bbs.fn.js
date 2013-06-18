@@ -405,7 +405,17 @@ function uploadV(){
 	}
 	return true;
 }
-
+function uploadT(){
+	jQuery("#uploadTBtn").hide();
+	 document.getElementById("uploadTForm").target = "uploadIFrame";
+	 document.getElementById("uploadIFrame").onload = function()
+	{
+			alert('업로드 완료!!');
+			location.href="index.php?cid="+jQuery("#bbs_cid").val()+"&page="+jQuery("#bbs_page").val();
+			
+	}
+	return true;
+}
 //Private variables
 	var colsDefault = 0;
 	var rowsDefault = 0;
