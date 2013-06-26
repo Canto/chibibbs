@@ -209,6 +209,33 @@ var pattern = /^[a-z]+[a-z0-9_]*$/;
 !-->
 <tr>
 <td class="span3 td-left">
+<p>소속</p>
+</td>
+<td class="span9 td-right">
+<?php 
+$cnt = count($bbs->op->inst);
+
+?>
+<p>소속 개수 <input class="position_num input-mini" type="number" class="position_num" value=""> <a href="javascript:;" class="position_btn btn">추가</a><span class="text-warning" style="margin-left:4px;">이미지는 http를 포함한 주소로 입력해주세요.</span></p>
+<script>
+$(document).ready(function(){
+	$('.position_btn').click(function(){
+	var cnt = $('.input_position').length;
+	var num = $('.position_num').val();
+	if(cnt > num) $('.input_position').slice(num,cnt).remove();
+	else {
+	for(i=cnt;i<num;i++){
+		$('.position').append('<p class="input_position">명령어 : <input type="text" name="inst['+i+']" > 이미지 : <input type="text" name="position['+i+']"></p>');
+	}
+	}
+	});
+});
+</script>
+<p class="position"></p>
+</td>
+</tr>
+<tr>
+<td class="span3 td-left">
 <p>IP 공개</p>
 </td>
 <td class="span9 td-right">

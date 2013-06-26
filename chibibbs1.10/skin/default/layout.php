@@ -83,6 +83,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <input type="hidden" id="type" class="type" name="type">
 <input type="hidden" id="cid" name="cid" value="<?=$cid?>">
 <input type="hidden" id="user_id" name="user_id" value="<?=$member->user_id?>">
+<select id="op" name="op[pic]" class="input-small">
 <option selected="selected" >옵션</option>
 <option value="more">접기</option>
 <option value="secret">비밀</option>
@@ -101,6 +102,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <input type="hidden" id="type" class="type" name="type">
 <input type="hidden" id="cid" name="cid" value="<?=$cid?>">
 <input type="hidden" id="user_id" name="user_id" value="<?=$member->user_id?>">
+<select id="op" name="op[pic]" class="input-small">
 <option selected="selected" >옵션</option>
 <option value="more">접기</option>
 <option value="secret">비밀</option>
@@ -232,6 +234,9 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 							<?php if($comment->depth > 1) for($i=1;$i<$comment->depth;$i++) echo "<blockquote class=\"user_rereply_bar_color user_rereply_text_color\">"; //리플 구분바?>
  
 							<p class="name">
+								<!--// 소속아이콘이 있을 경우 출력//-->
+								<?php echo position($comment->op->position,$bbs->op->inst,$bbs->op->position); ?>
+								<!--// 소속아이콘이 있을 경우 출력//-->
 								<b><?=$comment->name?></b>
 								<?php if($pic->pic_ip == $comment->ip) echo $skin->op->painter_icon; //작가글 아이콘 ?>
 								<!--//홈페이지아이콘//-->
@@ -292,7 +297,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 								<div class="controls">
 									
 										<input type="text"  name="memo" id="memo" placeholder="memo" >
-										<input type="text" name="hpurl" id="hpurl" placeholder="homepage" >
+										<input type="text" name="hpurl" id="hpurl" placeholder="homepage" <?php if($_COOKIE['hpurl']) echo 'value="'.$_COOKIE['hpurl'].'"';?>>
 									
 								</div>
 								<div class="controls">
@@ -310,7 +315,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 										<input type="checkbox" id="op['dice']" name="op[dice]" value="dice">dice
 										</label>
 										<label class="checkbox inline">
-										<input type="checkbox" id="op['cookie']" name="op[cookie]" value="cookie">cookie
+										<input type="checkbox" id="op['cookie']" name="op[cookie]" value="cookie" <?php if($_COOKIE['cookie']) echo 'checked';?>>cookie
 										</label>
 									</p>
 								</div>
@@ -320,6 +325,9 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
   									<input type="hidden" name="no" value="<?=$no?>">
   									<input type="hidden" name="pic_no" value="<?=$pic->no?>">
   									<input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
+  									<?php if(empty($bbs->op->inst)==false){?>
+  									<input type="text" class="input-mini" name="op[position]"  placeholder="소속" <?php if($_COOKIE['position']) echo 'value="'.$_COOKIE['position'].'"';?> style="margin:0px !important;padding:2px;">
+  									<?php }?>
   									<input type="text" class="input-mini" name="name" id="name" placeholder="name" <?php if($_COOKIE['nickname']) echo 'value="'.$_COOKIE['nickname'].'"';?>>
   									<input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" <?php if($_COOKIE['passwd']) echo 'value="'.$_COOKIE['passwd'].'"';?>>
   									<?=$skin->op->write_icon?>
@@ -369,7 +377,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 	<form class="margin0 cmtForm" method="POST" action="./lib/comment.submit.php" >
 		<div class="controls" style="margin-bottom: 3px">
 			<input type="text"  name="memo" id="memo" placeholder="memo" >
-			<input type="text" name="hpurl" id="hpurl" placeholder="homepage" >
+			<input type="text" name="hpurl" id="hpurl" placeholder="homepage" <?php if($_COOKIE['hpurl']) echo 'value="'.$_COOKIE['hpurl'].'"';?>>
 		</div>
 		<div class="controls-group">
 			<textarea rows="1" class="span12" id="comment" name="comment" style="resize:none;" ></textarea>
@@ -386,7 +394,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 			<input type="checkbox" id="op['dice']" name="op[dice]" value="dice">dice
 			</label>
 			<label class="checkbox inline">
-			<input type="checkbox" id="op['cookie']" name="op[cookie]" value="cookie">cookie
+			<input type="checkbox" id="op['cookie']" name="op[cookie]" value="cookie" <?php if($_COOKIE['cookie']) echo 'checked';?>>cookie
 			</label>
 		</p>
 		</div>
@@ -398,6 +406,9 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
   			<input type="hidden" id="pic_no" name="pic_no" value="">
     		<input type="hidden" id="depth" name="depth" value="">
     		<input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
+  			<?php if(empty($bbs->op->inst)==false){//소속아이콘이 있다면 입력폼 출력 ?>
+  			<input type="text" class="input-mini" name="op[position]"  placeholder="소속" <?php if($_COOKIE['position']) echo 'value="'.$_COOKIE['position'].'"';?> style="margin:0px !important;padding:2px;">
+  			<?php }?>    		
   			<input type="text" class="input-mini" name="name" id="name" placeholder="name" <?php if($_COOKIE['nickname']) echo 'value="'.$_COOKIE['nickname'].'"';?>>
   			<input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" <?php if($_COOKIE['passwd']) echo 'value="'.$_COOKIE['passwd'].'"';?>>
   			<?=$skin->op->write_icon?>

@@ -187,6 +187,43 @@ if(bbs_permission($member->permission,$bbs->cid)=="true"){
 </td>
 </tr>
 //-->
+<tr>
+<td class="span3 td-left">
+<p>소속</p>
+</td>
+<td class="span9 td-right">
+<?php 
+$inst = explode(',',$bbs->op->inst);
+$position = explode(',',$bbs->op->position);
+$cnt = count($inst);
+?>
+<p>소속 개수 <input class="position_num input-mini" type="number" class="position_num" value="<?php echo $cnt;?>"> <a href="javascript:;" class="position_btn btn">추가</a><span class="text-warning" style="margin-left:4px;">이미지는 http를 포함한 주소로 입력해주세요.</span></p>
+<?php 
+if($cnt!=0){
+	for($i=0;$i<$cnt;$i++){
+?>
+<p class="input_position">명령어 : <input type="text" name="inst[<?=$i?>]" value="<?=$inst[$i]?>"> 이미지 : <input type="text" name="position[<?=$i?>]" value="<?=$position[$i]?>"></p>
+<?php 
+}
+}
+?>
+<script>
+$(document).ready(function(){
+	$('.position_btn').click(function(){
+	var cnt = $('.input_position').length;
+	var num = $('.position_num').val();
+	if(cnt > num) $('.input_position').slice(num,cnt).remove();
+	else {
+	for(i=cnt;i<num;i++){
+		$('.position').append('<p class="input_position">명령어 : <input type="text" name="inst['+i+']" > 이미지 : <input type="text" name="position['+i+']"></p>');
+	}
+	}
+	});
+});
+</script>
+<p class="position"></p>
+</td>
+</tr>
 <input type="hidden" name="pic_thumbnail_width" value="<?php echo $bbs->op->pic_thumbnail_width;?>">
 <tr>
 <td class="span3 td-left">

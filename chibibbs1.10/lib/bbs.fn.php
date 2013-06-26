@@ -50,16 +50,17 @@ if(!defined("__CHIBI__")) exit();
 		$query = mysql_query($sql,$chibi_conn);
 		return $query;
 	}
-function str_cut($String, $MaxLen, $ShortenStr) { 
-$StringLen = strlen($String); // 원래 문자열의 길이를 구함 
-$EffectLen = $MaxLen - strlen($ShortenStr); 
-if ( $StringLen < $MaxLen )return $String;
-for ($i = 0; $i <= $EffectLen; $i++) { 
-$LastStr = substr($String, $i, 1); 
-if ( ord($LastStr) > 127 ) $i++; } 
-$RetStr = substr($String, 0, $i);  
-return $RetStr .= $ShortenStr; 
-}
+	function str_cut($String, $MaxLen, $ShortenStr) { 
+		$StringLen = strlen($String); // 원래 문자열의 길이를 구함 
+		$EffectLen = $MaxLen - strlen($ShortenStr); 
+		if ( $StringLen < $MaxLen )return $String;
+		for ($i = 0; $i <= $EffectLen; $i++) { 
+			$LastStr = substr($String, $i, 1); 
+			if ( ord($LastStr) > 127 ) $i++; 
+		} 
+		$RetStr = substr($String, 0, $i);  
+		return $RetStr .= $ShortenStr; 
+	}
 	function news_comment($chibi_conn,$op){
 		if(empty($op)==true){
 		$sql = "SELECT * FROM `chibi_comment` ORDER BY `idx` DESC LIMIT 0,10";
@@ -79,8 +80,7 @@ return $RetStr .= $ShortenStr;
 		return $query;
 	}
 	function comment($cid,$pic_no,$chibi_conn){
-		$string = "SELECT * FROM `chibi_comment` WHERE `cid`='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' 
-ORDER BY `no` ASC , `depth` ASC, `rtime` ASC";
+		$string = "SELECT * FROM `chibi_comment` WHERE `cid`='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' ORDER BY `no` ASC , `depth` ASC, `rtime` ASC";
 		$query = mysql_query($string,$chibi_conn);
 		return $query;
 
@@ -243,40 +243,37 @@ ORDER BY `no` ASC , `depth` ASC, `rtime` ASC";
 	}
 
 
-function spam_filter($comment,$word){
-$chk_spam = explode(",",$word);
-if($chk_spam[0]!=null){
-	foreach($chk_spam as $spam){
-		if(strpos($comment,$spam)!=0){
-			return $spam;
+	function spam_filter($comment,$word){
+		$chk_spam = explode(",",$word);
+		if($chk_spam[0]!=null){
+			foreach($chk_spam as $spam){
+				if(strpos($comment,$spam)!=0){
+				return $spam;
+				}
+			}
 		}
 	}
-}
-}
 
 
-function htmlFilter($memo,$use_html=0,$use_tag='')
-{
-    if($use_html == 1) // html tag 허용시
-    {
-        $memo = str_replace("<", "&lt;", $memo); // 우선 tag를 제거
-        $tag = explode(",", $use_tag);
-        
-        $tag_cnt = count($tag);
-        for($i=0; $i < $tag_cnt; $i++)   // 허용된 tag만 사용가능토록 처리
-        {
-            $memo = preg_replace("@&lt;".$tag[$i]." @", "<".$tag[$i]." ", $memo);
-            $memo = preg_replace("@&lt;".$tag[$i].">@", "<".$tag[$i].">", $memo);
-            $memo = preg_replace("@&lt;/".$tag[$i]."@", "</".$tag[$i], $memo);
-        }
-  
-    } else {   // html tag 불허시
-        $memo = str_replace("<", "&lt;", $memo);
-        $memo = str_replace(">", "&gt;", $memo);
-    }
- 
-    return $memo;
-}
+	function htmlFilter($memo,$use_html=0,$use_tag='')
+	{
+    	if($use_html == 1) // html tag 허용시
+    	{
+	        $memo = str_replace("<", "&lt;", $memo); // 우선 tag를 제거
+        	$tag = explode(",", $use_tag);
+	        $tag_cnt = count($tag);
+        	for($i=0; $i < $tag_cnt; $i++)   // 허용된 tag만 사용가능토록 처리
+        	{
+	            $memo = preg_replace("@&lt;".$tag[$i]." @", "<".$tag[$i]." ", $memo);
+    	        $memo = preg_replace("@&lt;".$tag[$i].">@", "<".$tag[$i].">", $memo);
+        	    $memo = preg_replace("@&lt;/".$tag[$i]."@", "</".$tag[$i], $memo);
+        	}
+    	} else {   // html tag 불허시
+        	$memo = str_replace("<", "&lt;", $memo);
+        	$memo = str_replace(">", "&gt;", $memo);
+    	}
+    	return $memo;
+	}
 function emoticon($comment,$cid,$chibi_conn) //작성중
 {
 	$sql = "SELECT * FROM `chibi_emoticon` WHERE cid='".mysql_real_escape_string($cid)."'";
@@ -423,5 +420,14 @@ function compiled($cid,$content){ // 템플릿 컴파일
 		fwrite($fp,$content);
 		fclose($fp);
 		chmod("../data/".$cid."/tpl/".$cid.".tpl.compiled.php",0644);
+}
+
+function position($position,$bbsInst,$bbsPosition){ //소속아이콘 출력용
+	$Inst = explode(",",$bbsInst);
+	$Position = explode(",",$bbsPosition);
+	for($i=0;$i<count($Inst);$i++){
+		if($Inst[$i]==$position) $pimg = "<img src=\"".$Position[$i]."\" alt=\"".$Inst[$i]."\" title=\"".$Inst[$i]."\" />";
+	}
+	return $pimg;
 }
 ?>

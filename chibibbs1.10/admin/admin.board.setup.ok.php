@@ -16,7 +16,8 @@ if(empty($passwd)==false){
 	$bbs = (object) mysql_fetch_array($query);
 	$passwd = $bbs->passwd;
 }
-
+$arry_inst = implode($_POST['inst'],",");
+$arry_position = implode($_POST['position'],",");
 /* 입력 값 설정 */
 $option = array( /* 옵션 입력 값 */
 	'secret'=>$secret,
@@ -31,6 +32,8 @@ $option = array( /* 옵션 입력 값 */
 	'pic_d_width'=>$pic_d_width,
 	'pic_d_height'=>$pic_d_height,
 	'pic_thumbnail_width'=>$pic_thumbnail_width,
+	'inst'=>$arry_inst,
+	'position'=>$arry_position,		
 	'showip'=>$showip,
 	'pic_point'=>$pic_point,
 	'comment_point'=>$comment_point,

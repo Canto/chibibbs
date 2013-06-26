@@ -35,6 +35,9 @@ if(empty($op)==false){
 	if($op['cookie']=="cookie"){
 	setcookie('nickname',$name,60*60*24*30+time(),"/");
 	setcookie('passwd',$passwd,60*60*24*30+time(),"/");
+	setcookie('hpurl',$hpurl,60*60*24*30+time(),"/");
+	setcookie('position',$op['position'],60*60*24*30+time(),"/");
+	setcookie('cookie',$op['cookie'],60*60*24*30+time(),"/");
 	}
 	$op = serialize($op);
 }
