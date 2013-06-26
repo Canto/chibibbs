@@ -8,6 +8,8 @@
 <?php 
 if($skin->op->bootstrap=="off"){ 
 	echo '<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">';
+}else if($skin->op->bootstrap=="notuse"){
+
 }else{ 
 echo '<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">';
 echo '<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>';
@@ -116,6 +118,7 @@ if($bbs->op->include_foot){
 <option value="no" <?php if($search=="no") echo "selected=\"selected\"";?>>그림번호</option>
 <option value="name" <?php if($search=="name") echo "selected=\"selected\"";?>>이름</option>
 <option value="comment" <?php if($search=="comment") echo "selected=\"selected\"";?>>코멘트</option>
+<option value="memo" <?php if($search=="memo") echo "selected=\"selected\"";?>>메모</option>
 </select>
 <input name="keyword" type="text" class="span2 input-keyword" value="<?=$keyword?>">
 
@@ -123,7 +126,11 @@ if($bbs->op->include_foot){
 </form>
 <?php } ?>
 <p>
-Chibi Tool BBS ver <?=$chibi_ver?> &copy; <a href='http://canto.btool.kr' target='_blank'>Canto</a><br/><br/></p>
+Chibi Tool BBS ver <?=$chibi_ver?> &copy; <a href='http://canto.btool.kr' target='_blank'>Canto</a>
+<?php if($skin->op->author){?>
+| Skin by <?=$skin->op->author?>
+<?}?>
+<br/><br/></p>
 </div>
 </div>
 </body>
