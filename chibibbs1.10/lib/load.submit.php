@@ -10,6 +10,14 @@ $type = $_POST['type'];
 $cid = $_POST['cid'];
 $passwd = $_POST['passwd'];
 $user_id = $_POST['user_id'];
+if(empty($_POST['op'])==false){
+	$op = $_POST['op'];
+}
+else{
+	$op = '';
+}
+$op = serialize($op);
+
 if(empty($type)==false){
 if($type=="picture"){
 
@@ -31,9 +39,6 @@ if($type=="picture"){
 }else{
 	$image = $_POST['image'];
 }
-
-$op = array("secret"=>"","more"=>"","user_id"=>$user_id);
-$op = serialize($op);
 
 
 include_once "../data/config/db.config.php";

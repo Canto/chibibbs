@@ -110,6 +110,15 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <input type="hidden" id="type" class="type" name="type">
 <input type="hidden" id="cid" name="cid" value="<?=$cid?>">
 <input type="hidden" id="user_id" name="user_id" value="<?=$member->user_id?>">
+<select id="op" name="op[pic]" class="input-small">
+<option selected="selected" >옵션</option>
+<option value="more">접기</option>
+<option value="secret">비밀</option>
+<option value="moresecret">접기+비밀</option>
+</select>
+<label class="checkbox inline">
+<input type="checkbox" name=op[member] value="secret">멤버공개
+</label>
 </form>
 </div>
 <div class="video">
@@ -120,6 +129,14 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <input type="hidden" id="type" class="type" name="type">
 <input type="hidden" id="cid" name="cid" value="<?=$cid?>">
 <input type="hidden" id="user_id" name="user_id" value="<?=$member->user_id?>">
+<option selected="selected" >옵션</option>
+<option value="more">접기</option>
+<option value="secret">비밀</option>
+<option value="moresecret">접기+비밀</option>
+</select>
+<label class="checkbox inline">
+<input type="checkbox" name=op[member] value="secret">멤버공개
+</label>
 </form>
 </div>
 <div class="text">
@@ -130,6 +147,14 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <input type="hidden" id="type" class="type" name="type">
 <input type="hidden" id="cid" name="cid" value="<?=$cid?>">
 <input type="hidden" id="user_id" name="user_id" value="<?=$member->user_id?>">
+<option selected="selected" >옵션</option>
+<option value="more">접기</option>
+<option value="secret">비밀</option>
+<option value="moresecret">접기+비밀</option>
+</select>
+<label class="checkbox inline">
+<input type="checkbox" name=op[member] value="secret">멤버공개
+</label>
 </form>
 </div>
 <p class="text-right"><a id="closeLoad" href="javascript:;"><img src="skin/default/images/close.png"></a></p>
