@@ -178,12 +178,16 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 	<a href="./logout.php?user_id=<?=$member->user_id?>"><?=$skin->op->logout_icon?></a>
 	<?php } ?>
 	<a href="javascript:;" onclick="javascript:window.open('./emoticon.php?cid=<?=$cid?>','이모티콘리스트','scrollbars=yes,toolbar=no,menubar=no,width=300,height=500')"><?=$skin->op->emoticon_icon?></a>
+	<?php if($connect_permission==false){?>
 	<form class="form-horizontal" id="secretForm" method="post" enctype="multipart/form-data">
 	<div class="input-append">
  		<input class="input-mini" id="bbs_passwd" type="password" style="height:14px; padding:0px;border-color:#333333;">
 		<a href="javascript:secret();"><img src="skin/default_EX/images/member.png" ></a>
 	</div>
 	</form>
+	<?php }else{?>
+	<a href="javascript:member_logout();"><img src="skin/default_EX/images/member_logout.png"></a>
+	<?php }?>
 </div>
 </div>
 <!--// 상단 메뉴 종료 //-->
@@ -495,6 +499,9 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
   			<input type="hidden" id="pic_no" name="pic_no" value="">
     		<input type="hidden" id="depth" name="depth" value="">
     		<input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
+    		<?php if(empty($bbs->op->inst)==false){//소속아이콘이 있다면 입력폼 출력 ?>
+  			<input type="text" class="input-mini" name="op[position]"  placeholder="소속" <?php if($_COOKIE['position']) echo 'value="'.$_COOKIE['position'].'"';?> style="margin:0px !important;padding:2px;">
+  			<?php }?>
   			<input type="text" class="input-mini" name="name" id="name" placeholder="name" <?php if($_COOKIE['nickname']) echo 'value="'.$_COOKIE['nickname'].'"';?>>
   			<input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" <?php if($_COOKIE['passwd']) echo 'value="'.$_COOKIE['passwd'].'"';?>>
   			<?=$skin->op->write_icon?>

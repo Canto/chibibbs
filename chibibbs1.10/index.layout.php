@@ -44,6 +44,22 @@ function secret(){
    }
   });
 }
+function member_logout(){
+	$.ajax({
+   url: './member_logout.php',
+   type: 'POST',
+   data: {'cid':"<?=$cid?>"},
+   dataType: 'html',
+   success: function(data){
+	   if(data == true){
+			alert("멤버 로그아웃 완료!!");
+			location.href="./index.php?cid=<?=$cid?>";
+	   }else{
+	    alert("멤버 로그인 상태가 아닙니다.");
+	   }
+   }
+  });
+}
 </script>
 <script src="js/bbs.fn.js"></script>
 <title><?php echo $bbs->title?></title>

@@ -343,7 +343,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 			</tr>
 		</tbody>
 	</table>
-</div>
+</div> 
 <!--// 본문 종료 //-->
 <@--END:PIC--@>
 <!--// 그림 불러오기 위한 반복문 종료 //-->
