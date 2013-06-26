@@ -4,10 +4,7 @@
 filename : skin.sql.php
 ========== 설정 방법 =============
 각 변수에 사용자변수 추가 가능
-추가예 변수명 test,test1
-$op변수 하단 'messege'=>serialize($messege) 뒤에, 를 붙임
-'messege'=>serialize($messege), 이렇게
-그뒤 개행(줄바꿈) 을 한뒤 변수를 추가
+개행(줄바꿈) 을 한뒤 변수를 추가
 'test'=>'변수값',
 'test1'=>'변수값'
 주의점 : 맨 마지막 변수 설정이 끝난뒤에는 , 를 붙이지 말아야함
@@ -18,6 +15,7 @@ $op변수 하단 'messege'=>serialize($messege) 뒤에, 를 붙임
 $d_skin = "default"; //스킨명 (영문,폴더명과 일치하여야함)
 
 $d_op = array(
+	//'author'=>'<a href="http://canto.btool.kr" target="_blank">Canto</a>', /*스킨제작자 표시용 앞 주석제거후 사용*/
 	'background_color'=>'#ffffff',
 	'background_img'=>'',
 	'repeat'=>'',
