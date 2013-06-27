@@ -242,6 +242,11 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 								<input style="line-height:20px;" type="checkbox" class="picidx" name="picidx" value="<?=$pic->idx?>" >
 								<?php } ?>
 								<!--// 관리자용 체크박스 //-->
+								<!--// 트위터로 그림보내기 //-->
+								<?php if($pic->type=="picture"){ ?>
+								<a href="javascript:;" onclick="javascript:window.open('http://chibi.kr/twitteroauth/index.php?image=<?=$path.$pic->src?>&type=<?=$size['mime']?>','트위터로 그림&글 트윗하기','scrollbar=no,toolbar=no,menubar=no,width=510,height=170')"><img src="images/twitter-icon.png"/></a>
+								<?php } ?>
+								<!--// 트위터로 그림보내기 //-->
 							</li>
 							<li>
 								<!--// 그림옵션 아이콘 //-->
@@ -606,9 +611,6 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 </div>
 </div>
 <!--// 수정 폼 //-->
-
-
-
 
 
 <!--// 그림 원본 박스용 스크립트 //-->

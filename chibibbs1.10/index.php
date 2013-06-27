@@ -132,7 +132,11 @@ if(empty($_GET['cid'])==false){
 	if($member->permission != "super"){
 	count_up($cid,$chibi_conn);
 	}
-
+	
+	/* 게시판 path 취득 */
+	$dir = explode("index.php",$_SERVER['PHP_SELF']);
+	$path = "http://".$_SERVER['SERVER_NAME'].$dir[0];
+	
 include "index.layout.php";
 }
 ?>
