@@ -1,0 +1,68 @@
+@CHARSET "UTF-8";
+.picDiv{float:left;}
+.margin0{margin:0;}
+.marginTop5{margin-top:5px;}
+.left{float:left;}
+#lightbox {
+position:absolute;
+top:0; 
+left:0; 
+min-width:100%; 
+text-align:center;
+z-index: 101;
+}
+#overlay{
+position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 100;
+background:url('images/overlay.png') repeat;
+}
+#content {
+position:absolute;
+z-index: 102;
+top:0; 
+left:0; 
+min-width:100%; 
+text-align:center;
+}
+#lightbox p {
+color:#fff; 
+margin-right:20px; 
+font-size:12px; 
+}
+body{font-size:12px !important;}
+.comment{font-size:12px !important;}
+#replyForm{margin-bottom:20px;display:none;}
+ul.comment, blockquote{margin-bottom:5px;}
+.adminpanel{position:fixed;right:5px;top:40%;}
+.loadpic , #loadForm , .video{display:none;}
+textarea{font-size:12px;max-width:401px;border:1px solid #dddddd;}
+.well {word-wrap:break-word;word-break:break-all;}
+.tool_width,.tool_height{max-height:15px;font-size:12px;}
+#name,#passwd{margin:0px !important;padding:2px;}
+#memo,#hpurl{width:100%;max-width:197px;margin-bottom:3px;}
+.log_info{font-size:11px !important;font-weight:normal;}
+.name{font-size:12px !important;margin:0px !important;}
+input[type="text"],input[type="password"]{max-height:20px;line-height:20px;font-size:12px !important;border:1px solid #dddddd;}
+.pic_log{text-align:center !important;padding:0px !important;}
+.cmtForm{max-width:}
+
+
+.form-search .input-append .search-query,.form-search .input-prepend .search-query{-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;}
+.form-search .input-append .search-query{-webkit-border-radius:14px 0 0 14px;-moz-border-radius:14px 0 0 14px;border-radius:14px 0 0 14px;}
+.form-search .input-append .btn{-webkit-border-radius:0 14px 14px 0;-moz-border-radius:0 14px 14px 0;border-radius:0 14px 14px 0;}
+.form-search .input-prepend .search-query{-webkit-border-radius:0 14px 14px 0;-moz-border-radius:0 14px 14px 0;border-radius:0 14px 14px 0;}
+.form-search .input-prepend .btn{-webkit-border-radius:14px 0 0 14px;-moz-border-radius:14px 0 0 14px;border-radius:14px 0 0 14px;}
+.form-search input,.form-inline input,.form-horizontal input,.form-search textarea,.form-inline textarea,.form-horizontal textarea,.form-search select,.form-inline select,.form-horizontal select,.form-search .help-inline,.form-inline .help-inline,.form-horizontal .help-inline,.form-search .uneditable-input,.form-inline .uneditable-input,.form-horizontal .uneditable-input,.form-search .input-prepend,.form-inline .input-prepend,.form-horizontal .input-prepend,.form-search .input-append,.form-inline .input-append,.form-horizontal .input-append{display:inline-block;*display:inline;*zoom:1;margin-bottom:0;vertical-align:middle;}
+.form-search .hide,.form-inline .hide,.form-horizontal .hide{display:none;}
+.form-search label,.form-inline label,.form-search .btn-group,.form-inline .btn-group{display:inline-block;}
+.form-search .input-append,.form-inline .input-append,.form-search .input-prepend,.form-inline .input-prepend{margin-bottom:0;}
+.form-search .radio,.form-search .checkbox,.form-inline .radio,.form-inline .checkbox{padding-left:0;margin-bottom:0;vertical-align:middle;}
+.form-search .radio input[type="radio"],.form-search .checkbox input[type="checkbox"],.form-inline .radio input[type="radio"],.form-inline .checkbox input[type="checkbox"]{float:left;margin-right:3px;margin-left:0;}
+.control-group{margin-bottom:10px;}
+legend+.control-group{margin-top:20px;-webkit-margin-top-collapse:separate;}
+.form-horizontal .control-group{margin-bottom:20px;*zoom:1;}.form-horizontal .control-group:before,.form-horizontal .control-group:after{display:table;content:"";line-height:0;}
+.form-horizontal .control-group:after{clear:both;}
+.form-horizontal .control-label{float:left;width:160px;padding-top:5px;text-align:right;}
+.form-horizontal .controls{*display:inline-block;*padding-left:20px;margin-left:180px;*margin-left:0;}.form-horizontal .controls:first-child{*padding-left:180px;}
+.form-horizontal .help-block{margin-bottom:0;}
+.form-horizontal input+.help-block,.form-horizontal select+.help-block,.form-horizontal textarea+.help-block,.form-horizontal .uneditable-input+.help-block,.form-horizontal .input-prepend+.help-block,.form-horizontal .input-append+.help-block{margin-top:10px;}
+.form-horizontal .form-actions{padding-left:180px;}
