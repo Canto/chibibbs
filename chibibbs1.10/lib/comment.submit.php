@@ -17,6 +17,7 @@ $idx = $_POST['idx'];
 $op = $_POST['op'];
 $depth = $_POST['depth'];
 $no = $_POST['no'];
+$children = $_POST['children'];
 $pic_no = $_POST['pic_no'];
 if(empty($depth)==false){
 	$depth++;
@@ -24,12 +25,8 @@ if(empty($depth)==false){
 else{
 	$depth = 1;
 }
-if(empty($no)==false){
-if($depth==1)$no++;
-}else{
-$no = 1;
-}
-
+if($no=="0")$no=1;
+if($children=="0") $children=1;
 if(empty($op)==false){
 	if($op['dice']) $op['dice'] = rand(1,6)."+".rand(1,6);
 	if($op['cookie']=="cookie"){
@@ -38,6 +35,12 @@ if(empty($op)==false){
 	setcookie('hpurl',$hpurl,60*60*24*30+time(),"/");
 	setcookie('position',$op['position'],60*60*24*30+time(),"/");
 	setcookie('cookie',$op['cookie'],60*60*24*30+time(),"/");
+	}else{
+	setcookie('nickname','',60*60*24*30+time(),"/");
+	setcookie('passwd','',60*60*24*30+time(),"/");
+	setcookie('hpurl','',60*60*24*30+time(),"/");
+	setcookie('position','',60*60*24*30+time(),"/");
+	setcookie('cookie','',60*60*24*30+time(),"/");
 	}
 	$op = serialize($op);
 }
@@ -77,13 +80,28 @@ if(empty($spam)==false){
 		mysql_query($p_sql,$chibi_conn);
 	}
 	if($depth==1){
-		$old_sql = "SELECT `chibi_comment`.`no` FROM `chibi_comment` WHERE `pic_no`='".mysql_real_escape_string($pic_no)."' ORDER BY `no` DESC LIMIT 0,1";
+		$old_sql = "SELECT `chibi_comment`.`no` FROM `chibi_comment` WHERE cid='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' ORDER BY `no` DESC LIMIT 0,1";
 		$old_query = mysql_query($old_sql,$chibi_conn);
 		$old = mysql_fetch_array($old_query);
 		$no = $old['no']+1;
 	}
-	
-	  $query = "INSERT INTO `chibi_comment` (`idx`,`cid`,`pic_no`,`no`, `depth`, `name`, `passwd`, `rtime`, `comment`, `memo`, `hpurl`, `ip`, `op`)VALUES('','".mysql_real_escape_string($cid)."','".mysql_real_escape_string($pic_no)."','".mysql_real_escape_string($no)."','".mysql_real_escape_string($depth)."','".mysql_real_escape_string($name)."','".mysql_real_escape_string(md5($passwd))."','".time()."','".mysql_real_escape_string($comment)."','".mysql_real_escape_string($memo)."','".mysql_real_escape_string($hpurl)."','".$_SERVER["REMOTE_ADDR"]."','".mysql_real_escape_string($op)."')";
+	$chk_sql = "SELECT min(`chibi_comment`.`children`) FROM `chibi_comment` WHERE cid='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' AND `no`='".mysql_real_escape_string($no)."' AND `children`='".mysql_real_escape_string($children)."' ";
+	$chk_query = mysql_query($chk_sql,$chibi_conn);
+	$chk = mysql_fetch_row($chk_query);
+	if($chk[0]!=0){
+		echo "1";
+		$upchildren = "UPDATE `chibi_comment` SET `children` = children+'1' WHERE cid='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' AND `no`='".mysql_real_escape_string($no)."' AND `children`>'".mysql_real_escape_string($children)."'";
+		mysql_query($upchildren,$chibi_conn);
+		$children = $chk[0]+1;
+	}else{
+		echo "2";
+		$old2_sql = "SELECT count(`chibi_comment`.`children`) FROM `chibi_comment` WHERE cid='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' AND `no`='".mysql_real_escape_string($no)."'";
+		$old2_query = mysql_query($old2_sql,$chibi_conn);
+		$old2 = @mysql_fetch_row($old2_query);
+		$children = $old2[0]+1;
+	}
+	echo "<br/>".$children;
+	  $query = "INSERT INTO `chibi_comment` (`idx`,`cid`,`pic_no`,`no`,`children`,`depth`, `name`, `passwd`, `rtime`, `comment`, `memo`, `hpurl`, `ip`, `op`)VALUES('','".mysql_real_escape_string($cid)."','".mysql_real_escape_string($pic_no)."','".mysql_real_escape_string($no)."','".mysql_real_escape_string($children)."','".mysql_real_escape_string($depth)."','".mysql_real_escape_string($name)."','".mysql_real_escape_string(md5($passwd))."','".time()."','".mysql_real_escape_string($comment)."','".mysql_real_escape_string($memo)."','".mysql_real_escape_string($hpurl)."','".$_SERVER["REMOTE_ADDR"]."','".mysql_real_escape_string($op)."')";
 	  mysql_query($query,$chibi_conn);	  
 		echo "<script>alert('등록 완료!!');
 	location.href = '../index.php?cid=".$cid."&page=".$page."';

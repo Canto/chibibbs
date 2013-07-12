@@ -10,6 +10,7 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 ?>
 <form class="form-horizontal" method="post" action="admin.php?cAct=adminSkinSetupOk">
 <input name="skin" type="hidden" value="<?php echo $skin->skin_name;?>">
+<input name="op[bootstrap]" type="hidden" value="on">
 <table id="board-create" class="table table-bordered">
 <thead>
 <tr>

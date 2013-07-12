@@ -113,6 +113,7 @@ $comment_string ="CREATE TABLE `chibi_comment` (
 `cid` VARCHAR(255) NOT NULL,
 `pic_no` INT(10) NOT NULL,
 `no` INT(10) NOT NULL,
+`children` INT(10) NOT NULL,		
 `depth` INT(10) NOT NULL,
 `name` VARCHAR(255) NOT NULL,
 `passwd` VARCHAR(255) NOT NULL,
@@ -123,7 +124,7 @@ $comment_string ="CREATE TABLE `chibi_comment` (
 `ip` VARCHAR(255) NOT NULL,
 `op` LONGTEXT NOT NULL,
 PRIMARY KEY (`idx`),
-INDEX (`cid`, `pic_no`),
+INDEX (`cid`, `pic_no`,`children`),
 FULLTEXT(`comment`)
 ) ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci";
 $member_string = "CREATE TABLE `chibi_member` (

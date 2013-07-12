@@ -25,6 +25,7 @@ $_SESSION['setup'] = $_SESSION['rndkey'].'adminsetup';
 <html lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
 <title>Chibi Tool BBS 1.10 설치</title>
@@ -60,6 +61,7 @@ if(!is_writable('./data')){
 <p class="text-error">data 폴더의 권한이 <b>707</b> 혹은 <b>777</b>이 아닙니다<br/>data 폴더의 권한을 확인해주세요.</p>
 <? }else{ ?>
 </div>
+
 <div class="control-group">
 	<label class="control-label" for="host">호스트명</label>
 	<div class="controls">
@@ -90,14 +92,14 @@ if(!is_writable('./data')){
 <div class="control-group">
 	<label class="control-label" for="admin_id">최고관리자 아이디</label>
 	<div class="controls">
-		<input type="text" id="admin_id" name="admin_id" placeholder="최고관리자 아이디" required>
+		<input type="text" id="admin_id" name="admin_id" placeholder="최고관리자 아이디" onblur="checkID()"  required>
 		<span class="help-block">치비BBS 전체를 관리 할 수 있는 관리자 아이디를 입력하세요.</span>
 	</div>
 </div>
 <div class="control-group">
 	<label class="control-label" for="admin_pass">최고관리자 패스워드</label>
 	<div class="controls">
-		<input type="password" id="admin_pass" name="admin_pass" placeholder="최고관리자 패스워드" required>
+		<input type="password" id="admin_pass" name="admin_pass" placeholder="최고관리자 패스워드" onblur="checkPASSWD()" required>
 	</div>
 </div>
 <div class="control-group">
@@ -110,6 +112,24 @@ if(!is_writable('./data')){
 	<button type="submin" class="btn btn-primary">설치</button>
 </div>
 </form>
+<script type="text/javascript">
+function checkID(){
+	var pattern = /^[a-z]+[a-z0-9]*$/; 
+		 if($("#admin_id").val() == ""){
+		  alert("최고관리자 ID를 입력해 주세요.");
+		  $("#admin_id").focus();
+	 }else if(!pattern.test($("#admin_id").val())){
+		 alert("최고관리자 ID는 영문 소문자 혹은 영문(소문자)+숫자로만 입력가능합니다.");
+		 $("#admin_id").focus();
+	 }
+	}
+function checkPASSWD(){
+		 if($("#admin_pass").val() == ""){
+		  alert("최고관리자 패스워드를 입력해 주세요.");
+		  $("#admin_pass").focus();
+	 }
+	}
+</script>
 </div>
 </body>
 </html>

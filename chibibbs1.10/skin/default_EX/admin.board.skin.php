@@ -10,7 +10,7 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 ?>
 <form class="form-horizontal" method="post" action="admin.php?cAct=adminSkinSetupOk">
 <input name="skin" type="hidden" value="<?php echo $skin->skin_name;?>">
-<input name="op[bootstrap]" type="hidden" value="<?php echo $skin->op->bootstrap;?>">
+<input name="op[bootstrap]" type="hidden" value="on">
 <!-- // 스킨제작자 표시용
 <input name="op[author]" type="hidden" value='<a href="http://canto.btool.kr" target="_blank">Canto</a>'>
 -->

@@ -137,6 +137,6 @@ if(empty($_GET['cid'])==false){
 	$dir = explode("index.php",$_SERVER['PHP_SELF']);
 	$path = "http://".$_SERVER['SERVER_NAME'].$dir[0];
 	
-include "index.layout.php";
+include "skin/".$bbs->skin."/index.layout.php";
 }
 ?>

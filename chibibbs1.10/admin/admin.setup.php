@@ -151,6 +151,36 @@ function close() {
 		$('#lightbox').hide();
 	}
 </script>
+<?php 
+if($member->permission == "all" || $member->permission=="super"){
+$chk_update_sql = "SHOW FIELDS FROM  `chibi_comment` WHERE  `field` =  'children'";
+$chk_update_query = mysql_query($chk_update_sql,$chibi_conn);
+$chk_update = mysql_fetch_row($chk_update_query);
+if($chk_update[0]=="0"){
+?>
+<script>
+function update(){
+	$.ajax({
+		   url: './update/1.10.4.php',
+		   dataType: 'html',
+		   success: function(data){
+			   if(data == true){
+					alert("업데이트 완료!!");
+					location.href="./admin.php?cid=<?=$cid?>";
+			   }else{
+			    alert("업데이트 실패");
+			   }
+		   }
+		  });
+}
+</script>
+<div class="alert" style="margin:10px auto;width:70%;">
+Comment 모듈에 업데이트가 존재합니다. <a href="javascript:update();">모듈 업데이트</a>
+</div>
+<?php 
+}
+}
+?>
 <div class="span12 well">
 <p class="text-info"><strong>최근 등록 그림</strong><p>
 <ul class="inline" style="text-align:center">

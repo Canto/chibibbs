@@ -239,7 +239,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
  
 							<p class="name">
 								<!--// 소속아이콘이 있을 경우 출력//-->
-								<?php echo position($comment->op->position,$bbs->op->inst,$bbs->op->position); ?>
+								<?php if(empty($bbs->op->inst)==false) echo position($comment->op->position,$bbs->op->inst,$bbs->op->position); ?>
 								<!--// 소속아이콘이 있을 경우 출력//-->
 								<b><?=$comment->name?></b>
 								<?php if($pic->pic_ip == $comment->ip) echo $skin->op->painter_icon; //작가글 아이콘 ?>
@@ -251,7 +251,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 								<?=date("Y/m/d(D) H:i:s",$comment->rtime)//작성시간출력?> 
 								&nbsp;
 								<!--//리플아이콘//-->
-								<a href="javascript:;" no="<?=$comment->no?>" pic_no="<?=$comment->pic_no?>" depth="<?=$comment->depth?>" class="reply"><?=$skin->op->reply_icon?></a>
+								<a href="javascript:;" no="<?=$comment->no?>" children="<?=$comment->children?>" pic_no="<?=$comment->pic_no?>" depth="<?=$comment->depth?>" class="reply"><?=$skin->op->reply_icon?></a>
 								<!--//리플아이콘//-->
 
 								<!--//수정아이콘//--> 
@@ -328,6 +328,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 									<input type="hidden" name="page" value="<?=$page?>">
   									<input type="hidden" name="no" value="<?=$no?>">
   									<input type="hidden" name="pic_no" value="<?=$pic->no?>">
+  									<input type="hidden" name="children" value="0">
   									<input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
   									<?php if(empty($bbs->op->inst)==false){?>
   									<input type="text" class="input-mini" name="op[position]"  placeholder="소속" <?php if($_COOKIE['position']) echo 'value="'.$_COOKIE['position'].'"';?> style="margin:0px !important;padding:2px;">
@@ -409,6 +410,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
   			<input type="hidden" id="no" name="no" value="">
   			<input type="hidden" id="pic_no" name="pic_no" value="">
     		<input type="hidden" id="depth" name="depth" value="">
+    		<input type="hidden" id="children" name="children" value="">
     		<input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
   			<?php if(empty($bbs->op->inst)==false){//소속아이콘이 있다면 입력폼 출력 ?>
   			<input type="text" class="input-mini" name="op[position]"  placeholder="소속" <?php if($_COOKIE['position']) echo 'value="'.$_COOKIE['position'].'"';?> style="margin:0px !important;padding:2px;">
@@ -505,6 +507,9 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <input type="hidden" id="idx" name="idx" value="">
 <input type="hidden" id="page" name="page" value="<?=$page?>">
 <input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
+<?php if(empty($bbs->op->inst)==false){?>
+<input type="text" class="input-mini" name="op[position]"  placeholder="소속" <?php if($_COOKIE['position']) echo 'value="'.$_COOKIE['position'].'"';?> >
+<?php }?>
 <input type="text" class="input-mini" name="name" id="name" placeholder="name" value="">
 <input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" required>
 <?=$skin->op->write_icon?>

@@ -80,7 +80,7 @@ if(!defined("__CHIBI__")) exit();
 		return $query;
 	}
 	function comment($cid,$pic_no,$chibi_conn){
-		$string = "SELECT * FROM `chibi_comment` WHERE `cid`='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' ORDER BY `no` ASC , `depth` ASC, `rtime` ASC";
+		$string = "SELECT * FROM `chibi_comment` WHERE `cid`='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' ORDER BY `no` ASC , `children` ASC, `depth` ASC";
 		$query = mysql_query($string,$chibi_conn);
 		return $query;
 

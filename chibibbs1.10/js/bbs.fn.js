@@ -264,6 +264,7 @@ $(".reply").click(function(){
     $("#replyForm").find("#no").val($(this).attr("no"));
 	$("#replyForm").find("#pic_no").val($(this).attr("pic_no"));
 	$("#replyForm").find("#depth").val($(this).attr("depth"));
+	$("#replyForm").find("#children").val($(this).attr("children"));
 	$('#replyForm').appendTo($(this).parent().next());
 	$("#replyForm").show();
 });
