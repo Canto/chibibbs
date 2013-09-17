@@ -83,6 +83,13 @@ thead tr{background:#d9edf7}
 					}else{
 						return false;
 					}
+				}else if(val=="admin.php?cAct=adminBoardDelete&cid="+cid){
+					var answer = confirm('게시판을 삭제하시겠습니까?');
+					if(answer){
+						location = val;
+					}else{
+						return false;
+					}
 				}else{
 					location = val;
 				}

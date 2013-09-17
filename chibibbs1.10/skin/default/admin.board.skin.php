@@ -80,6 +80,7 @@ if(bbs_permission($member->permission,$skin->cid)=="true"){
 <option value="repeat-x" <?php if($skin->op->repeat=="repeat-x") echo "selected"; ?>>수평반복</option>
 <option value="repeat-y" <?php if($skin->op->repeat=="repeat-y") echo "selected"; ?>>수직반복</option>
 <option value="no-repeat" <?php if($skin->op->repeat=="no-repeat") echo "selected"; ?>>반복없음</option>
+<option value="fixed" <?php if($skin->op->repeat=="fixed") echo "selected"; ?>>고정</option>
 <select>
 <p class="help-inline">게시판 배경이미지 & 반복을 설정 할 수 있습니다.</p>
 </td>
