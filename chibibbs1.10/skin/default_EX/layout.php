@@ -119,6 +119,9 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <label class="checkbox inline">
 <input type="checkbox" name=op[member] value="secret">멤버공개
 </label>
+<label class="checkbox inline">
+<input type="checkbox" name="op[log]" value="adminonly">관리자전용
+</label>
 </form>
 </div>
 <div class="video">
@@ -137,6 +140,9 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <label class="checkbox inline">
 <input type="checkbox" name=op[member] value="secret">멤버공개
 </label>
+<label class="checkbox inline">
+<input type="checkbox" name="op[log]" value="adminonly">관리자전용
+</label>
 </form>
 </div>
 <div class="text">
@@ -154,6 +160,9 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 </select>
 <label class="checkbox inline">
 <input type="checkbox" name=op[member] value="secret">멤버공개
+</label>
+<label class="checkbox inline">
+<input type="checkbox" name="op[log]" value="adminonly">관리자전용
 </label>
 </form>
 </div>
@@ -225,6 +234,8 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <!--// 그림을 불러오기 위한 반복문 시작 //-->
 <@--START:PIC--@>
 
+<!-- //관리자전용 로그일때 로그 자체 숨기기 // -->
+<?php if(($pic->op->log=="adminonly" && $permission=="true") || $pic->op->log != "adminonly" ){ ?>
 
 <!--// 본문 시작 //-->
 	<div class="container">
@@ -444,6 +455,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 	</table>
 </div>
 <!--// 본문 종료 //-->
+<?php } ?>
 <@--END:PIC--@>
 <!--// 그림 불러오기 위한 반복문 종료 //-->
 <div class="container">
@@ -569,7 +581,11 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 &nbsp;&nbsp;
 <label class="checkbox inline">
 <input type="checkbox" name=op[member] value="secret">멤버공개
-</label><br/>
+</label>
+<label class="checkbox inline">
+<input type="checkbox" name="op[log]" value="adminonly">관리자전용
+</label>
+<br/>
 <input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
 <input type="image" src="skin/default/images/ok.png" /> 
 <a href="javascript:;" class="opClose"><img src="skin/default/images/close.png"></a>
