@@ -16,7 +16,7 @@ jQuery(window).resize(function(){
 <div class="container">
 <div class="span8 offset2">
 	<div class="alert alert-info user_notice_border_color user_notice_border_type user_notice_background_color">
-		<?php echo nl2br($bbs->notice->head);?>
+		<?php echo $bbs->notice->head;?>
 	</div>
 </div>
 </div>
@@ -365,7 +365,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <div class="container">
 <div class="span8 offset2">
 	<div class="alert alert-info user_notice_border_color user_notice_border_type user_notice_background_color">
-		<?php echo nl2br($bbs->notice->foot);?>
+		<?php echo $bbs->notice->foot;?>
 	</div>
 </div>
 </div>
