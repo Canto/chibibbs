@@ -110,6 +110,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <input type="hidden" id="type" class="type" name="type">
 <input type="hidden" id="cid" name="cid" value="<?=$cid?>">
 <input type="hidden" id="user_id" name="user_id" value="<?=$member->user_id?>">
+<br/>
 <select id="op" name="op[pic]" class="input-small">
 <option selected="selected" >옵션</option>
 <option value="more">접기</option>
@@ -132,6 +133,8 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <input type="hidden" id="type" class="type" name="type">
 <input type="hidden" id="cid" name="cid" value="<?=$cid?>">
 <input type="hidden" id="user_id" name="user_id" value="<?=$member->user_id?>">
+<br/>
+<select id="op" name="op[pic]" class="input-small">
 <option selected="selected" >옵션</option>
 <option value="more">접기</option>
 <option value="secret">비밀</option>
@@ -153,6 +156,8 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <input type="hidden" id="type" class="type" name="type">
 <input type="hidden" id="cid" name="cid" value="<?=$cid?>">
 <input type="hidden" id="user_id" name="user_id" value="<?=$member->user_id?>">
+<br/>
+<select id="op" name="op[pic]" class="input-small">
 <option selected="selected" >옵션</option>
 <option value="more">접기</option>
 <option value="secret">비밀</option>
@@ -568,7 +573,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <!--// 이어 그리기 폼 //-->
 
 <!--// 옵션 폼 //-->
-<div id="opFormDiv" class="text-center marginTop5" style="width:250px;height:65px;line-height:34px;display:none;position:absolute;background-color:#ffffff;border:1px solid #999999;">
+<div id="opFormDiv" class="text-center marginTop5" style="width:250px;height:100px;line-height:34px;display:none;position:absolute;background-color:#ffffff;border:1px solid #999999;">
 <form class="opForm form-inline margin0" method="POST" action="#">
 <input type="hidden" name="cid" value="<?=$cid?>">
 <input type="hidden" id="idx" name="idx" value="">

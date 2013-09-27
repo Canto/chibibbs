@@ -10,7 +10,12 @@ if(!empty($skin->op->link_color)){
 if(!empty($skin->op->hover_color)) echo "a:hover { text-decoration: none !important; color: ".$skin->op->hover_color." !important;}\n";
 if(!empty($skin->op->background_color)) echo "body{background-color:".$skin->op->background_color." !important;}\n";
 if(!empty($skin->op->background_img)) echo "body{background-image:url('".$skin->op->background_img."');}\n";
-if(!empty($skin->op->repeat)) echo "body {background-repeat:".$skin->op->repeat.";}\n";
+if(!empty($skin->op->repeat)){
+	if($skin->op->repeat == "fixed")
+		echo "body {background-repeat:no-repeat; background-attachment:fixed}";
+	else 
+		echo "body {background-repeat:".$skin->op->repeat.";}\n";
+}
 if(!empty($skin->op->notice_border_color)) echo ".user_notice_border_color {border:".$skin->op->notice_border_color." !important;}\n";
 if(!empty($skin->op->notice_border_type)) echo ".user_notice_border_type {border-style:".$skin->op->notice_border_type." !important;}\n";
 if(!empty($skin->op->notice_background_color)) echo ".user_notice_background_color {background-color:".$skin->op->notice_background_color." !important;}\n";
