@@ -156,7 +156,7 @@ if($member->permission == "all" || $member->permission=="super"){
 $chk_update_sql = "SHOW FIELDS FROM  `chibi_comment` WHERE  `field` =  'children'";
 $chk_update_query = mysql_query($chk_update_sql,$chibi_conn);
 $chk_update = mysql_fetch_row($chk_update_query);
-if($chk_update[0]=="0"){
+if($chk_update[0]==NULL){
 ?>
 <script>
 function update(){
