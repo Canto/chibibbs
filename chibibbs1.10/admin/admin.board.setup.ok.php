@@ -109,7 +109,6 @@ if(rename("../data/".$cid,"../data/".$ncid)){
 	rename("../data/".$ncid."/tpl/".$cid.".tpl.compiled.php","../data/".$ncid."/tpl/".$ncid.".tpl.compiled.php");
 	$repath_sql = "UPDATE `chibi_pic` SET `cid` = '".mysql_real_escape_string($ncid)."', `src` = REPLACE(src,'".mysql_real_escape_string($cid)."','".mysql_real_escape_string($ncid)."') WHERE `cid` = '".mysql_real_escape_string($cid)."'";
 	mysql_query($repath_sql,$chibi_conn);
-	
 }
 }else{
 $sql = "UPDATE `chibi_admin` SET `cid` = '".mysql_real_escape_string($cid)."', `skin` = '".mysql_real_escape_string($skin)."', `passwd` = '".mysql_real_escape_string($passwd)."', `title` = '".mysql_real_escape_string($title)."', `notice` = '".mysql_real_escape_string($notice)."', `tag` = '".mysql_real_escape_string($tag)."', `spam` = '".mysql_real_escape_string($spam)."', `op` = '".mysql_real_escape_string($option)."' WHERE `cid` = '".mysql_real_escape_string($cid)."'";
