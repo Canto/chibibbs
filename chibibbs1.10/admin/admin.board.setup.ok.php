@@ -92,12 +92,31 @@ if($skin_select['skin_name']!=$skin){
 	
 	
 }
-
-
-$sql = "UPDATE `chibi_admin` SET `cid` = '".mysql_real_escape_string($cid)."', `skin` = '".mysql_real_escape_string($skin)."', `passwd` = '".mysql_real_escape_string($passwd)."', `title` = '".mysql_real_escape_string($title)."', `notice` = '".mysql_real_escape_string($notice)."', `tag` = '".mysql_real_escape_string($tag)."', `spam` = '".mysql_real_escape_string($spam)."', `op` = '".mysql_real_escape_string($option)."' WHERE `cid` = '".mysql_real_escape_string($cid)."'";
-
+if($ncid!=$cid){
+$sql = "UPDATE `chibi_admin` SET `cid` = '".mysql_real_escape_string($ncid)."', `skin` = '".mysql_real_escape_string($skin)."', `passwd` = '".mysql_real_escape_string($passwd)."', `title` = '".mysql_real_escape_string($title)."', `notice` = '".mysql_real_escape_string($notice)."', `tag` = '".mysql_real_escape_string($tag)."', `spam` = '".mysql_real_escape_string($spam)."', `op` = '".mysql_real_escape_string($option)."' WHERE `cid` = '".mysql_real_escape_string($cid)."'"; 
 mysql_query($sql,$chibi_conn);
 $error = mysql_error();
+$skin_sql = "UPDATE `chibi_skin` SET `cid` = '".mysql_real_escape_string($ncid)."' WHERE `cid` = '".mysql_real_escape_string($cid)."'";
+mysql_query($skin_sql,$chibi_conn);
+$error .= mysql_error();
+$log_sql = "UPDATE `chibi_log` SET `cid` = '".mysql_real_escape_string($ncid)."' WHERE `cid` = '".mysql_real_escape_string($cid)."'";
+mysql_query($log_sql,$chibi_conn);
+$error .= mysql_error();
+$comment_sql = "UPDATE `chibi_comment` SET `cid` = '".mysql_real_escape_string($ncid)."' WHERE `cid` = '".mysql_real_escape_string($cid)."'";
+mysql_query($comment_sql,$chibi_conn);
+if(rename("../data/".$cid,"../data/".$ncid)){
+	rename("../data/".$ncid."/tpl/".$cid.".tpl.php","../data/".$ncid."/tpl/".$ncid.".tpl.php");
+	rename("../data/".$ncid."/tpl/".$cid.".tpl.compiled.php","../data/".$ncid."/tpl/".$ncid.".tpl.compiled.php");
+	$repath_sql = "UPDATE `chibi_pic` SET `cid` = '".mysql_real_escape_string($ncid)."', `src` = REPLACE(src,'".mysql_real_escape_string($cid)."','".mysql_real_escape_string($ncid)."') WHERE `cid` = '".mysql_real_escape_string($cid)."'";
+	mysql_query($repath_sql,$chibi_conn);
+	
+}
+}else{
+$sql = "UPDATE `chibi_admin` SET `cid` = '".mysql_real_escape_string($cid)."', `skin` = '".mysql_real_escape_string($skin)."', `passwd` = '".mysql_real_escape_string($passwd)."', `title` = '".mysql_real_escape_string($title)."', `notice` = '".mysql_real_escape_string($notice)."', `tag` = '".mysql_real_escape_string($tag)."', `spam` = '".mysql_real_escape_string($spam)."', `op` = '".mysql_real_escape_string($option)."' WHERE `cid` = '".mysql_real_escape_string($cid)."'";
+mysql_query($sql,$chibi_conn);
+$error = mysql_error();
+
+}
 
 }else{
 	$connect_page = false;
@@ -126,8 +145,8 @@ else if(empty($error)==false){
 ?>
 <div class="alert alert-success">
 <a class="close" href="javascript:history.go(-1);">&times;</a>
-<?php echo $cid; ?> 게시판의 설정 저장을 완료하였습니다.<br/><br/>
-<a class="btn btn-success" href="admin.php?cAct=adminBoardSetup&cid=<?php echo $cid; ?>">완료</a>
+<?php echo $ncid; ?> 게시판의 설정 저장을 완료하였습니다.<br/><br/>
+<a class="btn btn-success" href="admin.php?cAct=adminBoardSetup&cid=<?php echo $ncid; ?>">완료</a>
 </div>
 <?php
 }

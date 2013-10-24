@@ -22,8 +22,39 @@ if(bbs_permission($member->permission,$bbs->cid)=="true"){
 <p>게시판 ID</p>
 </td>
 <td class="span9 td-right">
-<input id="cid" class="input-xlarge" type="text" placeholder="게시판 ID"  value="<?php echo $bbs->cid;?>" disabled >
-<input name="cid" type="hidden" value="<?php echo $bbs->cid;?>">
+<input id="ncid" class="input-xlarge" type="text" name="ncid" placeholder="게시판 ID" value="<?php echo $bbs->cid;?>" onblur="checkID()" required><p id="chk_id" class="help-inline"></p>
+<input id="cid" name="cid" type="hidden" value="<?php echo $bbs->cid;?>">
+<p class="help-block">게시판 ID를 입력하여 주세요.<span class="text-warning">※ 영문(소문자)+숫자만 가능</span></p>
+<script type="text/javascript">
+function checkID(){
+var pattern = /^[a-z]+[a-z0-9_]*$/; 
+var cid = "<?php echo $bbs->cid;?>";
+if($("#ncid").val() == ""){
+	  alert("게시판 ID를 입력해 주세요.");
+	  $("#ncid").focus();
+ }else if(!pattern.test($("#ncid").val())){
+	 alert("게시판 ID는 영문 소문자 혹은 영문(소문자)+숫자,언더바(_)로만 입력가능합니다.");
+	 $("#ncid").focus();
+ }else{
+	if(cid!=$("#ncid").val()){
+  $.ajax({
+   url: './admin.board.id.check.php',
+   type: 'POST',
+   data: {'cid':$('#ncid').val()},
+   dataType: 'html',
+   success: function(data){
+	   if(data == true){
+	    $("#chk_id").html("<span class=\"text-success\">사용가능한 ID입니다.</span>");
+	   }else{
+	    $("#chk_id").html("<span class=\"text-error\">사용 중인 ID입니다.</span>");
+		$("#ncid").focus();
+	   }
+   }
+  });
+	}
+ }
+}
+</script>
 </td>
 </tr>
 <tr>
