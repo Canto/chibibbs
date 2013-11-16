@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+
+RewriteRule ^([a-zA-Z0-9_]+)$ index.php?cid=$1 [L]
+RewriteRule ^([a-zA-Z0-9_]+)/([0-9]) index.php?cid=$1&serch=no&keyword=$2 [L]
+
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule ^([a-zA-Z0-9_]+)/(.*)$ $2 [L]
+</IfModule>
