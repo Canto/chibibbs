@@ -315,6 +315,8 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 								작성툴: <?php if(strstr($pic->agent,"ChibiPaint")){ echo "치비 툴"; }else{ echo "로드 툴"; } ?>
 								<?php } ?>
 								<?php if($bbs->op->showip=="all"){ echo "작성자IP: ".$pic->ip; }else if($bbs->op->showip=="admin" && $permission==ture){ echo "&nbsp;|&nbsp;작성자IP: ".$pic->ip; } else { } ?>
+								&nbsp;|&nbsp;
+								로그주소: <?php echo $path."/".$cid."/".$pic->no;?>
 								</span>
 							<!--// 로그정보 //-->
 							</li>

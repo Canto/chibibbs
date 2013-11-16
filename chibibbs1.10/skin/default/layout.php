@@ -214,6 +214,8 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 								<?=date("Y/m/d H:i:s",$pic->time)?>
 								&nbsp;|&nbsp;
 								<?=$size[0]?>×<?=$size[1]?>
+								&nbsp;|&nbsp;
+								로그주소: <?php echo $path."/".$cid."/".$pic->no;?>
 								</span>
 							<!--// 로그정보 //-->
 							</li>
@@ -226,6 +228,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 				<!--//그림 출력//-->
 				<td class="pic_log user_pic_background_color user_table_inner_border_top_size user_table_inner_border_top_type user_table_inner_border_color" <?php if($skin->op->table_down<=$size[0] || $device=="mobile") echo "colspan=\"2\"";?> style="width:<?php if($size[0]<=$skin->op->resize){ echo $size[0]; }else{ echo $skin->op->resize; }?>px;">
 					<?=$picture?>
+					
 				</td>
 				<!--//그림 출력//-->
 				<?php if($skin->op->table_down<=$size[0] || $device=="mobile") echo "</tr><tr>";?>
