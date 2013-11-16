@@ -227,8 +227,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 			<tr>
 				<!--//그림 출력//-->
 				<td class="pic_log user_pic_background_color user_table_inner_border_top_size user_table_inner_border_top_type user_table_inner_border_color" <?php if($skin->op->table_down<=$size[0] || $device=="mobile") echo "colspan=\"2\"";?> style="width:<?php if($size[0]<=$skin->op->resize){ echo $size[0]; }else{ echo $skin->op->resize; }?>px;">
-					<?=$picture?>
-					
+					<?=$picture?>	
 				</td>
 				<!--//그림 출력//-->
 				<?php if($skin->op->table_down<=$size[0] || $device=="mobile") echo "</tr><tr>";?>
