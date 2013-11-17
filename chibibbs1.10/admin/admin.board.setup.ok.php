@@ -16,8 +16,11 @@ if(empty($passwd)==false){
 	$bbs = (object) mysql_fetch_array($query);
 	$passwd = $bbs->passwd;
 }
-$arry_inst = implode($_POST['inst'],",");
-$arry_position = implode($_POST['position'],",");
+if($_POST['inst']) $arry_inst = implode($_POST['inst'],",");
+else $arry_inst = '';
+if($_POST['position']) $arry_position = implode($_POST['position'],",");
+else $arry_position = '';
+
 /* 입력 값 설정 */
 $option = array( /* 옵션 입력 값 */
 	'secret'=>$secret,
