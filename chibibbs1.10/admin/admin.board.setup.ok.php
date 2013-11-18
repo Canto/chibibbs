@@ -86,7 +86,14 @@ if($skin_select['skin_name']!=$skin){
 	$tpl_file=fopen("../data/".$cid."/tpl/$cid.tpl.php","w");
 	if($tpl_file){
 		fwrite($tpl_file,$reset_tpl_file);
-		$content = convert($reset_tpl_file);
+		
+		if(file_exists("../skin/".$skin."/user.fn.php")){
+			require_once '../skin/'.$skin.'/user.fn.php';
+			$content = user_convert($reset_tpl_file);
+		}else{
+			$content = convert($reset_tpl_file);
+		}
+		
 		compiled($cid,$content);
 	}else{
 		$error = "템플릿 파일 열기 실패!!";

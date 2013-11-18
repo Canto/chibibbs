@@ -82,7 +82,14 @@ fwrite($fp,$tpl_file);
 fclose($fp);
 fclose($tpl);
 chmod("../data/".$cid."/tpl/".$cid.".tpl.php",0644);
-$content = convert($tpl_file);
+
+if(file_exists("../skin/".$skin."/user.fn.php")){
+	require_once '../skin/'.$skin.'/user.fn.php';
+	$content = user_convert($tpl_file);
+}else{
+	$content = convert($tpl_file);
+}
+
 $fp=fopen("../data/".$cid."/tpl/".$cid.".tpl.compiled.php","w");
 fwrite($fp,$content);
 fclose($fp);
