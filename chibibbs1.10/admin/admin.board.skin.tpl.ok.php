@@ -28,7 +28,11 @@ fwrite($tpl_file,$tpl);
 
 if(file_exists("../skin/".$skin."/user.fn.php")){
 	require_once '../skin/'.$skin.'/user.fn.php';
-	$content = user_convert($tpl);
+	if(function_exists('user_convert')){
+		$content = user_convert($tpl);
+	}else{
+		$content = convert($tpl);
+	}
 }else{
 	$content = convert($tpl);
 }

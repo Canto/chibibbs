@@ -85,7 +85,11 @@ chmod("../data/".$cid."/tpl/".$cid.".tpl.php",0644);
 
 if(file_exists("../skin/".$skin."/user.fn.php")){
 	require_once '../skin/'.$skin.'/user.fn.php';
-	$content = user_convert($tpl_file);
+	if(function_exists('user_convert')){
+		$content = user_convert($tpl_file);
+	}else{
+		$content = conveert($tpl_file);
+	}
 }else{
 	$content = convert($tpl_file);
 }

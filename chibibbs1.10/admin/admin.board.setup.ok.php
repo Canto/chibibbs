@@ -89,7 +89,11 @@ if($skin_select['skin_name']!=$skin){
 		
 		if(file_exists("../skin/".$skin."/user.fn.php")){
 			require_once '../skin/'.$skin.'/user.fn.php';
-			$content = user_convert($reset_tpl_file);
+			if(function_exists('user_convert')){
+				$content = user_convert($reset_tpl_file);
+			}else{
+				$content = convert($reset_tpl_file);
+			}
 		}else{
 			$content = convert($reset_tpl_file);
 		}
