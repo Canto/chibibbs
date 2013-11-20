@@ -25,8 +25,16 @@ $tpl = str_replace("MYSQL_QUERY","'error'",$tpl);
 $tpl_file=fopen("../data/".$cid."/tpl/$cid.tpl.php","w");
 if($tpl_file){
 fwrite($tpl_file,$tpl);
-$content = convert($tpl);
+
+if(file_exists("../skin/".$skin."/user.fn.php")){
+	require_once '../skin/'.$skin.'/user.fn.php';
+	$content = user_convert($tpl);
+}else{
+	$content = convert($tpl);
+}
+
 compiled($cid,$content);
+
 }else{
 $error = "템플릿 파일 열기 실패!!";
 }
