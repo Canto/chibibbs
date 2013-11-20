@@ -330,7 +330,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 				<td class="pic_log user_pic_background_color user_table_inner_border_top_size user_table_inner_border_top_type user_table_inner_border_color" <?php if($skin->op->table_down<=$size[0] || $device=="mobile") echo "colspan=\"2\"";?> style="width:<?php if($size[0]<=$skin->op->resize){ echo $size[0]; }else{ echo $skin->op->resize; }?>px;">
 					<?php 
 					if( $pic->op->member == "secret"){
-						if($connect_permission == true || $pic->pic_ip == $_SERVER['REMOTE_ADDR'] || empty($permission)==false ) echo "<img src=\"skin/default_EX/images/membersecret.png\"><br/>".$picture;
+						if($connect_permission == true || $pic->pic_ip == $_SERVER['REMOTE_ADDR'] || $permission!="true" ) echo "<img src=\"skin/default_EX/images/membersecret.png\"><br/>".$picture;
 						else echo "<img src=\"skin/default_EX/images/membersecret.png\">";
 					}else{
 						echo $picture;
@@ -390,7 +390,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 								if(empty($comment->op->more)==false){ echo"<a class=\"cmt_more\" more=\"0\" href=\"javascript:;\">".$skin->op->more_icon."</a><p class=\"comment\" style=\"display:none;\">";}
 								else{ echo "<p class=\"comment\">";}
 								if($comment->op->secret=="secret") echo $skin->op->secret_icon."</br>";
-								if($comment->memo && ( $comment->op->secret=="secret" && (empty($permission)==false || $comment->ip == $_SERVER['REMOTE_ADDR']))){
+								if($comment->memo && ( $comment->op->secret=="secret" && ($permission=="true" || $comment->ip == $_SERVER['REMOTE_ADDR']))){
 								 	echo "Memo :: ".$comment->memo."<br/>";
 								}else if($comment->memo && $comment->op->secret!="secret"){
 									echo "Memo :: ".$comment->memo."<br/>"; 
@@ -399,7 +399,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 							<?=$comment->comment?>
 							</p>
 							<!--// IP표시 //-->
-							<?php if((empty($permission)==false && $bbs->op->showip=="admin") || $bbs->op->showip=="all") echo "<p class=\"comment text-right\">IP: ".$comment->ip;?>
+							<?php if($permission=="true" && $bbs->op->showip=="admin") || $bbs->op->showip=="all") echo "<p class=\"comment text-right\">IP: ".$comment->ip;?>
 							<!--// IP표시 //-->
 							</p>
 							<!--//코멘트//-->

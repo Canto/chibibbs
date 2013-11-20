@@ -316,7 +316,7 @@ function convert($content){ // 템플릿 변수를 PHP변수로 컴파일
 	preg_match('@height=\"([^\"]+)\"@',\$pic->src,\$height);
 	\$size[0] = \$width[1];
 	\$size[1] = \$height[1];
-	if(((\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") && \$pic->pic_ip != \$_SERVER['REMOTE_ADDR'])&& empty(\$permission)==true) \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\"; // 비밀 그림 일경우
+	if(((\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") && \$pic->pic_ip != \$_SERVER['REMOTE_ADDR'])&& \$permission!=\"true\") \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\"; // 비밀 그림 일경우
 	else{
 		if(\$pic->op->pic==\"more\" || \$pic->op->pic==\"moresecret\"){
 			\$more = \"display:none;\";
@@ -335,7 +335,7 @@ function convert($content){ // 템플릿 변수를 PHP변수로 컴파일
 	preg_match('@height=\"([^\"]+)\"@',\$pic->src,\$height);
 	\$size[0] = \$width[1];
 	\$size[1] = \$height[1];
-	if(((\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") && \$pic->pic_ip != \$_SERVER['REMOTE_ADDR'])&& empty(\$permission)==true) \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\"; // 비밀 그림 일경우
+	if(((\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") && \$pic->pic_ip != \$_SERVER['REMOTE_ADDR'])&& \$permission!=\"true\") \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\"; // 비밀 그림 일경우
 	else{
 		if(\$pic->op->pic==\"more\" || \$pic->op->pic==\"moresecret\"){
 			\$more = \"display:none;\";
@@ -349,7 +349,7 @@ function convert($content){ // 템플릿 변수를 PHP변수로 컴파일
 	}
 }else if(\$pic->type==\"picture\"){//그림 일 경우
 	\$size = GetImageSize(\$pic->src); // 그림 크기 취득
-	if(((\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") && \$pic->pic_ip != \$_SERVER['REMOTE_ADDR'])&& empty(\$permission)==true) \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\"; // 비밀 그림 일경우
+	if(((\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") && \$pic->pic_ip != \$_SERVER['REMOTE_ADDR'])&& \$permission!=\"true\") \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\"; // 비밀 그림 일경우
 	else{
 		if(\$pic->op->pic==\"more\" || \$pic->op->pic==\"moresecret\"){
 			 \$more = \"style=\\\"display:none;\\\"\";
@@ -364,7 +364,7 @@ function convert($content){ // 템플릿 변수를 PHP변수로 컴파일
 		if(\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\".\$picture;
 	}
 }else if(\$pic->type==\"text\"){// 텍스트 일 경우
-	if(((\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") && \$pic->pic_ip != \$_SERVER['REMOTE_ADDR'])&& empty(\$permission)==true) \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\"; // 비밀 그림 일경우
+	if(((\$pic->op->pic==\"secret\" || \$pic->op->pic==\"moresecret\") && \$pic->pic_ip != \$_SERVER['REMOTE_ADDR'])&& \$permission!=\"true\") \$picture = \"<p class=\\\"text-center\\\">\".\$skin->op->secret_icon.\"</p>\"; // 비밀 그림 일경우
 	else{
 		if(\$pic->op->pic==\"more\" || \$pic->op->pic==\"moresecret\"){
 			\$more = \"style=\\\"display:none;\\\"\";
@@ -394,7 +394,7 @@ function convert($content){ // 템플릿 변수를 PHP변수로 컴파일
 		\$no = \$comment->no;
 		if(get_magic_quotes_gpc()) \$comment->comment = stripslashes(\$comment->comment); 
 		}	
-				if((\$comment->op->secret==\"secret\" && \$comment->ip != \$_SERVER['REMOTE_ADDR']) && empty(\$permission)==true ){ 
+				if((\$comment->op->secret==\"secret\" && \$comment->ip != \$_SERVER['REMOTE_ADDR']) && \$permission!=\"true\" ){ 
 						\$comment->comment = ''; //비밀글 일때
 						}else{
 						\$comment->comment = htmlFilter(\$comment->comment,1,\$bbs->tag); //HTML 필터링(코멘트)

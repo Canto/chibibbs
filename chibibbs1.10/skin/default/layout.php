@@ -279,7 +279,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 								if(empty($comment->op->more)==false){ echo"<a class=\"cmt_more\" more=\"0\" href=\"javascript:;\">".$skin->op->more_icon."</a><p class=\"comment\" style=\"display:none;\">";}
 								else{ echo "<p class=\"comment\">";}
 								if($comment->op->secret=="secret") echo $skin->op->secret_icon."</br>";
-								if($comment->memo && ( $comment->op->secret=="secret" && (empty($permission)==false || $comment->ip == $_SERVER['REMOTE_ADDR']))){
+								if($comment->memo && ( $comment->op->secret=="secret" && ($permission=="true" || $comment->ip == $_SERVER['REMOTE_ADDR']))){
 								 	echo "Memo :: ".$comment->memo."<br/>";
 								}else if($comment->memo && $comment->op->secret!="secret"){
 									echo "Memo :: ".$comment->memo."<br/>"; 
@@ -288,7 +288,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 							<?=$comment->comment?>
 							</p>
 							<!--// IP표시 //-->
-							<?php if((empty($permission)==false && $bbs->op->showip=="admin") || $bbs->op->showip=="all") echo "<p class=\"comment text-right\">IP: ".$comment->ip;?>
+							<?php if(($permission=="true" && $bbs->op->showip=="admin") || $bbs->op->showip=="all") echo "<p class=\"comment text-right\">IP: ".$comment->ip;?>
 							<!--// IP표시 //-->
 							</p>
 							<!--//코멘트//-->
