@@ -430,3 +430,4 @@ function position($position,$bbsInst,$bbsPosition){ //소속아이콘 출력용
 	}
 	return $pimg;
 }
+?>
