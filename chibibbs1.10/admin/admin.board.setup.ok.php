@@ -20,7 +20,10 @@ if($_POST['inst']) $arry_inst = implode($_POST['inst'],",");
 else $arry_inst = '';
 if($_POST['position']) $arry_position = implode($_POST['position'],",");
 else $arry_position = '';
-
+if($_POST['inst2']) $arry_inst2 = implode($_POST['inst2'],",");
+else $arry_inst2 = '';
+if($_POST['position2']) $arry_position2 = implode($_POST['position2'],",");
+else $arry_position2 = '';
 /* 입력 값 설정 */
 $option = array( /* 옵션 입력 값 */
 	'secret'=>$secret,
@@ -36,7 +39,9 @@ $option = array( /* 옵션 입력 값 */
 	'pic_d_height'=>$pic_d_height,
 	'pic_thumbnail_width'=>$pic_thumbnail_width,
 	'inst'=>$arry_inst,
-	'position'=>$arry_position,		
+	'position'=>$arry_position,
+	'inst2'=>$arry_inst2,
+	'position2'=>$arry_position2,		
 	'showip'=>$showip,
 	'pic_point'=>$pic_point,
 	'comment_point'=>$comment_point,

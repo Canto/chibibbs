@@ -34,12 +34,14 @@ if(empty($op)==false){
 	setcookie('passwd',$passwd,60*60*24*30+time(),"/");
 	setcookie('hpurl',$hpurl,60*60*24*30+time(),"/");
 	setcookie('position',$op['position'],60*60*24*30+time(),"/");
+	setcookie('position2',$op['position2'],60*60*24*30+time(),"/");
 	setcookie('cookie',$op['cookie'],60*60*24*30+time(),"/");
 	}else{
 	setcookie('nickname','',60*60*24*30+time(),"/");
 	setcookie('passwd','',60*60*24*30+time(),"/");
 	setcookie('hpurl','',60*60*24*30+time(),"/");
 	setcookie('position','',60*60*24*30+time(),"/");
+	setcookie('position2','',60*60*24*30+time(),"/");
 	setcookie('cookie','',60*60*24*30+time(),"/");
 	}
 	$op = serialize($op);

@@ -255,6 +255,44 @@ $(document).ready(function(){
 <p class="position"></p>
 </td>
 </tr>
+<tr>
+<td class="span3 td-left">
+<p>소속2</p>
+</td>
+<td class="span9 td-right">
+<?php 
+$inst2 = explode(',',$bbs->op->inst2);
+$position2 = explode(',',$bbs->op->position2);
+$cnt2 = count($inst2);
+?>
+<p>소속 개수 <input class="position_num2 input-mini" type="number" class="position_num2" value="<?php echo $cnt2;?>"> <a href="javascript:;" class="position_btn2 btn">추가</a><span class="text-warning" style="margin-left:4px;">이미지는 http를 포함한 주소로 입력해주세요.</span></p>
+<?php 
+if($cnt2!=0){
+	for($i=0;$i<$cnt2;$i++){
+?>
+<p class="input_position2">명령어 : <input type="text" name="inst2[<?=$i?>]" value="<?=$inst2[$i]?>"> 이미지 : <input type="text" name="position2[<?=$i?>]" value="<?=$position2[$i]?>"></p>
+<?php 
+}
+}
+?>
+<script>
+$(document).ready(function(){
+	$('.position_btn2').click(function(){
+	var cnt2 = $('.input_position2').length;
+	var num2 = $('.position_num2').val();
+	if(cnt2 > num2) $('.input_position2').slice(num2,cnt2).remove();
+	else {
+	for(i=cnt2;i<num2;i++){
+		$('.position2').append('<p class="input_position2">명령어 : <input type="text" name="inst2['+i+']" > 이미지 : <input type="text" name="position2['+i+']"></p>');
+	}
+	}
+	});
+});
+</script>
+<p class="position2"></p>
+<p>소속2 사용법 :: 스킨 -> 스킨디자인 수정에서 소속2를 넣고 싶은 부분에 <br/><code><\?php if($bbs->op->inst2) echo position($comment->op->position2,$bbs->op->inst2,$bbs->op->position2);\?></code> 를 넣어주세요.</p>
+</td>
+</tr>
 <input type="hidden" name="pic_thumbnail_width" value="<?php echo $bbs->op->pic_thumbnail_width;?>">
 <tr>
 <td class="span3 td-left">

@@ -445,6 +445,9 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
   									<?php if(empty($bbs->op->inst)==false){//소속아이콘이 있다면 입력폼 출력 ?>
   									<input type="text" class="input-mini" name="op[position]"  placeholder="소속" <?php if($_COOKIE['position']) echo 'value="'.$_COOKIE['position'].'"';?> style="margin:0px !important;padding:2px;">
   									<?php }?>
+  									<?php if(empty($bbs->op->inst2)==false){//소속2아이콘이 있다면 입력폼 출력 ?>
+  									<input type="text" class="input-mini" name="op[position2]"  placeholder="소속2" <?php if($_COOKIE['position2']) echo 'value="'.$_COOKIE['position2'].'"';?> style="margin:0px !important;padding:2px;">
+  									<?php }?>
   									<input type="text" class="input-mini" name="name" id="name" placeholder="name" <?php if($_COOKIE['nickname']) echo 'value="'.$_COOKIE['nickname'].'"';?>>
   									<input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" <?php if($_COOKIE['passwd']) echo 'value="'.$_COOKIE['passwd'].'"';?>>
   									<?=$skin->op->write_icon?>
@@ -527,6 +530,9 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
     		<input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
     		<?php if(empty($bbs->op->inst)==false){//소속아이콘이 있다면 입력폼 출력 ?>
   			<input type="text" class="input-mini" name="op[position]"  placeholder="소속" <?php if($_COOKIE['position']) echo 'value="'.$_COOKIE['position'].'"';?> style="margin:0px !important;padding:2px;">
+  			<?php }?>
+  			<?php if(empty($bbs->op->inst2)==false){//소속2아이콘이 있다면 입력폼 출력 ?>
+  			<input type="text" class="input-mini" name="op[position2]"  placeholder="소속2" <?php if($_COOKIE['position2']) echo 'value="'.$_COOKIE['position2'].'"';?> style="margin:0px !important;padding:2px;">
   			<?php }?>
   			<input type="text" class="input-mini" name="name" id="name" placeholder="name" <?php if($_COOKIE['nickname']) echo 'value="'.$_COOKIE['nickname'].'"';?>>
   			<input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" <?php if($_COOKIE['passwd']) echo 'value="'.$_COOKIE['passwd'].'"';?>>
@@ -630,6 +636,9 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <input type="hidden" name="op[user_id]" value="<?=$member->user_id?>">
 <?php if(empty($bbs->op->inst)==false){//소속아이콘이 있다면 입력폼 출력 ?>
 <input type="text" class="input-mini" name="op[position]"  placeholder="소속" <?php if($_COOKIE['position']) echo 'value="'.$_COOKIE['position'].'"';?> style="margin:0px !important;padding:2px;">
+<?php }?>
+<?php if(empty($bbs->op->inst2)==false){//소속2아이콘이 있다면 입력폼 출력 ?>
+<input type="text" class="input-mini" name="op[position2]"  placeholder="소속2" <?php if($_COOKIE['position2']) echo 'value="'.$_COOKIE['position2'].'"';?> style="margin:0px !important;padding:2px;">
 <?php }?>
 <input type="text" class="input-mini" name="name" id="name" placeholder="name" value="">
 <input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" required>
