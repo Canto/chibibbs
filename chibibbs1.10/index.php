@@ -16,6 +16,7 @@ include_once "lib/db.conn.php";
 /* 게시판 기본 함수 로드*/
 include_once "lib/bbs.fn.php";
 include_once "lib/bbs.page.php";
+
 /* 설치 확인 */
 if(setup_check($chibi_conn)==false){
 	echo "<script type=\"text/javascript\">location.href=\"install.setup.php\";</script>";
@@ -59,7 +60,9 @@ if(empty($_GET['cid'])==false){
 	$skin = (object) mysql_fetch_array($skin_query);
 	$skin->op = (object) unserialize($skin->op);
 
-
+	/* 유저 함수파일이 있으면 인클루드 */
+	if(file_exists("skin/".$bbs->skin."/user.fn.php")) include_once 'skin/'.$bbs->skin.'/user.fn.php';
+	
 	/* IP 체크 */
 	if($bbs->spam->op == "ban"){
 		ip_check($bbs->spam->ip); /* IP 체크 함수*/
