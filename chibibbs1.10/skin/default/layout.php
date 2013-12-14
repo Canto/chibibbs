@@ -215,7 +215,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 								&nbsp;|&nbsp;
 								<?=$size[0]?>×<?=$size[1]?>
 								&nbsp;|&nbsp;
-								로그주소: <?php echo $path."/".$cid."/".$pic->no;?>
+								로그주소: <?php echo $path.$cid."/".$pic->no;?>
 								</span>
 							<!--// 로그정보 //-->
 							</li>

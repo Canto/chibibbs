@@ -1,6 +1,7 @@
 <IfModule mod_rewrite.c>
 RewriteEngine on
 
+RewriteRule ^images/(.*)$ images/$1 [L]
 RewriteRule ^([a-zA-Z0-9_]+)$ index.php?cid=$1 [L]
 RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+) index.php?cid=$1&search=no&keyword=$2 [L]
 

@@ -316,7 +316,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 								<?php } ?>
 								<?php if($bbs->op->showip=="all"){ echo "작성자IP: ".$pic->ip; }else if($bbs->op->showip=="admin" && $permission==ture){ echo "&nbsp;|&nbsp;작성자IP: ".$pic->ip; } else { } ?>
 								&nbsp;|&nbsp;
-								로그주소: <?php echo $path."/".$cid."/".$pic->no;?>
+								로그주소: <?php echo $path.$cid."/".$pic->no;?>
 								</span>
 							<!--// 로그정보 //-->
 							</li>
@@ -399,7 +399,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 							<?=$comment->comment?>
 							</p>
 							<!--// IP표시 //-->
-							<?php if($permission=="true" && $bbs->op->showip=="admin") || $bbs->op->showip=="all") echo "<p class=\"comment text-right\">IP: ".$comment->ip;?>
+							<?php if(($permission=="true" && $bbs->op->showip=="admin") || $bbs->op->showip=="all") echo "<p class=\"comment text-right\">IP: ".$comment->ip;?>
 							<!--// IP표시 //-->
 							</p>
 							<!--//코멘트//-->
