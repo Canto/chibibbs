@@ -25,19 +25,57 @@ if(setup_check($chibi_conn)==false){
 if(empty($_GET['cAct'])==false){
 	$cAct = $_GET['cAct'];
 }
+?>
 
+<?php
+login_check($chibi_conn);
 switch($cAct){ /* Setup Member Act */
 	
 	case "memberJoin" : 
-		include "member/join.php";
+		include "member/member.join.php";
+		break;
+	case "memberJoinOk" :
+		include "member/member.join.ok.php";
 		break;
 	case "memberModify" :
-		include "member/modify.php";
+		include "member/member.modify.php";
+		break;
+	case "memberModifyOk" :
+		include "member/member.modify.ok.php";
 		break;
 	default :
-		echo "<div class=\"span6 offset3 alert alert-error\">
+		echo '
+		<!DOCTYPE html>
+		<html lang="ko">
+		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+			<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+			<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+			<title> Chibi Tool BBS ver'.$chibi_ver.' 멤버 가입</title>
+			<style type="text/css">
+				body{margin:0px;background:#fcfcfc;}
+				.count{background:#d9edf7;}
+				.content{background:#ffffff;}
+				.logo{color:#ffffff !important;}
+				.margin70{margin-top:50px;}
+				.margin20{margin-top:20px;}
+				th{font-size:12px;}
+				td{font-size:12px;}
+				.messageDiv{display:none !important;top:30%;position:fixed;}
+				#board-create input,#board-create select,#board-create textarea{font-size:12px;}
+				#board-create .td-left{background:#eeeeee;font-size:12px;}
+				#board-create .td-right{background:#ffffff;font-size:12px;}
+			</style>
+		</head>
+		<body>
+		<div class="span6 offset3 alert alert-error" style="margin-top: 10px;">
 					올바른 경로로 접속하여 주세요.<br/>
-				</div>";
+		</div>
+		</body>
+		</html>
+		';
 		break;
 }
 ?>

@@ -128,6 +128,8 @@ if(!defined("__CHIBI__")) exit();
 		$query = mysql_query($sql,$chibi_conn);
 		$member_array = mysql_fetch_array($query);
 		$member = (object) $member_array;
+		$member->profile = (object) unserialize($member->profile);
+		$member->op = (object) unserialize($member->op);
 		if(isset($member->lastlogin)){
 		if($member->lastlogin == 0  || $time - $member->lastlogin > 10800){
 			return false;

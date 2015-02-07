@@ -240,7 +240,7 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 <@--START:PIC--@>
 
 <!-- //관리자전용 로그일때 로그 자체 숨기기 // -->
-<?php if(($pic->op->log=="adminonly" && $permission=="true") || $pic->op->log != "adminonly" ){ ?>
+<?php if(($pic->op->log=="adminonly" && $permission=="true") || $pic->op->log != "adminonly" || ($pic->op->member=="secret" && $member) || !$pic->op->member ){ ?>
 
 <!--// 본문 시작 //-->
 	<div class="container">
@@ -330,7 +330,8 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
 				<td class="pic_log user_pic_background_color user_table_inner_border_top_size user_table_inner_border_top_type user_table_inner_border_color" <?php if($skin->op->table_down<=$size[0] || $device=="mobile") echo "colspan=\"2\"";?> style="width:<?php if($size[0]<=$skin->op->resize){ echo $size[0]; }else{ echo $skin->op->resize; }?>px;">
 					<?php 
 					if( $pic->op->member == "secret"){
-						if($connect_permission == true || $pic->pic_ip == $_SERVER['REMOTE_ADDR'] || $permission!="true" ) echo "<img src=\"skin/default_EX/images/membersecret.png\"><br/>".$picture;
+						if($member->user_id || $connect_permission == true || $permission == "true") echo "<img src=\"skin/default_EX/images/membersecret.png\"><br/>".$picture;
+						//else if($connect_permission == true || $pic->pic_ip == $_SERVER['REMOTE_ADDR'] || $permission!="true" ) echo "<img src=\"skin/default_EX/images/membersecret.png\"><br/>".$picture;
 						else echo "<img src=\"skin/default_EX/images/membersecret.png\">";
 					}else{
 						echo $picture;
@@ -448,9 +449,17 @@ if($bbs->op->use_permission == "all" || ($bbs->op->use_permission=="admin" && $p
   									<?php if(empty($bbs->op->inst2)==false){//소속2아이콘이 있다면 입력폼 출력 ?>
   									<input type="text" class="input-mini" name="op[position2]"  placeholder="소속2" <?php if($_COOKIE['position2']) echo 'value="'.$_COOKIE['position2'].'"';?> style="margin:0px !important;padding:2px;">
   									<?php }?>
-  									<input type="text" class="input-mini" name="name" id="name" placeholder="name" <?php if($_COOKIE['nickname']) echo 'value="'.$_COOKIE['nickname'].'"';?>>
-  									<input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" <?php if($_COOKIE['passwd']) echo 'value="'.$_COOKIE['passwd'].'"';?>>
-  									<?=$skin->op->write_icon?>
+
+									<?php if($member->user_id){ ?>
+										<input type="hidden" class="input-mini" name="name" id="name" placeholder="name" value="<?php echo $member->nickname;?>" >
+										<input type="hidden" class="input-mini" name="passwd" id="passwd" placeholder="password" value="<?php echo $member->passwd;?>" >
+										<input type="text" class="input-mini" value="<?php echo $member->nickname;?>" disabled>
+										<?=$skin->op->write_icon?>
+									<?php }else{ ?>
+										<input type="text" class="input-mini" name="name" id="name" placeholder="name" <?php if($_COOKIE['nickname']) echo 'value="'.$_COOKIE['nickname'].'"'; else if($member->nickname) echo 'value="'.$member->nickname.'"';?> >
+										<input type="password" class="input-mini" name="passwd" id="passwd" placeholder="password" <?php if($_COOKIE['passwd']) echo 'value="'.$_COOKIE['passwd'].'"'; else if($member->passwd) echo 'value="'.$member->passwd.'"';?> >
+										<?=$skin->op->write_icon?>
+									<?php } ?>
 								</div>
 							</form>
 						</div>

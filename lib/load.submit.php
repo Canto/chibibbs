@@ -16,6 +16,7 @@ if(empty($_POST['op'])==false){
 else{
 	$op = '';
 }
+if($_POST['user_id']) $op['user_id'] = $user_id;
 $op = serialize($op);
 
 if(empty($type)==false){

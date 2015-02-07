@@ -9,7 +9,7 @@ define("__CHIBI__",time());
 $cid = $_POST['cid'];
 $page = $_POST['page'];
 $name = $_POST['name'];
-$passwd = $_POST['passwd'];
+$passwd = md5($_POST['passwd']);
 $comment = $_POST['comment'];
 $memo = $_POST['memo'];
 $hpurl = $_POST['hpurl'];
@@ -19,6 +19,7 @@ $depth = $_POST['depth'];
 $no = $_POST['no'];
 $children = $_POST['children'];
 $pic_no = $_POST['pic_no'];
+
 if(empty($depth)==false){
 	$depth++;
 }
@@ -59,6 +60,8 @@ $bbs_query = select($cid,$chibi_conn);
 $bbs = mysql_fetch_array($bbs_query);
 $spamword = unserialize($bbs['spam']);
 //echo $spam['word'];
+login_check($chibi_conn);
+if($member) $passwd = $member->passwd;
 
 if($name && $passwd && $comment && $no && $pic_no){
 $cf_filter = explode(",", $spamword['word']); 
@@ -103,7 +106,7 @@ if(empty($spam)==false){
 		$children = $old2[0]+1;
 	}
 	echo "<br/>".$children;
-	  $query = "INSERT INTO `chibi_comment` (`idx`,`cid`,`pic_no`,`no`,`children`,`depth`, `name`, `passwd`, `rtime`, `comment`, `memo`, `hpurl`, `ip`, `op`)VALUES('','".mysql_real_escape_string($cid)."','".mysql_real_escape_string($pic_no)."','".mysql_real_escape_string($no)."','".mysql_real_escape_string($children)."','".mysql_real_escape_string($depth)."','".mysql_real_escape_string($name)."','".mysql_real_escape_string(md5($passwd))."','".time()."','".mysql_real_escape_string($comment)."','".mysql_real_escape_string($memo)."','".mysql_real_escape_string($hpurl)."','".$_SERVER["REMOTE_ADDR"]."','".mysql_real_escape_string($op)."')";
+	  $query = "INSERT INTO `chibi_comment` (`idx`,`cid`,`pic_no`,`no`,`children`,`depth`, `name`, `passwd`, `rtime`, `comment`, `memo`, `hpurl`, `ip`, `op`)VALUES('','".mysql_real_escape_string($cid)."','".mysql_real_escape_string($pic_no)."','".mysql_real_escape_string($no)."','".mysql_real_escape_string($children)."','".mysql_real_escape_string($depth)."','".mysql_real_escape_string($name)."','".mysql_real_escape_string($passwd)."','".time()."','".mysql_real_escape_string($comment)."','".mysql_real_escape_string($memo)."','".mysql_real_escape_string($hpurl)."','".$_SERVER["REMOTE_ADDR"]."','".mysql_real_escape_string($op)."')";
 	  mysql_query($query,$chibi_conn);	  
 		echo "<script>alert('등록 완료!!');
 	location.href = '../index.php?cid=".$cid."&page=".$page."';
