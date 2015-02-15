@@ -60,7 +60,7 @@ $(function(){
 	$("#uninstall").click(function(){
 		var answer = confirm("모든 게시판 데이터와 그림 , 댓글이 사라집니다.\n Chibi Tool BBS를 삭제하겠습니까?");
 		if(answer){
-			location.href = "admin.php";
+			location.href = "admin.php?cAct=uninstall";
 		}else{
 			return false;
 		}
