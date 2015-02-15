@@ -61,7 +61,7 @@ $bbs = mysql_fetch_array($bbs_query);
 $spamword = unserialize($bbs['spam']);
 //echo $spam['word'];
 login_check($chibi_conn);
-if($member) $passwd = $member->passwd;
+if($member->mno) $passwd = $member->passwd;
 
 if($name && $passwd && $comment && $no && $pic_no){
 $cf_filter = explode(",", $spamword['word']); 
@@ -94,12 +94,12 @@ if(empty($spam)==false){
 	$chk_query = mysql_query($chk_sql,$chibi_conn);
 	$chk = mysql_fetch_row($chk_query);
 	if($chk[0]!=0){
-		echo "1";
+		//echo "1";
 		$upchildren = "UPDATE `chibi_comment` SET `children` = children+'1' WHERE cid='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' AND `no`='".mysql_real_escape_string($no)."' AND `children`>'".mysql_real_escape_string($children)."'";
 		mysql_query($upchildren,$chibi_conn);
 		$children = $chk[0]+1;
 	}else{
-		echo "2";
+		//echo "2";
 		$old2_sql = "SELECT count(`chibi_comment`.`children`) FROM `chibi_comment` WHERE cid='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' AND `no`='".mysql_real_escape_string($no)."'";
 		$old2_query = mysql_query($old2_sql,$chibi_conn);
 		$old2 = @mysql_fetch_row($old2_query);
