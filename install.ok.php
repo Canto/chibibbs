@@ -21,25 +21,25 @@ require_once "lib/db.conn.php";
 
 /* DB Table 생성 확인*/
 $db_check = (object) array("status"=>"","admin"=>"","skin"=>"","pic"=>"","comment"=>"","tpl"=>"","member"=>"","emoticon"=>"","log"=>"","dbname"=>"");
-if(is_resource($chibi_conn)) $db_check->status = true;
+if(@mysqli_select_db($chibi_conn, $DBNAME) === true) $db_check->status = true;
 else $db_check->status = false;
-if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_admin"))) $db_check->admin = true;
+if(@mysqli_query($chibi_conn, "DESC chibi_admin")) $db_check->admin = true;
 else $db_check->admin = false;
-if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_skin"))) $db_check->skin = true;
+if(@mysqli_query($chibi_conn, "DESC chibi_skin")) $db_check->skin = true;
 else $db_check->skin = false;
-if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_pic"))) $db_check->pic = true;
+if(@mysqli_query($chibi_conn, "DESC chibi_pic")) $db_check->pic = true;
 else $db_check->pic = false;
-if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_comment"))) $db_check->comment = true;
+if(@mysqli_query($chibi_conn, "DESC chibi_comment")) $db_check->comment = true;
 else $db_check->comment = false;
-if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_tpl"))) $db_check->tpl = true;
+if(@mysqli_query($chibi_conn, "DESC chibi_tpl")) $db_check->tpl = true;
 else $db_check->tpl = false;
-if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_member"))) $db_check->member = true;
+if(@mysqli_query($chibi_conn, "DESC chibi_member")) $db_check->member = true;
 else $db_check->member = false;
-if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_emoticon"))) $db_check->emoticon = true;
+if(@mysqli_query($chibi_conn, "DESC chibi_emoticon")) $db_check->emoticon = true;
 else $db_check->emoticon = false;
-if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_log"))) $db_check->log = true;
+if(@mysqli_query($chibi_conn, "DESC chibi_log")) $db_check->log = true;
 else $db_check->log = false;
-if(is_resource(@mysqli_select_db($chibi_conn, $DBNAME))) $db_check->dbname = true;
+if(@mysqli_select_db($chibi_conn, $DBNAME)) $db_check->dbname = true;
 else $db_check->dbname = false;
 if($db_check->status == true){
 

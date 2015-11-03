@@ -8,7 +8,7 @@ define("__CHIBI__",time());
 if(is_file("data/config/db.config.php")==true){
 	include_once 'data/config/db.config.php';
 	include_once "lib/db.conn.php";
-	if(is_resource(mysqli_query($chibi_conn, "DESC chibi_admin")) && is_resource(mysqli_query($chibi_conn, "DESC chibi_skin")) && is_resource(mysqli_query($chibi_conn, "DESC chibi_pic")) && is_resource(mysqli_query($chibi_conn, "DESC chibi_comment")) && is_resource(mysqli_query($chibi_conn, "DESC chibi_tpl")) && is_resource(mysqli_query($chibi_conn, "DESC chibi_member")) && is_resource(mysqli_query($chibi_conn, "DESC chibi_emoticon")) && is_resource(mysqli_query($chibi_conn, "DESC chibi_log")))
+	if(mysqli_query($chibi_conn, "DESC chibi_admin") && mysqli_query($chibi_conn, "DESC chibi_skin") && mysqli_query($chibi_conn, "DESC chibi_pic") && mysqli_query($chibi_conn, "DESC chibi_comment") && mysqli_query($chibi_conn, "DESC chibi_tpl") && mysqli_query($chibi_conn, "DESC chibi_member") && mysqli_query($chibi_conn, "DESC chibi_emoticon") && mysqli_query($chibi_conn, "DESC chibi_log"))
 	{
 		echo "
 	<script language=\"javascript\">

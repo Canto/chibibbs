@@ -169,23 +169,23 @@ if(!defined("__CHIBI__")) exit();
 
 	function setup_check($chibi_conn){ /* 게시판 설치 체크 */
 		$db_check = (object) array("status"=>"","admin"=>"","skin"=>"","pic"=>"","comment"=>"","tpl"=>"","member"=>"","emoticon"=>"","log"=>"");
-		if(is_resource($chibi_conn)) $db_check->status = true;
+		if($chibi_conn) $db_check->status = true;
 		else $db_check->status = false;
-		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_admin"))) $db_check->admin = true;
+		if(@mysqli_query($chibi_conn, "DESC chibi_admin")) $db_check->admin = true;
 		else $db_check->admin = false;
-		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_skin"))) $db_check->skin = true;
+		if(@mysqli_query($chibi_conn, "DESC chibi_skin")) $db_check->skin = true;
 		else $db_check->skin = false;
-		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_pic"))) $db_check->pic = true;
+		if(@mysqli_query($chibi_conn, "DESC chibi_pic")) $db_check->pic = true;
 		else $db_check->pic = false;
-		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_comment"))) $db_check->comment = true;
+		if(@mysqli_query($chibi_conn, "DESC chibi_comment")) $db_check->comment = true;
 		else $db_check->comment = false;
-		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_tpl"))) $db_check->tpl = true;
+		if(@mysqli_query($chibi_conn, "DESC chibi_tpl")) $db_check->tpl = true;
 		else $db_check->tpl = false;
-		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_member"))) $db_check->member = true;
+		if(@mysqli_query($chibi_conn, "DESC chibi_member")) $db_check->member = true;
 		else $db_check->member = false;
-		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_emoticon"))) $db_check->emoticon = true;
+		if(@mysqli_query($chibi_conn, "DESC chibi_emoticon")) $db_check->emoticon = true;
 		else $db_check->emoticon = false;
-		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_log"))) $db_check->log = true;
+		if(@mysqli_query($chibi_conn, "DESC chibi_log")) $db_check->log = true;
 		else $db_check->log = false;
 
 		if(($db_check->status && $db_check->admin && $db_check->skin && $db_check->pic && $db_check->comment && $db_check->tpl && $db_check->member && $db_check->emoticon && $db_check->log)==true){
