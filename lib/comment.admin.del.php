@@ -15,14 +15,14 @@ include_once "../data/config/db.config.php";
 include_once "./db.conn.php";
 include_once "./bbs.fn.php";
 
-$sql2 = "SELECT * FROM `chibi_member` WHERE session='".mysql_real_escape_string(session_id())."'";
-$query2 = mysql_query($sql2,$chibi_conn);
-$member2 = (object) mysql_fetch_array($query2);
+$sql2 = "SELECT * FROM `chibi_member` WHERE session='".mysqli_real_escape_string($chibi_conn, session_id())."'";
+$query2 = mysqli_query($chibi_conn, $sql2);
+$member2 = (object) mysqli_fetch_array($query2);
 
 
 if(bbs_permission($member2->permission,$cid)=="true"){
 	
-	$bbs = mysql_fetch_array(select($cid,$chibi_conn));
+	$bbs = mysqli_fetch_array(select($cid,$chibi_conn));
 	$bbs_op = unserialize($bbs['op']);
 	$point = $bbs_op['comment_point'];
 	
@@ -32,22 +32,22 @@ if(bbs_permission($member2->permission,$cid)=="true"){
 		if($i !="0")$idx_cmt = $idx_cmt.",".$tmp[1];
 		else $idx_cmt = $tmp[1];
 		
-		$select = "SELECT * FROM `chibi_comment` WHERE `idx`='".mysql_real_escape_string($tmp[1])."'";
-		$s_query = mysql_query($select,$chibi_conn);
-		$comment = mysql_fetch_array($s_query);
+		$select = "SELECT * FROM `chibi_comment` WHERE `idx`='".mysqli_real_escape_string($chibi_conn, $tmp[1])."'";
+		$s_query = mysqli_query($chibi_conn, $select);
+		$comment = mysqli_fetch_array($s_query);
 		$commentop = unserialize($comment["op"]);
 		$user_id = $commentop['user_id'];
 		if(empty($user_id)==false){
-			$p_sql = "UPDATE `chibi_member` SET `point` = point-'".mysql_real_escape_string($point)."', `comment`=comment-'1' WHERE `user_id` = '".mysql_real_escape_string($user_id)."'";
+			$p_sql = "UPDATE `chibi_member` SET `point` = point-'".mysqli_real_escape_string($chibi_conn, $point)."', `comment`=comment-'1' WHERE `user_id` = '".mysqli_real_escape_string($chibi_conn, $user_id)."'";
 		}
-		mysql_query($p_sql,$chibi_conn);
+		mysqli_query($chibi_conn, $p_sql);
 		
 	}
 
-	$query = "DELETE FROM `chibi_comment` WHERE `idx` IN (".mysql_real_escape_string($idx_cmt).") AND `cid`='".mysql_real_escape_string($cid)."'";
+	$query = "DELETE FROM `chibi_comment` WHERE `idx` IN (".mysqli_real_escape_string($chibi_conn, $idx_cmt).") AND `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."'";
 	//echo $query;
 	
-	mysql_query($query,$chibi_conn);
+	mysqli_query($chibi_conn, $query);
 	
 	
 	$chk = true;
@@ -58,5 +58,5 @@ if(bbs_permission($member2->permission,$cid)=="true"){
 	$chk = false;
 	echo $chk;
 }
-mysql_close($chibi_conn);
+mysqli_close($chibi_conn);
 ?>

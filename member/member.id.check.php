@@ -12,9 +12,9 @@ include_once "../lib/db.conn.php";
 if($user_id)
 {
 
-	$sql = "select * from `chibi_member` where `user_id`='".mysql_real_escape_string($user_id)."'";
-	$result = mysql_query($sql,$chibi_conn);
-	$array = mysql_fetch_array($result);
+	$sql = "select * from `chibi_member` where `user_id`='".mysqli_real_escape_string($chibi_conn, $user_id)."'";
+	$result = mysqli_query($chibi_conn, $sql);
+	$array = mysqli_fetch_array($result);
 
 	if(empty($array['user_id']))
 	{
@@ -27,6 +27,6 @@ if($user_id)
 		echo $chk;
 	}
 
-	mysql_close($chibi_conn);
+	mysqli_close($chibi_conn);
 }
 ?>

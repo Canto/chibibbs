@@ -26,10 +26,10 @@ $op = serialize($op); /* 배열의 직렬화 */
 
 
 $sql = "INSERT INTO `chibi_member` (
-`mno`, `user_id`, `nickname`, `passwd`, `permission`, `profile`, `point`, `pic`, `comment`, `op`, `lastlogin`, `session`) VALUES ('', '".mysql_real_escape_string($user_id)."', '".mysql_real_escape_string($nickname)."', '".mysql_real_escape_string(md5($passwd))."', '".mysql_real_escape_string($permission)."', '".mysql_real_escape_string($profile)."', '".mysql_real_escape_string($point)."', '0', '0', '".mysql_real_escape_string($op)."', '', '');";
+`mno`, `user_id`, `nickname`, `passwd`, `permission`, `profile`, `point`, `pic`, `comment`, `op`, `lastlogin`, `session`) VALUES ('', '".mysqli_real_escape_string($chibi_conn, $user_id)."', '".mysqli_real_escape_string($chibi_conn, $nickname)."', '".mysqli_real_escape_string($chibi_conn, md5($passwd))."', '".mysqli_real_escape_string($chibi_conn, $permission)."', '".mysqli_real_escape_string($chibi_conn, $profile)."', '".mysqli_real_escape_string($chibi_conn, $point)."', '0', '0', '".mysqli_real_escape_string($chibi_conn, $op)."', '', '');";
 	
-mysql_query($sql,$chibi_conn);
-$error = mysql_error();
+mysqli_query($chibi_conn, $sql);
+$error = mysqli_error($chibi_conn);
 
 }else{
 	$connect_page = false;

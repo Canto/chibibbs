@@ -28,17 +28,17 @@ thead tr{background:#d9edf7}
 	</thead>
 	<tbody>
 	<?php
-	while($bbs = mysql_fetch_array($query)){
+	while($bbs = mysqli_fetch_array($query)){
 		$bbs = (object) $bbs;
 		if(bbs_permission($member->permission,$bbs->cid)=="true"){
 	?>
 		<tr>
 			<td><a href="../index.php?cid=<?php echo $bbs->cid;?>" target="_blank"><?php echo $bbs->cid;?></a></td>
 			<?php if($device!="mobile"){?><td><?php echo $bbs->skin;?></td><?php }?>
-			<td class="td-center"><?php echo count_bbs("log","cid='".mysql_real_escape_string($bbs->cid)."'",$chibi_conn);?></td>
-			<td class="td-center"><?php echo count_bbs("log","date LIKE '".mysql_real_escape_string($today)."%' AND cid='".mysql_real_escape_string($bbs->cid)."'",$chibi_conn);?></td>
-			<td class="td-center"><?php echo count_bbs("pic","cid='".mysql_real_escape_string($bbs->cid)."'",$chibi_conn);?></td>
-			<td class="td-center"><?php echo count_bbs("comment","cid='".mysql_real_escape_string($bbs->cid)."'",$chibi_conn);?></td>
+			<td class="td-center"><?php echo count_bbs("log","cid='".mysqli_real_escape_string($chibi_conn, $bbs->cid)."'",$chibi_conn);?></td>
+			<td class="td-center"><?php echo count_bbs("log","date LIKE '".mysqli_real_escape_string($chibi_conn, $today)."%' AND cid='".mysqli_real_escape_string($chibi_conn, $bbs->cid)."'",$chibi_conn);?></td>
+			<td class="td-center"><?php echo count_bbs("pic","cid='".mysqli_real_escape_string($chibi_conn, $bbs->cid)."'",$chibi_conn);?></td>
+			<td class="td-center"><?php echo count_bbs("comment","cid='".mysqli_real_escape_string($chibi_conn, $bbs->cid)."'",$chibi_conn);?></td>
 			<td class="td-btn td-center">
 			<?php 
 			if($device=="pc"){

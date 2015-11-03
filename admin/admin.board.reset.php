@@ -7,12 +7,12 @@ $cid = $_GET['cid'];
 if(empty($member->permission)==false){
 $member_permission = "all";
 $error='';
-$sql_pic = "DELETE FROM `chibi_pic` WHERE `cid`='".mysql_real_escape_string($cid)."'";
-$sql_cmt = "DELETE FROM `chibi_comment` WHERE `cid`='".mysql_real_escape_string($cid)."'";
-mysql_query($sql_pic,$chibi_conn);
-$error = mysql_error();
-mysql_query($sql_cmt,$chibi_conn);
-$error_cmt = mysql_error();
+$sql_pic = "DELETE FROM `chibi_pic` WHERE `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."'";
+$sql_cmt = "DELETE FROM `chibi_comment` WHERE `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."'";
+mysqli_query($chibi_conn, $sql_pic);
+$error = mysqli_error($chibi_conn);
+mysqli_query($chibi_conn, $sql_cmt);
+$error_cmt = mysqli_error($chibi_conn);
 if(empty($error)==true||empty($error_cmt)==true){
 rmfile("../data/".$cid);
 }

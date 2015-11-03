@@ -13,11 +13,11 @@ if($member->permission!="all" || $member->permission!="super"){
 $count_sql = explode(",",$member->permission);
 $i = 0;
 while($i<count($count_sql)){
-	if($i==0) $count_log = "`cid`='".mysql_real_escape_string($count_sql[$i])."'";
-	else $count_log = $count_log." OR `cid`='".mysql_real_escape_string($count_sql[$i])."'";
+	if($i==0) $count_log = "`cid`='".mysqli_real_escape_string($chibi_conn, $count_sql[$i])."'";
+	else $count_log = $count_log." OR `cid`='".mysqli_real_escape_string($chibi_conn, $count_sql[$i])."'";
 	$i++;
 }
-$count_log_today = "(".$count_log.") AND date LIKE '".mysql_real_escape_string($today)."%'";
+$count_log_today = "(".$count_log.") AND date LIKE '".mysqli_real_escape_string($chibi_conn, $today)."%'";
 }
 ?>
 <div class="container">
@@ -54,7 +54,7 @@ if ($device=="mobile"){
 <td class="content">
 <p>
 <?php 
-if($member->permission == "all" || $member->permission=="super") echo count_bbs("log","date LIKE '".mysql_real_escape_string($today)."%'",$chibi_conn);
+if($member->permission == "all" || $member->permission=="super") echo count_bbs("log","date LIKE '".mysqli_real_escape_string($chibi_conn, $today)."%'",$chibi_conn);
 else echo count_bbs("log",$count_log_today,$chibi_conn);
 ?>
 </p>
@@ -154,8 +154,8 @@ function close() {
 <?php 
 if($member->permission == "all" || $member->permission=="super"){
 $chk_update_sql = "SHOW FIELDS FROM  `chibi_comment` WHERE  `field` =  'children'";
-$chk_update_query = mysql_query($chk_update_sql,$chibi_conn);
-$chk_update = mysql_fetch_row($chk_update_query);
+$chk_update_query = mysqli_query($chibi_conn, $chk_update_sql);
+$chk_update = mysqli_fetch_row($chk_update_query);
 if($chk_update[0]==NULL){
 ?>
 <script>
@@ -187,7 +187,7 @@ Comment 모듈에 업데이트가 존재합니다. <a href="javascript:update();
 <?php
 if($member->permission == "all" || $member->permission =="super") $news_pic_query = news_pic($chibi_conn,"");
 else $news_pic_query = news_pic($chibi_conn,$count_log);
-while($news_pic_array=mysql_fetch_array($news_pic_query)){
+while($news_pic_array=mysqli_fetch_array($news_pic_query)){
 	$news_pic = (object) $news_pic_array;
 ?>
 <li>
@@ -204,7 +204,7 @@ while($news_pic_array=mysql_fetch_array($news_pic_query)){
 <?php
 if($member->permission == "all" || $member->permission =="super") $news_cmt_query = news_comment($chibi_conn,"");
 else $news_cmt_query = news_comment($chibi_conn,$count_log);
-while($news_cmt_array=mysql_fetch_array($news_cmt_query)){
+while($news_cmt_array=mysqli_fetch_array($news_cmt_query)){
 	$news_cmt = (object) $news_cmt_array;
 ?>
 <li style="overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">

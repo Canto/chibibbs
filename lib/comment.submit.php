@@ -57,7 +57,7 @@ include_once "../data/config/db.config.php";
 include_once "./db.conn.php";
 include_once "./bbs.fn.php";
 $bbs_query = select($cid,$chibi_conn);
-$bbs = mysql_fetch_array($bbs_query);
+$bbs = mysqli_fetch_array($bbs_query);
 $spamword = unserialize($bbs['spam']);
 //echo $spam['word'];
 login_check($chibi_conn);
@@ -78,36 +78,36 @@ if(empty($spam)==false){
 
 }else{
 	if(login_check($chibi_conn)==true){
-		$bbs = mysql_fetch_array(select($cid,$chibi_conn));
+		$bbs = mysqli_fetch_array(select($cid,$chibi_conn));
 		$bbs_op = unserialize($bbs['op']);
 		$point = $bbs_op['comment_point'];
-		$p_sql = "UPDATE `chibi_member` SET `point` = point+'".mysql_real_escape_string($point)."', `comment`=comment+'1' WHERE `user_id` = '".mysql_real_escape_string($member->user_id)."'";
-		mysql_query($p_sql,$chibi_conn);
+		$p_sql = "UPDATE `chibi_member` SET `point` = point+'".mysqli_real_escape_string($chibi_conn, $point)."', `comment`=comment+'1' WHERE `user_id` = '".mysqli_real_escape_string($chibi_conn, $member->user_id)."'";
+		mysqli_query($chibi_conn, $p_sql);
 	}
 	if($depth==1){
-		$old_sql = "SELECT `chibi_comment`.`no` FROM `chibi_comment` WHERE cid='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' ORDER BY `no` DESC LIMIT 0,1";
-		$old_query = mysql_query($old_sql,$chibi_conn);
-		$old = mysql_fetch_array($old_query);
+		$old_sql = "SELECT `chibi_comment`.`no` FROM `chibi_comment` WHERE cid='".mysqli_real_escape_string($chibi_conn, $cid)."' AND `pic_no`='".mysqli_real_escape_string($chibi_conn, $pic_no)."' ORDER BY `no` DESC LIMIT 0,1";
+		$old_query = mysqli_query($chibi_conn, $old_sql);
+		$old = mysqli_fetch_array($old_query);
 		$no = $old['no']+1;
 	}
-	$chk_sql = "SELECT min(`chibi_comment`.`children`) FROM `chibi_comment` WHERE cid='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' AND `no`='".mysql_real_escape_string($no)."' AND `children`='".mysql_real_escape_string($children)."' ";
-	$chk_query = mysql_query($chk_sql,$chibi_conn);
-	$chk = mysql_fetch_row($chk_query);
+	$chk_sql = "SELECT min(`chibi_comment`.`children`) FROM `chibi_comment` WHERE cid='".mysqli_real_escape_string($chibi_conn, $cid)."' AND `pic_no`='".mysqli_real_escape_string($chibi_conn, $pic_no)."' AND `no`='".mysqli_real_escape_string($chibi_conn, $no)."' AND `children`='".mysqli_real_escape_string($chibi_conn, $children)."' ";
+	$chk_query = mysqli_query($chibi_conn, $chk_sql);
+	$chk = mysqli_fetch_row($chk_query);
 	if($chk[0]!=0){
 		//echo "1";
-		$upchildren = "UPDATE `chibi_comment` SET `children` = children+'1' WHERE cid='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' AND `no`='".mysql_real_escape_string($no)."' AND `children`>'".mysql_real_escape_string($children)."'";
-		mysql_query($upchildren,$chibi_conn);
+		$upchildren = "UPDATE `chibi_comment` SET `children` = children+'1' WHERE cid='".mysqli_real_escape_string($chibi_conn, $cid)."' AND `pic_no`='".mysqli_real_escape_string($chibi_conn, $pic_no)."' AND `no`='".mysqli_real_escape_string($chibi_conn, $no)."' AND `children`>'".mysqli_real_escape_string($chibi_conn, $children)."'";
+		mysqli_query($chibi_conn, $upchildren);
 		$children = $chk[0]+1;
 	}else{
 		//echo "2";
-		$old2_sql = "SELECT count(`chibi_comment`.`children`) FROM `chibi_comment` WHERE cid='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' AND `no`='".mysql_real_escape_string($no)."'";
-		$old2_query = mysql_query($old2_sql,$chibi_conn);
-		$old2 = @mysql_fetch_row($old2_query);
+		$old2_sql = "SELECT count(`chibi_comment`.`children`) FROM `chibi_comment` WHERE cid='".mysqli_real_escape_string($chibi_conn, $cid)."' AND `pic_no`='".mysqli_real_escape_string($chibi_conn, $pic_no)."' AND `no`='".mysqli_real_escape_string($chibi_conn, $no)."'";
+		$old2_query = mysqli_query($chibi_conn, $old2_sql);
+		$old2 = @mysqli_fetch_row($old2_query);
 		$children = $old2[0]+1;
 	}
 	echo "<br/>".$children;
-	  $query = "INSERT INTO `chibi_comment` (`idx`,`cid`,`pic_no`,`no`,`children`,`depth`, `name`, `passwd`, `rtime`, `comment`, `memo`, `hpurl`, `ip`, `op`)VALUES('','".mysql_real_escape_string($cid)."','".mysql_real_escape_string($pic_no)."','".mysql_real_escape_string($no)."','".mysql_real_escape_string($children)."','".mysql_real_escape_string($depth)."','".mysql_real_escape_string($name)."','".mysql_real_escape_string($passwd)."','".time()."','".mysql_real_escape_string($comment)."','".mysql_real_escape_string($memo)."','".mysql_real_escape_string($hpurl)."','".$_SERVER["REMOTE_ADDR"]."','".mysql_real_escape_string($op)."')";
-	  mysql_query($query,$chibi_conn);	  
+	  $query = "INSERT INTO `chibi_comment` (`idx`,`cid`,`pic_no`,`no`,`children`,`depth`, `name`, `passwd`, `rtime`, `comment`, `memo`, `hpurl`, `ip`, `op`)VALUES('','".mysqli_real_escape_string($chibi_conn, $cid)."','".mysqli_real_escape_string($chibi_conn, $pic_no)."','".mysqli_real_escape_string($chibi_conn, $no)."','".mysqli_real_escape_string($chibi_conn, $children)."','".mysqli_real_escape_string($chibi_conn, $depth)."','".mysqli_real_escape_string($chibi_conn, $name)."','".mysqli_real_escape_string($chibi_conn, $passwd)."','".time()."','".mysqli_real_escape_string($chibi_conn, $comment)."','".mysqli_real_escape_string($chibi_conn, $memo)."','".mysqli_real_escape_string($chibi_conn, $hpurl)."','".$_SERVER["REMOTE_ADDR"]."','".mysqli_real_escape_string($chibi_conn, $op)."')";
+	  mysqli_query($chibi_conn, $query);
 		echo "<script>alert('등록 완료!!');
 	location.href = '../index.php?cid=".$cid."&page=".$page."';
 	</script>";
@@ -118,5 +118,5 @@ if(empty($spam)==false){
 	</script>";
 }
 
-mysql_close($chibi_conn);
+mysqli_close($chibi_conn);
 ?>

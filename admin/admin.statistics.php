@@ -5,19 +5,19 @@ if(!defined("__CHIBI__")) exit();
 if($member->permission=="super" || $member->permission=="all"){
 
 function cnt($sql,$chibi_conn){
-$query = mysql_query($sql,$chibi_conn);
-$row = mysql_fetch_row($query);
+$query = mysqli_query($chibi_conn, $sql);
+$row = mysqli_fetch_row($query);
 return $row[0];
 }
 
 $y = date('Y');
 $m = date('m');
 $d = date('d');
-$total = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysql_real_escape_string($y)."%'";
+$total = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysqli_real_escape_string($chibi_conn, $y)."%'";
 $total = cnt($total,$chibi_conn);
-$total_m = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysql_real_escape_string($y).mysql_real_escape_string($m)."%'";
+$total_m = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysqli_real_escape_string($chibi_conn, $y).mysqli_real_escape_string($chibi_conn, $m)."%'";
 $total_m = cnt($total_m,$chibi_conn);
-$total_w = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysql_real_escape_string($y).mysql_real_escape_string($m)."__'";
+$total_w = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysqli_real_escape_string($chibi_conn, $y).mysqli_real_escape_string($chibi_conn, $m)."__'";
 $total_w = cnt($total_w,$chibi_conn);
 ?>
 <table id="board-create" class="table table-bordered" style="margin:auto;width:90%;">
@@ -32,7 +32,7 @@ $total_w = cnt($total_w,$chibi_conn);
 <?php
 for($i=1;$i<13;$i++){
 $m_i = sprintf('%02d',$i);
-$month = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysql_real_escape_string($y).mysql_real_escape_string($m_i)."%'";
+$month = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysqli_real_escape_string($chibi_conn, $y).mysqli_real_escape_string($chibi_conn, $m_i)."%'";
 $month = cnt($month,$chibi_conn);
 $month_g = round($month/$total*100,0);
 ?>
@@ -55,7 +55,7 @@ $month_g = round($month/$total*100,0);
 <?php
 for($i=1;$i<date('t')+1;$i++){
 $d_i = sprintf('%02d',$i);
-$day = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysql_real_escape_string($y).mysql_real_escape_string($m).mysql_real_escape_string($d_i)."%'";
+$day = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysqli_real_escape_string($chibi_conn, $y).mysqli_real_escape_string($chibi_conn, $m).mysqli_real_escape_string($chibi_conn, $d_i)."%'";
 $day = cnt($day,$chibi_conn);
 $day_g = round($day/$total_m*100,0);
 ?>
@@ -102,7 +102,7 @@ switch($i){
 		break;
 }
 
-$w_day = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysql_real_escape_string($y).mysql_real_escape_string($m)."%".mysql_real_escape_string($dw)."'";
+$w_day = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysqli_real_escape_string($chibi_conn, $y).mysqli_real_escape_string($chibi_conn, $m)."%".mysqli_real_escape_string($chibi_conn, $dw)."'";
 $w_day = cnt($w_day,$chibi_conn);
 $w_day_g = round($w_day/$total*100,0);
 ?>
@@ -126,7 +126,7 @@ $w_day_g = round($w_day/$total*100,0);
 <?php
 for($i=1;$i<25;$i++){
 $t_i = sprintf('%02d',$i);
-$time = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysql_real_escape_string($y).mysql_real_escape_string($m)."__".mysql_real_escape_string($t_i)."%'";
+$time = "SELECT count(*) FROM `chibi_log` where  date LIKE '".mysqli_real_escape_string($chibi_conn, $y).mysqli_real_escape_string($chibi_conn, $m)."__".mysqli_real_escape_string($chibi_conn, $t_i)."%'";
 $time = cnt($time,$chibi_conn);
 $time_g = round($time/$total_m*100,0);
 ?>
@@ -141,9 +141,9 @@ $time_g = round($time/$total_m*100,0);
 </td>
 </tr>
 <?php
-$m_device_sql = "SELECT * FROM `chibi_log` where  date LIKE '".mysql_real_escape_string($y).mysql_real_escape_string($m)."%'";
-$m_device_query = mysql_query($m_device_sql,$chibi_conn);
-while($m_device_array = mysql_fetch_array($m_device_query)){
+$m_device_sql = "SELECT * FROM `chibi_log` where  date LIKE '".mysqli_real_escape_string($chibi_conn, $y).mysqli_real_escape_string($chibi_conn, $m)."%'";
+$m_device_query = mysqli_query($chibi_conn, $m_device_sql);
+while($m_device_array = mysqli_fetch_array($m_device_query)){
 	$m_device = unserialize($m_device_array['op']);
 	$c_device[] = $m_device['device'];
 	$browser[] = $m_device['browser'];

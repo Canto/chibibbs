@@ -9,11 +9,11 @@ $cid = $_POST['cid'];
 include_once "../data/config/db.config.php";
 include_once "../lib/db.conn.php";
 if($cid){
-$sql = "select count(*) from `chibi_admin` where cid='".mysql_real_escape_string($cid)."'";
-$Result = mysql_query($sql,$chibi_conn);
-$rows = mysql_num_rows($Result);
+$sql = "select count(*) from `chibi_admin` where cid='".mysqli_real_escape_string($chibi_conn, $cid)."'";
+$Result = mysqli_query($chibi_conn, $sql);
+$rows = mysqli_num_rows($Result);
 if($rows > 0){
-$data = mysql_fetch_array($Result);
+$data = mysqli_fetch_array($Result);
 }
 if($data[0] == 0){ 
 	$chk = true;
@@ -22,6 +22,6 @@ if($data[0] == 0){
 	$chk = false;
 	echo $chk; 
 }
-mysql_close($chibi_conn);
+mysqli_close($chibi_conn);
 }
 ?>

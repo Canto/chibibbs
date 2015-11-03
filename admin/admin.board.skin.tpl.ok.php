@@ -17,9 +17,9 @@ $tpl = str_replace("\$HOSTNAME","'error'",$tpl);
 $tpl = str_replace("\$USERNAME","'error'",$tpl);
 $tpl = str_replace("\$DBPASSWD","'error'",$tpl);
 $tpl = str_replace("\$DBNAME","'error'",$tpl);
-$tpl = str_replace("mysql_query","'error'",$tpl);
-$tpl = str_replace("mysql_result","'error'",$tpl);
-$tpl = str_replace("MYSQL_QUERY","'error'",$tpl);
+$tpl = str_replace("mysqli_query","'error'",$tpl);
+$tpl = str_replace("mysqli_result","'error'",$tpl);
+$tpl = str_replace("mysqli_QUERY","'error'",$tpl);
 
 /* 입력 값 설정 */
 $tpl_file=fopen("../data/".$cid."/tpl/$cid.tpl.php","w");

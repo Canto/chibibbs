@@ -3,7 +3,7 @@ if(!defined("__CHIBI__")) exit();
 $user_id = $_GET['user_id'];
 
 $query = member_list($user_id,$chibi_conn);
-$member_list = (object) mysql_fetch_array($query);
+$member_list = (object) mysqli_fetch_array($query);
 $member_list->profile = unserialize($member_list->profile);
 $member_list->profile = (object) $member_list->profile;
 $member_list->op = unserialize($member_list->op);
@@ -66,7 +66,7 @@ if($permission[0]=="super") echo "<input type=\"hidden\" name=\"permission[]\" v
 <?php
 $bbs_query = select("",$chibi_conn);
 $i = 0;
-while($bbs = mysql_fetch_array($bbs_query)){
+while($bbs = mysqli_fetch_array($bbs_query)){
 	$bbs = (object) $bbs;
 	 if($permission[$i]==$bbs->cid){ 
 		 $select = "selected";

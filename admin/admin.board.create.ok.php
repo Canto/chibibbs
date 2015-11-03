@@ -57,14 +57,14 @@ $spam = array( /* 스팸 입력 값 */
 $spam = serialize($spam); /* 배열의 직렬화 */
 
 $sql = "INSERT INTO `chibi_admin` (
-`cid`, `skin`, `passwd`, `permission`, `title`, `notice`, `tag`, `spam`, `op`) VALUES ('".mysql_real_escape_string($cid)."', '".mysql_real_escape_string($skin)."', '".mysql_real_escape_string(md5($passwd))."', '', '".mysql_real_escape_string($title)."', '".mysql_real_escape_string($notice)."', '".mysql_real_escape_string($tag)."', '".mysql_real_escape_string($spam)."', '".mysql_real_escape_string($option)."');";
+`cid`, `skin`, `passwd`, `permission`, `title`, `notice`, `tag`, `spam`, `op`) VALUES ('".mysqli_real_escape_string($chibi_conn, $cid)."', '".mysqli_real_escape_string($chibi_conn, $skin)."', '".mysqli_real_escape_string($chibi_conn, md5($passwd))."', '', '".mysqli_real_escape_string($chibi_conn, $title)."', '".mysqli_real_escape_string($chibi_conn, $notice)."', '".mysqli_real_escape_string($chibi_conn, $tag)."', '".mysqli_real_escape_string($chibi_conn, $spam)."', '".mysqli_real_escape_string($chibi_conn, $option)."');";
 
 /*
 ob_start();
 include_once "skin/".$skin."/layout.php";
 $tpl = ob_get_contents();
 ob_end_clean();
-$tpl_insert_string = "INSERT INTO `chibi_tpl` (`cid`, `skin`, `tpl`, `css` ) VALUES ('".mysql_real_escape_string($cid)."', '".mysql_real_escape_string($skin)."', '".mysql_real_escape_string($tpl)."','');";
+$tpl_insert_string = "INSERT INTO `chibi_tpl` (`cid`, `skin`, `tpl`, `css` ) VALUES ('".mysqli_real_escape_string($chibi_conn, $cid)."', '".mysqli_real_escape_string($chibi_conn, $skin)."', '".mysqli_real_escape_string($chibi_conn, $tpl)."','');";
 */
 
 if(is_writable("../data/")){
@@ -113,11 +113,11 @@ chmod("../data/".$cid."/tpl/".$cid.".tpl.compiled.php",0644);
 if($mkdir==true){
 /* 스킨 초기 설정 로드 */
 	include_once "../skin/".$skin."/skin.sql.php";
-	mysql_query($skin_insert_string,$chibi_conn);
-	mysql_query($sql,$chibi_conn);
-	$error = mysql_error();
-/*	mysql_query($tpl_insert_string,$chibi_conn);
-	$error_tpl = mysql_error();
+	mysqli_query($chibi_conn, $skin_insert_string);
+	mysqli_query($chibi_conn, $sql);
+	$error = mysqli_error($chibi_conn);
+/*	mysqli_query($tpl_insert_string,$chibi_conn);
+	$error_tpl = mysqli_error($chibi_conn);
 	*/
 }
 }else{

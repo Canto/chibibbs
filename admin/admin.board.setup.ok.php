@@ -13,7 +13,7 @@ if(empty($passwd)==false){
 	$passwd = md5($passwd);
 }else{
 	$query = select($cid,$chibi_conn);
-	$bbs = (object) mysql_fetch_array($query);
+	$bbs = (object) mysqli_fetch_array($query);
 	$passwd = $bbs->passwd;
 }
 if($_POST['inst']) $arry_inst = implode($_POST['inst'],",");
@@ -64,13 +64,13 @@ $spam = array( /* 스팸 입력 값 */
 $spam = serialize($spam); /* 배열의 직렬화 */
 
 
-$skin_select_sql = "SELECT * FROM `chibi_skin` where `cid`='".mysql_real_escape_string($cid)."'";
-$skin_select_query = mysql_query($skin_select_sql,$chibi_conn);
-$skin_select = mysql_fetch_array($skin_select_query);
+$skin_select_sql = "SELECT * FROM `chibi_skin` where `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."'";
+$skin_select_query = mysqli_query($chibi_conn, $skin_select_sql);
+$skin_select = mysqli_fetch_array($skin_select_query);
 
 if($skin_select['skin_name']!=$skin){
 	include_once '../skin/'.$skin.'/skin.sql.php';
-	mysql_query($uskin_db,$chibi_conn);
+	mysqli_query($chibi_conn, $uskin_db);
 	
 	
 	$tpl=fopen("../data/".$cid."/tpl/".$cid.".tpl.php","r");
@@ -112,27 +112,27 @@ if($skin_select['skin_name']!=$skin){
 	
 }
 if($ncid!=$cid){
-$sql = "UPDATE `chibi_admin` SET `cid` = '".mysql_real_escape_string($ncid)."', `skin` = '".mysql_real_escape_string($skin)."', `passwd` = '".mysql_real_escape_string($passwd)."', `title` = '".mysql_real_escape_string($title)."', `notice` = '".mysql_real_escape_string($notice)."', `tag` = '".mysql_real_escape_string($tag)."', `spam` = '".mysql_real_escape_string($spam)."', `op` = '".mysql_real_escape_string($option)."' WHERE `cid` = '".mysql_real_escape_string($cid)."'"; 
-mysql_query($sql,$chibi_conn);
-$error = mysql_error();
-$skin_sql = "UPDATE `chibi_skin` SET `cid` = '".mysql_real_escape_string($ncid)."' WHERE `cid` = '".mysql_real_escape_string($cid)."'";
-mysql_query($skin_sql,$chibi_conn);
-$error .= mysql_error();
-$log_sql = "UPDATE `chibi_log` SET `cid` = '".mysql_real_escape_string($ncid)."' WHERE `cid` = '".mysql_real_escape_string($cid)."'";
-mysql_query($log_sql,$chibi_conn);
-$error .= mysql_error();
-$comment_sql = "UPDATE `chibi_comment` SET `cid` = '".mysql_real_escape_string($ncid)."' WHERE `cid` = '".mysql_real_escape_string($cid)."'";
-mysql_query($comment_sql,$chibi_conn);
+$sql = "UPDATE `chibi_admin` SET `cid` = '".mysqli_real_escape_string($chibi_conn, $ncid)."', `skin` = '".mysqli_real_escape_string($chibi_conn, $skin)."', `passwd` = '".mysqli_real_escape_string($chibi_conn, $passwd)."', `title` = '".mysqli_real_escape_string($chibi_conn, $title)."', `notice` = '".mysqli_real_escape_string($chibi_conn, $notice)."', `tag` = '".mysqli_real_escape_string($chibi_conn, $tag)."', `spam` = '".mysqli_real_escape_string($chibi_conn, $spam)."', `op` = '".mysqli_real_escape_string($chibi_conn, $option)."' WHERE `cid` = '".mysqli_real_escape_string($chibi_conn, $cid)."'";
+mysqli_query($chibi_conn, $sql);
+$error = mysqli_error($chibi_conn);
+$skin_sql = "UPDATE `chibi_skin` SET `cid` = '".mysqli_real_escape_string($chibi_conn, $ncid)."' WHERE `cid` = '".mysqli_real_escape_string($chibi_conn, $cid)."'";
+mysqli_query($chibi_conn, $skin_sql);
+$error .= mysqli_error($chibi_conn);
+$log_sql = "UPDATE `chibi_log` SET `cid` = '".mysqli_real_escape_string($chibi_conn, $ncid)."' WHERE `cid` = '".mysqli_real_escape_string($chibi_conn, $cid)."'";
+mysqli_query($chibi_conn, $log_sql);
+$error .= mysqli_error($chibi_conn);
+$comment_sql = "UPDATE `chibi_comment` SET `cid` = '".mysqli_real_escape_string($chibi_conn, $ncid)."' WHERE `cid` = '".mysqli_real_escape_string($chibi_conn, $cid)."'";
+mysqli_query($chibi_conn, $comment_sql);
 if(rename("../data/".$cid,"../data/".$ncid)){
 	rename("../data/".$ncid."/tpl/".$cid.".tpl.php","../data/".$ncid."/tpl/".$ncid.".tpl.php");
 	rename("../data/".$ncid."/tpl/".$cid.".tpl.compiled.php","../data/".$ncid."/tpl/".$ncid.".tpl.compiled.php");
-	$repath_sql = "UPDATE `chibi_pic` SET `cid` = '".mysql_real_escape_string($ncid)."', `src` = REPLACE(src,'".mysql_real_escape_string($cid)."','".mysql_real_escape_string($ncid)."') WHERE `cid` = '".mysql_real_escape_string($cid)."'";
-	mysql_query($repath_sql,$chibi_conn);
+	$repath_sql = "UPDATE `chibi_pic` SET `cid` = '".mysqli_real_escape_string($chibi_conn, $ncid)."', `src` = REPLACE(src,'".mysqli_real_escape_string($chibi_conn, $cid)."','".mysqli_real_escape_string($chibi_conn, $ncid)."') WHERE `cid` = '".mysqli_real_escape_string($chibi_conn, $cid)."'";
+	mysqli_query($chibi_conn, $repath_sql);
 }
 }else{
-$sql = "UPDATE `chibi_admin` SET `cid` = '".mysql_real_escape_string($cid)."', `skin` = '".mysql_real_escape_string($skin)."', `passwd` = '".mysql_real_escape_string($passwd)."', `title` = '".mysql_real_escape_string($title)."', `notice` = '".mysql_real_escape_string($notice)."', `tag` = '".mysql_real_escape_string($tag)."', `spam` = '".mysql_real_escape_string($spam)."', `op` = '".mysql_real_escape_string($option)."' WHERE `cid` = '".mysql_real_escape_string($cid)."'";
-mysql_query($sql,$chibi_conn);
-$error = mysql_error();
+$sql = "UPDATE `chibi_admin` SET `cid` = '".mysqli_real_escape_string($chibi_conn, $cid)."', `skin` = '".mysqli_real_escape_string($chibi_conn, $skin)."', `passwd` = '".mysqli_real_escape_string($chibi_conn, $passwd)."', `title` = '".mysqli_real_escape_string($chibi_conn, $title)."', `notice` = '".mysqli_real_escape_string($chibi_conn, $notice)."', `tag` = '".mysqli_real_escape_string($chibi_conn, $tag)."', `spam` = '".mysqli_real_escape_string($chibi_conn, $spam)."', `op` = '".mysqli_real_escape_string($chibi_conn, $option)."' WHERE `cid` = '".mysqli_real_escape_string($chibi_conn, $cid)."'";
+mysqli_query($chibi_conn, $sql);
+$error = mysqli_error($chibi_conn);
 
 }
 

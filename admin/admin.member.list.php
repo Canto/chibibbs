@@ -33,7 +33,7 @@ thead tr{background:#d9edf7}
 	</thead>
 	<tbody>
 	<?php
-	while($member_list = mysql_fetch_array($query)){
+	while($member_list = mysqli_fetch_array($query)){
 		$member_list = (object) $member_list;
 	?>
 		<tr>

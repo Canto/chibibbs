@@ -25,7 +25,7 @@ include_once "../data/config/db.config.php";
 include_once "./db.conn.php";
 include_once "./bbs.fn.php";
 $bbs_query = select($cid,$chibi_conn);
-$bbs = mysql_fetch_array($bbs_query);
+$bbs = mysqli_fetch_array($bbs_query);
 $spamword = unserialize($bbs['spam']);
 //echo $spam['word'];
 if($name && $passwd && $comment && $idx){
@@ -42,22 +42,22 @@ if(empty($spam)==false){
 	exit;
 
 }else{
-		$passsql = "SELECT `passwd` FROM `chibi_comment` WHERE `idx`='".mysql_real_escape_string($idx)."'";
-		$pass = mysql_query($passsql,$chibi_conn);
-		$pass = mysql_fetch_row($pass);
+		$passsql = "SELECT `passwd` FROM `chibi_comment` WHERE `idx`='".mysqli_real_escape_string($chibi_conn, $idx)."'";
+		$pass = mysqli_query($chibi_conn, $passsql);
+		$pass = mysqli_fetch_row($pass);
 		if($pass[0]!=md5($passwd)){
 		echo "<script>alert('비밀번호가 틀렸습니다.');
 		history.go(-1);
 		</script>";
 		}else{
-		$sql = "UPDATE `chibi_comment` SET `hpurl`='".mysql_real_escape_string($hpurl)."' ,`memo`='".mysql_real_escape_string($memo)."' , `name`='".mysql_real_escape_string($name)."' , `comment`='".mysql_real_escape_string($comment)."' , `op`='".mysql_real_escape_string($op)."' WHERE `idx`='".mysql_real_escape_string($idx)."' AND `passwd`='".mysql_real_escape_string(md5($passwd))."'";
-		mysql_query($sql,$chibi_conn);
+		$sql = "UPDATE `chibi_comment` SET `hpurl`='".mysqli_real_escape_string($chibi_conn, $hpurl)."' ,`memo`='".mysqli_real_escape_string($chibi_conn, $memo)."' , `name`='".mysqli_real_escape_string($chibi_conn, $name)."' , `comment`='".mysqli_real_escape_string($chibi_conn, $comment)."' , `op`='".mysqli_real_escape_string($chibi_conn, $op)."' WHERE `idx`='".mysqli_real_escape_string($chibi_conn, $idx)."' AND `passwd`='".mysqli_real_escape_string($chibi_conn, md5($passwd))."'";
+		mysqli_query($chibi_conn, $sql);
 			echo "<script>alert('수정 완료!!');
 	location.href = '../index.php?cid=".$cid."&page=".$page."';
 	</script>";
 }	
 }
 }
-mysql_close($chibi_conn);
+mysqli_close($chibi_conn);
 ?>
 

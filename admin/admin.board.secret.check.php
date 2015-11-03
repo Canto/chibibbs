@@ -14,7 +14,7 @@ include_once "../lib/db.conn.php";
 include_once "../lib/bbs.fn.php";
 if($cid){
 	$bbs_query = select($cid,$chibi_conn);
-	$bbs = (object) mysql_fetch_array($bbs_query);
+	$bbs = (object) mysqli_fetch_array($bbs_query);
 	$bbs->spam = (object) unserialize($bbs->spam);
 	$bbs->notice = (object) unserialize($bbs->notice);
 	$bbs->op = (object) unserialize($bbs->op);
@@ -27,6 +27,6 @@ if($cid){
 	}else{
 		echo false;
 	}
-mysql_close($chibi_conn);
+mysqli_close($chibi_conn);
 }
 ?>

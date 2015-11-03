@@ -45,22 +45,22 @@ if($type=="picture"){
 include_once "../data/config/db.config.php";
 include_once "../lib/db.conn.php";
 include_once "../lib/bbs.fn.php";
-$count_sql = "SELECT * FROM `chibi_pic` WHERE `cid`='".mysql_real_escape_string($cid)."' ORDER BY `idx` DESC";
-$count_query = mysql_query($count_sql,$chibi_conn);
-$count = mysql_fetch_array($count_query);
-$query = "INSERT INTO `chibi_pic` (`idx`,`no`,`cid`, `type`, `src`, `passwd`, `agent`, `pic_ip`, `time`, `op`)VALUES('','".mysql_real_escape_string($count['no']+1)."','".mysql_real_escape_string($cid)."','".mysql_real_escape_string($type)."','".mysql_real_escape_string($image)."','".mysql_real_escape_string(md5($passwd))."','".mysql_real_escape_string($_SERVER['HTTP_USER_AGENT'])."','".mysql_real_escape_string($_SERVER["REMOTE_ADDR"])."','".time()."','".mysql_real_escape_string($op)."')";
-mysql_query($query,$chibi_conn);
+$count_sql = "SELECT * FROM `chibi_pic` WHERE `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."' ORDER BY `idx` DESC";
+$count_query = mysqli_query($chibi_conn, $count_sql);
+$count = mysqli_fetch_array($count_query);
+$query = "INSERT INTO `chibi_pic` (`idx`,`no`,`cid`, `type`, `src`, `passwd`, `agent`, `pic_ip`, `time`, `op`)VALUES('','".mysqli_real_escape_string($chibi_conn, $count['no']+1)."','".mysqli_real_escape_string($chibi_conn, $cid)."','".mysqli_real_escape_string($chibi_conn, $type)."','".mysqli_real_escape_string($chibi_conn, $image)."','".mysqli_real_escape_string($chibi_conn, md5($passwd))."','".mysqli_real_escape_string($chibi_conn, $_SERVER['HTTP_USER_AGENT'])."','".mysqli_real_escape_string($chibi_conn, $_SERVER["REMOTE_ADDR"])."','".time()."','".mysqli_real_escape_string($chibi_conn, $op)."')";
+mysqli_query($chibi_conn, $query);
 if(empty($user_id)==false){
-	$bbs = mysql_fetch_array(select($cid,$chibi_conn));
+	$bbs = mysqli_fetch_array(select($cid,$chibi_conn));
 	$bbs_op = unserialize($bbs['op']);
 	$point = $bbs_op['pic_point'];
-	$p_sql = "UPDATE `chibi_member` SET `point` = point+'".mysql_real_escape_string($point)."', `pic`=pic+'1' WHERE `user_id` = '".mysql_real_escape_string($user_id)."'";
-	mysql_query($p_sql,$chibi_conn);
+	$p_sql = "UPDATE `chibi_member` SET `point` = point+'".mysqli_real_escape_string($chibi_conn, $point)."', `pic`=pic+'1' WHERE `user_id` = '".mysqli_real_escape_string($chibi_conn, $user_id)."'";
+	mysqli_query($chibi_conn, $p_sql);
 }
 
 
 $chk = true;
 echo $chk;
-mysql_close($chibi_conn);
+mysqli_close($chibi_conn);
 }
 ?>

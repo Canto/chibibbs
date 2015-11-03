@@ -23,23 +23,23 @@ require_once "lib/db.conn.php";
 $db_check = (object) array("status"=>"","admin"=>"","skin"=>"","pic"=>"","comment"=>"","tpl"=>"","member"=>"","emoticon"=>"","log"=>"","dbname"=>"");
 if(is_resource($chibi_conn)) $db_check->status = true;
 else $db_check->status = false;
-if(is_resource(@mysql_query("DESC chibi_admin",$chibi_conn))) $db_check->admin = true;
+if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_admin"))) $db_check->admin = true;
 else $db_check->admin = false;
-if(is_resource(@mysql_query("DESC chibi_skin",$chibi_conn))) $db_check->skin = true;
+if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_skin"))) $db_check->skin = true;
 else $db_check->skin = false;
-if(is_resource(@mysql_query("DESC chibi_pic",$chibi_conn))) $db_check->pic = true;
+if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_pic"))) $db_check->pic = true;
 else $db_check->pic = false;
-if(is_resource(@mysql_query("DESC chibi_comment",$chibi_conn))) $db_check->comment = true;
+if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_comment"))) $db_check->comment = true;
 else $db_check->comment = false;
-if(is_resource(@mysql_query("DESC chibi_tpl",$chibi_conn))) $db_check->tpl = true;
+if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_tpl"))) $db_check->tpl = true;
 else $db_check->tpl = false;
-if(is_resource(@mysql_query("DESC chibi_member",$chibi_conn))) $db_check->member = true;
+if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_member"))) $db_check->member = true;
 else $db_check->member = false;
-if(is_resource(@mysql_query("DESC chibi_emoticon",$chibi_conn))) $db_check->emoticon = true;
+if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_emoticon"))) $db_check->emoticon = true;
 else $db_check->emoticon = false;
-if(is_resource(@mysql_query("DESC chibi_log",$chibi_conn))) $db_check->log = true;
+if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_log"))) $db_check->log = true;
 else $db_check->log = false;
-if(is_resource(@mysql_select_db($DBNAME,$chibi_conn))) $db_check->dbname = true;
+if(is_resource(@mysqli_select_db($chibi_conn, $DBNAME))) $db_check->dbname = true;
 else $db_check->dbname = false;
 if($db_check->status == true){
 
@@ -208,15 +208,15 @@ $admin_notice = array('head'=>'','foot'=>'');
 $admin_tag = "img,embed,object,b,param,strike";
 $admin_spam =  array('ip'=> '','op'=>'ban','word'=>'aloha,viagra');
 $admin_insert_string ="INSERT INTO `chibi_admin` (
-`cid`, `skin`, `passwd`, `permission`, `title`, `notice`, `tag`, `spam`, `op`) VALUES ('free', 'default', MD5('1234'), '', 'Chibi Tool BBS', '".mysql_real_escape_string(serialize($admin_notice))."', '".mysql_real_escape_string($admin_tag)."', '".mysql_real_escape_string(serialize($admin_spam))."', '".mysql_real_escape_string(serialize($admin_option))."');";
+`cid`, `skin`, `passwd`, `permission`, `title`, `notice`, `tag`, `spam`, `op`) VALUES ('free', 'default', MD5('1234'), '', 'Chibi Tool BBS', '".mysqli_real_escape_string($chibi_conn, serialize($admin_notice))."', '".mysqli_real_escape_string($chibi_conn, $admin_tag)."', '".mysqli_real_escape_string($chibi_conn, serialize($admin_spam))."', '".mysqli_real_escape_string($chibi_conn, serialize($admin_option))."');";
 
 /* admin 테이블 생성 */
 if($db_check->status == true && $db_check->admin == false ){
-	mysql_query($admin_string,$chibi_conn);
-	$admin_error = mysql_error();
+	mysqli_query($chibi_conn, $admin_string);
+	$admin_error = mysqli_error($chibi_conn);
 	if(empty($admin_error)==true){
-		mysql_query($admin_insert_string,$chibi_conn);
-		$admin_insert_error = mysql_error();
+		mysqli_query($chibi_conn, $admin_insert_string);
+		$admin_insert_error = mysqli_error($chibi_conn);
 	}
 }
 
@@ -225,11 +225,11 @@ $cid = 'free';
 include_once "skin/default/skin.sql.php";
 /* skin 테이블 생성 */
 if($db_check->status == true && $db_check->skin == false ){
-	mysql_query($skin_string,$chibi_conn);
-	$skin_error = mysql_error();
+	mysqli_query($chibi_conn, $skin_string);
+	$skin_error = mysqli_error($chibi_conn);
 	if(empty($skin_error)==true){
-		mysql_query($skin_insert_string,$chibi_conn);
-		$skin_insert_error = mysql_error();
+		mysqli_query($chibi_conn, $skin_insert_string);
+		$skin_insert_error = mysqli_error($chibi_conn);
 	}
 }
 /* 템플릿 초기 설정 */
@@ -252,11 +252,11 @@ chmod(dirname(__FILE__)."/data/".$cid."/tpl/".$cid.".tpl.compiled.php",0644);
 
 /* tpl 테이블 생성 */
 if($db_check->status == true && $db_check->tpl == false ){
-	mysql_query($tpl_string,$chibi_conn);
-	$tpl_error = mysql_error();
+	mysqli_query($chibi_conn, $tpl_string);
+	$tpl_error = mysqli_error($chibi_conn);
 /*	if(empty($tpl_error)==true){
-		mysql_query($tpl_insert_string,$chibi_conn);
-		$tpl_insert_error = mysql_error();
+		mysqli_query($tpl_insert_string,$chibi_conn);
+		$tpl_insert_error = mysqli_error($chibi_conn);
 	}*/
 }
 
@@ -273,40 +273,40 @@ $member_op = array(
 );
 $profile = serialize($profile);
 $member_op = serialize($member_op);
-$member_insert_string = "INSERT INTO `chibi_member` (`mno`, `user_id`, `nickname`, `passwd`, `permission`, `profile`, `point`, `pic`, `comment`, `op`, `lastlogin`, `session` ) VALUES ('1', '".mysql_real_escape_string($admin_id)."', '".mysql_real_escape_string($nickname)."','".mysql_real_escape_string(md5($admin_pass))."','super','".mysql_real_escape_string($profile)."','0','0','0','".mysql_real_escape_string($member_op)."','0','".mysql_real_escape_string(session_id())."')";
+$member_insert_string = "INSERT INTO `chibi_member` (`mno`, `user_id`, `nickname`, `passwd`, `permission`, `profile`, `point`, `pic`, `comment`, `op`, `lastlogin`, `session` ) VALUES ('1', '".mysqli_real_escape_string($chibi_conn, $admin_id)."', '".mysqli_real_escape_string($chibi_conn, $nickname)."','".mysqli_real_escape_string($chibi_conn, md5($admin_pass))."','super','".mysqli_real_escape_string($chibi_conn, $profile)."','0','0','0','".mysqli_real_escape_string($chibi_conn, $member_op)."','0','".mysqli_real_escape_string($chibi_conn, session_id())."')";
 /* member 테이블 생성 */
 if($db_check->status == true && $db_check->member == false ){
-	mysql_query($member_string,$chibi_conn);
-	$member_error = mysql_error();
+	mysqli_query($chibi_conn, $member_string);
+	$member_error = mysqli_error($chibi_conn);
 	if(empty($member_error)==true){
-		mysql_query($member_insert_string,$chibi_conn);
-		$member_insert_error = mysql_error();
+		mysqli_query($chibi_conn, $member_insert_string);
+		$member_insert_error = mysqli_error($chibi_conn);
 	}
 }
 
 /* log 테이블 생성*/
 if($db_check->status == true && $db_check->log == false ){
-	mysql_query($log_string,$chibi_conn);
-	$log_error = mysql_error();
+	mysqli_query($chibi_conn, $log_string);
+	$log_error = mysqli_error($chibi_conn);
 }
 
 /* pic 테이블 생성*/
 if($db_check->status == true && $db_check->pic == false ){
-	mysql_query($pic_string,$chibi_conn);
-	$pic_error = mysql_error();
+	mysqli_query($chibi_conn, $pic_string);
+	$pic_error = mysqli_error($chibi_conn);
 }
 
 /* pic 테이블 생성*/
 if($db_check->status == true && $db_check->comment == false ){
-	mysql_query($comment_string,$chibi_conn);
-	$comment_error = mysql_error();
+	mysqli_query($chibi_conn, $comment_string);
+	$comment_error = mysqli_error($chibi_conn);
 }
 
 
 /* emoticon 테이블 생성 */
 if($db_check->status == true && $db_check->emoticon == false ){
-	mysql_query($emoticon_string,$chibi_conn);
-	$emoticon_error = mysql_error();
+	mysqli_query($chibi_conn, $emoticon_string);
+	$emoticon_error = mysqli_error($chibi_conn);
 }
 }
 ?>

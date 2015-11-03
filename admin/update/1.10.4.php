@@ -8,8 +8,8 @@ define("__CHIBI__",time());
 include_once "../../data/config/db.config.php";
 include_once "../../lib/db.conn.php";
 $sql = "ALTER TABLE `chibi_comment` ADD `children` INT(10) NOT NULL AFTER `no`, ADD INDEX (children)";
-mysql_query($sql,$chibi_conn);
-$error = mysql_error();
+mysqli_query($chibi_conn, $sql);
+$error = mysqli_error($chibi_conn);
 if($error){ 
 	$chk = false;
 	echo $chk; 
@@ -17,5 +17,5 @@ if($error){
 	$chk = true;
 	echo $chk; 
 }
-mysql_close($chibi_conn);
+mysqli_close($chibi_conn);
 ?>

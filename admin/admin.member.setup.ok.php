@@ -14,7 +14,7 @@ if(empty($passwd)==false){
 	$passwd = md5($passwd);
 }else{
 	$query = member_list($user_id,$chibi_conn);
-	$member_list = (object) mysql_fetch_array($query);
+	$member_list = (object) mysqli_fetch_array($query);
 	$passwd = $member_list->passwd;
 }
 $permission = implode(",",$permission);
@@ -33,10 +33,10 @@ $op = array(); /* 옵션 입력 값 */
 $op = serialize($op); /* 배열의 직렬화 */
 
 
-$sql = "UPDATE `chibi_member` SET `user_id` = '".mysql_real_escape_string($user_id)."', `nickname` = '".mysql_real_escape_string($nickname)."', `passwd` = '".mysql_real_escape_string($passwd)."', `permission` = '".mysql_real_escape_string($permission)."', `profile` = '".mysql_real_escape_string($profile)."', `point` = '".mysql_real_escape_string($point)."', `op` = '".mysql_real_escape_string($op)."' WHERE `user_id` = '".mysql_real_escape_string($user_id)."'";
+$sql = "UPDATE `chibi_member` SET `user_id` = '".mysqli_real_escape_string($chibi_conn, $user_id)."', `nickname` = '".mysqli_real_escape_string($chibi_conn, $nickname)."', `passwd` = '".mysqli_real_escape_string($chibi_conn, $passwd)."', `permission` = '".mysqli_real_escape_string($chibi_conn, $permission)."', `profile` = '".mysqli_real_escape_string($chibi_conn, $profile)."', `point` = '".mysqli_real_escape_string($chibi_conn, $point)."', `op` = '".mysqli_real_escape_string($chibi_conn, $op)."' WHERE `user_id` = '".mysqli_real_escape_string($chibi_conn, $user_id)."'";
 
-mysql_query($sql,$chibi_conn);
-$error = mysql_error();
+mysqli_query($chibi_conn, $sql);
+$error = mysqli_error($chibi_conn);
 
 }else{
 	$connect_page = false;

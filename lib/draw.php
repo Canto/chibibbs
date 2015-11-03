@@ -7,9 +7,9 @@ if($cAct == "picContinue"){
 
 		$chi_idx = $_POST['chi_idx'];
 		$continue_passwd = $_POST['continue_passwd'];
-		$sql = "SELECT * FROM `chibi_pic` WHERE  `idx`='".mysql_real_escape_string($chi_idx)."'";
-		$query = mysql_query($sql,$chibi_conn);
-		$array = mysql_fetch_array($query);
+		$sql = "SELECT * FROM `chibi_pic` WHERE  `idx`='".mysqli_real_escape_string($chibi_conn, $chi_idx)."'";
+		$query = mysqli_query($chibi_conn, $sql);
+		$array = mysqli_fetch_array($query);
 		if($array['passwd']==md5($_POST['continue_passwd'])){
 
 			$chi_file = $array['src'];

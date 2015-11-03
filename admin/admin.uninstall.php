@@ -7,8 +7,8 @@ $connect_page="true";
 		$member_permission = "all";
 		$error='';
 		$sql = "DROP TABLE `chibi_admin`, `chibi_comment`, `chibi_emoticon`, `chibi_log`, `chibi_member`, `chibi_pic`, `chibi_skin`, `chibi_tpl`;";
-		mysql_query($sql,$chibi_conn);
-		$error = mysql_error();
+		mysqli_query($chibi_conn, $sql);
+		$error = mysqli_error($chibi_conn);
 		if(empty($error)==true){
 			function deleteDirectory($dir) {
 				if (!file_exists($dir)) return true;

@@ -33,11 +33,11 @@ if(strstr($_SERVER['HTTP_REFERER'],$_SERVER['SERVER_NAME'])&&strstr($_SERVER['HT
 	if(empty($passwd) || $member->passwd == $passwd) $passwd = $member->passwd;
 
 	$op = serialize($op); /* 배열의 직렬화 */
-	$sql = "UPDATE `chibi_member` SET `nickname` = '".mysql_real_escape_string($nickname)."' , `profile` = '".mysql_real_escape_string($profile)."' , `passwd` = '".mysql_real_escape_string($passwd)."' WHERE `user_id` = '".mysql_real_escape_string($member->user_id)."'";
+	$sql = "UPDATE `chibi_member` SET `nickname` = '".mysqli_real_escape_string($chibi_conn, $nickname)."' , `profile` = '".mysqli_real_escape_string($chibi_conn, $profile)."' , `passwd` = '".mysqli_real_escape_string($chibi_conn, $passwd)."' WHERE `user_id` = '".mysqli_real_escape_string($chibi_conn, $member->user_id)."'";
 
 
-	mysql_query($sql,$chibi_conn);
-	$error = mysql_error();
+	mysqli_query($chibi_conn, $sql);
+	$error = mysqli_error($chibi_conn);
 
 }else{
 	$connect_page = false;

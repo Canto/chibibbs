@@ -30,10 +30,10 @@ if(bbs_permission($member->permission,$cid)=="true"){
 <div class="span10 offset1 well">
 <ul id="em_list" class="unstyled inline">
 <?php
-$string = "SELECT * FROM `chibi_emoticon` where `cid`='".mysql_real_escape_string($cid)."'";
-		$em_query = mysql_query($string,$chibi_conn);
+$string = "SELECT * FROM `chibi_emoticon` where `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."'";
+		$em_query = mysqli_query($chibi_conn, $string);
 		$em_list ='';
-		while($em = mysql_fetch_array($em_query)){
+		while($em = mysqli_fetch_array($em_query)){
 		echo "<li style=\"width:100px;height:100px;text-align:center;\">
 		<ul class=\"unstyled\">
 		<li><img src=\"../".$em['url']."\" /></li>

@@ -24,11 +24,11 @@ else $db_check = false;
 $php = phpversion();
 if(version_compare($php,'5.0','>'))$php_check = true;
 else $php_check = false;
-$mysql = mysql_get_server_info($chibi_conn);
-if(version_compare($mysql,'5.0','>')) $mysql_check = true;
-else $mysql_check = false;
-$query = mysql_query("SHOW CHARACTER SET WHERE `Charset`='utf8';",$chibi_conn);
-$array = mysql_fetch_array($query);
+$mysql = mysqli_get_server_info($chibi_conn);
+if(version_compare($mysql,'5.0','>')) $mysqli_check = true;
+else $mysqli_check = false;
+$query = mysqli_query($chibi_conn, "SHOW CHARACTER SET WHERE `Charset`='utf8';");
+$array = mysqli_fetch_array($query);
 $encoding = $array['Default collation'];
 if($encoding == 'utf8_general_ci') $encoding_check = true;
 else $encoding_check = false;
@@ -88,7 +88,7 @@ $('#installed').bind('closed', function () {
 	<td>Mysql 버젼</td>
 	<td><p class="text-info"><?=$mysql?></p></td>
 	<td><p class="text-info">5.0</p></td>
-	<td><?php if($mysql_check==true){ echo "<p class=\"text-success\">설치가능</p>";}else{ echo "<p class=\"text-error\">설치불가</p>";}?></td>
+	<td><?php if($mysqli_check==true){ echo "<p class=\"text-success\">설치가능</p>";}else{ echo "<p class=\"text-error\">설치불가</p>";}?></td>
 	</tr>
 	<tr>
 	<td>Mysql 인코딩(UTF-8)체크</td>
@@ -107,7 +107,7 @@ $('#installed').bind('closed', function () {
 			<input type="hidden" name="admin_pass" value="<?=$admin_pass?>">
 			<input type="hidden" name="nickname" value="<?=$nickname?>">
 			<div class="control-group">
-			<?php if(($php_check && $mysql_check && $encoding_check) == true){
+			<?php if(($php_check && $mysqli_check && $encoding_check) == true){
 			?>
 			<button type="submin" class="btn btn-primary">다음 단계</button>
 			<?

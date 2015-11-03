@@ -18,14 +18,14 @@ include_once "../data/config/db.config.php";
 include_once "./db.conn.php";
 include_once "./bbs.fn.php";
 
-$query = "UPDATE `chibi_pic` SET `op`='".mysql_real_escape_string($op)."' WHERE `idx`='".mysql_real_escape_string($idx)."' AND `cid`='".mysql_real_escape_string($cid)."'";
+$query = "UPDATE `chibi_pic` SET `op`='".mysqli_real_escape_string($chibi_conn, $op)."' WHERE `idx`='".mysqli_real_escape_string($chibi_conn, $idx)."' AND `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."'";
 
-if(mysql_query($query,$chibi_conn)){
+if(mysqli_query($chibi_conn, $query)){
 		$chk = true;
 		echo $chk;
 }else{
 	$chk = false;
 	echo $chk;
 }
-mysql_close($chibi_conn);
+mysqli_close($chibi_conn);
 ?>

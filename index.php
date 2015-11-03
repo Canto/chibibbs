@@ -50,14 +50,14 @@ if(empty($_GET['cid'])==false){
 	$page = $_GET['page'];
 	/* $cid 가 존재할 경우 게시판 정보 셋팅 */
 	$bbs_query = select($cid,$chibi_conn);
-	$bbs = (object) mysql_fetch_array($bbs_query);
+	$bbs = (object) mysqli_fetch_array($bbs_query);
 	$bbs->spam = (object) unserialize($bbs->spam);
 	$bbs->notice = (object) unserialize($bbs->notice);
 	$bbs->op = (object) unserialize($bbs->op);
 	
 	/* $cid 가 존재할 경우 스킨 정보 셋팅 */
 	$skin_query = select_skin($cid,$chibi_conn);
-	$skin = (object) mysql_fetch_array($skin_query);
+	$skin = (object) mysqli_fetch_array($skin_query);
 	$skin->op = (object) unserialize($skin->op);
 
 	/* 유저 함수파일이 있으면 인클루드 */
@@ -89,26 +89,26 @@ if(empty($_GET['cid'])==false){
 /*   페이징 설정   */
 	switch($search){
 		case "name" :
-			$sql = "SELECT count(`chibi_pic`.`idx`) FROM  `chibi_pic` LEFT JOIN  `chibi_comment` ON  `chibi_pic`.`no` =  `chibi_comment`.`pic_no` WHERE  `chibi_comment`.`name`LIKE'".mysql_real_escape_string($keyword)."' AND  `chibi_comment`.`cid`='".mysql_real_escape_string($cid)."' GROUP BY `chibi_pic`.`no` ORDER BY  `chibi_pic`.`no` DESC ";
+			$sql = "SELECT count(`chibi_pic`.`idx`) FROM  `chibi_pic` LEFT JOIN  `chibi_comment` ON  `chibi_pic`.`no` =  `chibi_comment`.`pic_no` WHERE  `chibi_comment`.`name`LIKE'".mysqli_real_escape_string($chibi_conn, $keyword)."' AND  `chibi_comment`.`cid`='".mysqli_real_escape_string($chibi_conn, $cid)."' GROUP BY `chibi_pic`.`no` ORDER BY  `chibi_pic`.`no` DESC ";
 			break;
 		case "comment" :
-			$sql = "SELECT count(`chibi_pic`.`idx`) FROM  `chibi_pic` LEFT JOIN  `chibi_comment` ON  `chibi_pic`.`no` =  `chibi_comment`.`pic_no` WHERE  `chibi_comment`.`comment` LIKE '%".mysql_real_escape_string($keyword)."%' AND  `chibi_comment`.`cid` =  '".mysql_real_escape_string($cid)."' GROUP BY `chibi_pic`.`no` ORDER BY  `chibi_pic`.`no` DESC";
+			$sql = "SELECT count(`chibi_pic`.`idx`) FROM  `chibi_pic` LEFT JOIN  `chibi_comment` ON  `chibi_pic`.`no` =  `chibi_comment`.`pic_no` WHERE  `chibi_comment`.`comment` LIKE '%".mysqli_real_escape_string($chibi_conn, $keyword)."%' AND  `chibi_comment`.`cid` =  '".mysqli_real_escape_string($chibi_conn, $cid)."' GROUP BY `chibi_pic`.`no` ORDER BY  `chibi_pic`.`no` DESC";
 			break;
 		case "memo" :
-			$sql = "SELECT count(`chibi_pic`.`idx`) FROM  `chibi_pic` LEFT JOIN  `chibi_comment` ON  `chibi_pic`.`no` =  `chibi_comment`.`pic_no` WHERE  `chibi_comment`.`memo` LIKE '%".mysql_real_escape_string($keyword)."%' AND  `chibi_comment`.`cid` =  '".mysql_real_escape_string($cid)."' GROUP BY `chibi_pic`.`no` ORDER BY  `chibi_pic`.`no` DESC";
+			$sql = "SELECT count(`chibi_pic`.`idx`) FROM  `chibi_pic` LEFT JOIN  `chibi_comment` ON  `chibi_pic`.`no` =  `chibi_comment`.`pic_no` WHERE  `chibi_comment`.`memo` LIKE '%".mysqli_real_escape_string($chibi_conn, $keyword)."%' AND  `chibi_comment`.`cid` =  '".mysqli_real_escape_string($chibi_conn, $cid)."' GROUP BY `chibi_pic`.`no` ORDER BY  `chibi_pic`.`no` DESC";
 			break;
 		case "no" : 
-			$sql = "SELECT count(no) FROM `chibi_pic` WHERE cid='".mysql_real_escape_string($cid)."' AND no='".mysql_real_escape_string($keyword)."'";
+			$sql = "SELECT count(no) FROM `chibi_pic` WHERE cid='".mysqli_real_escape_string($chibi_conn, $cid)."' AND no='".mysqli_real_escape_string($chibi_conn, $keyword)."'";
 			break;
 		default :
-			$sql = "SELECT count(no) FROM `chibi_pic` WHERE cid='".mysql_real_escape_string($cid)."'";
+			$sql = "SELECT count(no) FROM `chibi_pic` WHERE cid='".mysqli_real_escape_string($chibi_conn, $cid)."'";
 			break;
 	}
 
 	//echo $sql;
-	$query = mysql_query($sql,$chibi_conn);
-	$total_row = mysql_fetch_row($query);
-	if($search && $search!="no") $total = mysql_num_rows($query);
+	$query = mysqli_query($chibi_conn, $sql);
+	$total_row = mysqli_fetch_row($query);
+	if($search && $search!="no") $total = mysqli_num_rows($query);
 	else $total = $total_row[0];
 	$pageBar = new paging($_GET['page'],$bbs->op->pic_page,$bbs->op->pic_page_bar,$total);
 	$pageBar->setUrl('cid='.$cid);

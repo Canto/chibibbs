@@ -1,7 +1,7 @@
 <?php
 if(!defined("__CHIBI__")) exit();
 $query = select_skin($cid,$chibi_conn);
-$skin = (object) mysql_fetch_array($query);
+$skin = (object) mysqli_fetch_array($query);
 $skin->op = unserialize($skin->op);
 if(get_magic_quotes_gpc()) $skin->op = array_map('stripslashes', $skin->op);
 $skin->op = (object) $skin->op;

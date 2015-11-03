@@ -23,9 +23,9 @@ else $pw = md5($passwd);
 $op = array("secret"=>"","more"=>"","user_id"=>$user_id);
 $op = serialize($op);
 
-$count_sql = "SELECT * FROM `chibi_pic` WHERE `cid`='".mysql_real_escape_string($cid)."' ORDER BY `idx` DESC";
-$count_query = mysql_query($count_sql,$chibi_conn);
-$count = mysql_fetch_array($count_query);
+$count_sql = "SELECT * FROM `chibi_pic` WHERE `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."' ORDER BY `idx` DESC";
+$count_query = mysqli_query($chibi_conn, $count_sql);
+$count = mysqli_fetch_array($count_query);
 $cnt = $count[no]+1;
 
 //-------그림 작성------------//
@@ -42,16 +42,16 @@ if (isset($_FILES["picture"])){
 		if($_FILES['chibifile']['tmp_name']) move_uploaded_file($_FILES['chibifile']['tmp_name'], $uploadfile.".chi");
         if($_FILES['picture']['tmp_name']) move_uploaded_file($_FILES['picture']['tmp_name'], $uploadfile.$ext);
 		//-- mysql db 기록 시작
-		$query = "INSERT INTO `chibi_pic` (`idx`,`no`,`cid`, `type`, `src`, `passwd`, `agent`, `pic_ip`, `time`, `op`)VALUES('','".mysql_real_escape_string($cnt)."','".mysql_real_escape_string($cid)."','picture','".mysql_real_escape_string("data/".$cid."/".$filename.$ext)."','".mysql_real_escape_string($pw)."','".mysql_real_escape_string($_SERVER['HTTP_USER_AGENT'])."','".mysql_real_escape_string($_SERVER["REMOTE_ADDR"])."','".time()."','".mysql_real_escape_string($op)."')";
-		mysql_query($query,$chibi_conn);
+		$query = "INSERT INTO `chibi_pic` (`idx`,`no`,`cid`, `type`, `src`, `passwd`, `agent`, `pic_ip`, `time`, `op`)VALUES('','".mysqli_real_escape_string($chibi_conn, $cnt)."','".mysqli_real_escape_string($chibi_conn, $cid)."','picture','".mysqli_real_escape_string($chibi_conn, "data/".$cid."/".$filename.$ext)."','".mysqli_real_escape_string($chibi_conn, $pw)."','".mysqli_real_escape_string($chibi_conn, $_SERVER['HTTP_USER_AGENT'])."','".mysqli_real_escape_string($chibi_conn, $_SERVER["REMOTE_ADDR"])."','".time()."','".mysqli_real_escape_string($chibi_conn, $op)."')";
+		mysqli_query($chibi_conn, $query);
 		if(empty($user_id)==false){
-			$bbs = mysql_fetch_array(select($cid,$chibi_conn));
+			$bbs = mysqli_fetch_array(select($cid,$chibi_conn));
 			$bbs_op = unserialize($bbs['op']);
 			$point = $bbs_op['pic_point'];
-			$p_sql = "UPDATE `chibi_member` SET `point` = point+'".mysql_real_escape_string($point)."', `pic`=pic+'1' WHERE `user_id` = '".mysql_real_escape_string($user_id)."'";
-			mysql_query($p_sql,$chibi_conn);
+			$p_sql = "UPDATE `chibi_member` SET `point` = point+'".mysqli_real_escape_string($chibi_conn, $point)."', `pic`=pic+'1' WHERE `user_id` = '".mysqli_real_escape_string($chibi_conn, $user_id)."'";
+			mysqli_query($chibi_conn, $p_sql);
 		}
-		mysql_close($chibi_conn);
+		mysqli_close($chibi_conn);
 		echo "CHIBIOK";
 	}else {
         echo "CHIBIERROR\n";

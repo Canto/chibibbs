@@ -1,7 +1,7 @@
 <?php
 if(!defined("__CHIBI__")) exit();
 $query = select($cid,$chibi_conn);
-$bbs = (object) mysql_fetch_array($query);
+$bbs = (object) mysqli_fetch_array($query);
 $bbs->spam = (object) unserialize($bbs->spam);
 $bbs->notice = (object) unserialize($bbs->notice);
 $bbs->op = (object) unserialize($bbs->op);

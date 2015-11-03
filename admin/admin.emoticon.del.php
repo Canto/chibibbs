@@ -14,15 +14,15 @@ include_once "../lib/bbs.fn.php";
 if(strstr($_SERVER['HTTP_REFERER'],$_SERVER['SERVER_NAME'])&&strstr($_SERVER['HTTP_REFERER'],'cAct=adminEmoticonSetup')){ 
 if(empty($url)==false) {
       rmemoticon($url);
-	  $query = "DELETE FROM `chibi_emoticon` WHERE `cid`='".mysql_real_escape_string($cid)."' AND `inst`='".mysql_real_escape_string($inst)."'";
-	  mysql_query($query,$chibi_conn);	  
+	  $query = "DELETE FROM `chibi_emoticon` WHERE `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."' AND `inst`='".mysqli_real_escape_string($chibi_conn, $inst)."'";
+	  mysqli_query($chibi_conn, $query);
 	$chk = "true";
 	echo $chk;
 }else{
 	$chk = "false";
 	echo $chk;
 }
-mysql_close($chibi_conn);
+mysqli_close($chibi_conn);
 }else{
 
 }

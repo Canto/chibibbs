@@ -69,9 +69,9 @@ $d_op = array(
 
 /* 이 아래로는 수정하지 말것!!! 수정시 일어나는 오류에 대해선 책임 지지 않음 */
 //게시판 생성시 초기 설정
-$skin_insert_string = "INSERT INTO `chibi_skin` (`cid`, `skin_name`, `op`) VALUES ('".mysql_real_escape_string($cid)."', '".mysql_real_escape_string($d_skin)."','".mysql_real_escape_string(serialize($d_op))."')";
+$skin_insert_string = "INSERT INTO `chibi_skin` (`cid`, `skin_name`, `op`) VALUES ('".mysqli_real_escape_string($chibi_conn, $cid)."', '".mysqli_real_escape_string($chibi_conn, $d_skin)."','".mysqli_real_escape_string($chibi_conn, serialize($d_op))."')";
 //게시판설정에서 스킨변경시 초기 설정
-$uskin_db = "UPDATE `chibi_skin` SET `cid`='".mysql_real_escape_string($cid)."',  `skin_name`='".mysql_real_escape_string($d_skin)."', `op`='".mysql_real_escape_string(serialize($d_op))."' WHERE `cid`='".mysql_real_escape_string($cid)."'";
+$uskin_db = "UPDATE `chibi_skin` SET `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."',  `skin_name`='".mysqli_real_escape_string($chibi_conn, $d_skin)."', `op`='".mysqli_real_escape_string($chibi_conn, serialize($d_op))."' WHERE `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."'";
 //스킨설정 페이지에서 업데이트시 설정
-$update_db = "UPDATE `chibi_skin` SET `cid`='".mysql_real_escape_string($cid)."',  `skin_name`='".mysql_real_escape_string($d_skin)."', `op`='".mysql_real_escape_string(serialize($op))."' WHERE `cid`='".mysql_real_escape_string($cid)."' and `skin_name`='".mysql_real_escape_string($d_skin)."'";
+$update_db = "UPDATE `chibi_skin` SET `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."',  `skin_name`='".mysqli_real_escape_string($chibi_conn, $d_skin)."', `op`='".mysqli_real_escape_string($chibi_conn, serialize($op))."' WHERE `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."' and `skin_name`='".mysqli_real_escape_string($chibi_conn, $d_skin)."'";
 ?>

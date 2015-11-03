@@ -8,12 +8,12 @@ if(!defined("__CHIBI__")) exit();
 		$session = session_id();
 		$date = date("YmdHD");
 		if(empty($cid)==false){
-			$chk_sql = "SELECT * FROM `chibi_log` where `cid`='".mysql_real_escape_string($cid)."' AND `ip`='".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."' AND `date`='".mysql_real_escape_string($date)."'";
-			$chk_query = mysql_query($chk_sql,$chibi_conn);
-			$chk = (object) mysql_fetch_array($chk_query);	
+			$chk_sql = "SELECT * FROM `chibi_log` where `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."' AND `ip`='".mysqli_real_escape_string($chibi_conn, $_SERVER['REMOTE_ADDR'])."' AND `date`='".mysqli_real_escape_string($chibi_conn, $date)."'";
+			$chk_query = mysqli_query($chibi_conn, $chk_sql);
+			$chk = (object) mysqli_fetch_array($chk_query);
 			if(empty($chk->cid)==true){
-				$sql = "INSERT INTO `chibi_log` (`cid` ,`ip` ,`session` ,`date` ) VALUES ('".mysql_real_escape_string($cid)."',  '".mysql_real_escape_string($_SERVER['REMOTE_ADDR'])."',  '".mysql_real_escape_string($session)."',  '".mysql_real_escape_string($date)."')";
-				$query = mysql_query($sql,$chibi_conn);
+				$sql = "INSERT INTO `chibi_log` (`cid` ,`ip` ,`session` ,`date` ) VALUES ('".mysqli_real_escape_string($chibi_conn, $cid)."',  '".mysqli_real_escape_string($chibi_conn, $_SERVER['REMOTE_ADDR'])."',  '".mysqli_real_escape_string($chibi_conn, $session)."',  '".mysqli_real_escape_string($chibi_conn, $date)."')";
+				$query = mysqli_query($chibi_conn, $sql);
 				return $query;
 			}
 		}
@@ -22,23 +22,23 @@ if(!defined("__CHIBI__")) exit();
 		if(empty($cid)==true){
 		$string = "SELECT * FROM `chibi_admin`";
 		}else{
-		$string = "SELECT * FROM `chibi_admin` where `cid`='".mysql_real_escape_string($cid)."'";
+		$string = "SELECT * FROM `chibi_admin` where `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."'";
 		}
-		$query = mysql_query($string,$chibi_conn);
+		$query = mysqli_query($chibi_conn, $string);
 		return $query;
 	}
 	function select_skin($cid,$chibi_conn){ /* 게시판 선택 */
-		$string = "SELECT * FROM `chibi_skin` where `cid`='".mysql_real_escape_string($cid)."'";
-		$query = mysql_query($string,$chibi_conn);
+		$string = "SELECT * FROM `chibi_skin` where `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."'";
+		$query = mysqli_query($chibi_conn, $string);
 		return $query;
 	}
 	function member_list($user_id,$chibi_conn){ /* 멤버 리스트 */
 		if(empty($user_id)==true){
 			$sql = "SELECT * FROM `chibi_member` ORDER BY `mno` DESC";
 		}else{
-			$sql = "SELECT * FROM `chibi_member` WHERE `user_id` = '".mysql_real_escape_string($user_id)."'";
+			$sql = "SELECT * FROM `chibi_member` WHERE `user_id` = '".mysqli_real_escape_string($chibi_conn, $user_id)."'";
 		}
-		$query = mysql_query($sql,$chibi_conn);
+		$query = mysqli_query($chibi_conn, $sql);
 		return $query;
 	}
 	function news_pic($chibi_conn,$op){
@@ -47,7 +47,7 @@ if(!defined("__CHIBI__")) exit();
 		}else{
 		$sql = "SELECT * FROM `chibi_pic` WHERE `type`='picture' AND ".$op." ORDER BY `idx` DESC LIMIT 0,10";
 		}
-		$query = mysql_query($sql,$chibi_conn);
+		$query = mysqli_query($chibi_conn, $sql);
 		return $query;
 	}
 	function str_cut($String, $MaxLen, $ShortenStr) { 
@@ -67,28 +67,28 @@ if(!defined("__CHIBI__")) exit();
 		}else{
 		$sql = "SELECT * FROM `chibi_comment` WHERE ".$op." ORDER BY `idx` DESC LIMIT 0,10";
 		}
-		$query = mysql_query($sql,$chibi_conn);
+		$query = mysqli_query($chibi_conn, $sql);
 		return $query;
 	}
 	function pic($cid,$start,$end,$chibi_conn,$search,$keyword){
-		if($search == "name")$string = "SELECT `chibi_pic`.* FROM  `chibi_pic` LEFT JOIN  `chibi_comment` ON  `chibi_pic`.`no` =  `chibi_comment`.`pic_no` WHERE  `chibi_comment`.`name`LIKE'".mysql_real_escape_string($keyword)."' AND  `chibi_comment`.`cid`='".mysql_real_escape_string($cid)."'  AND  `chibi_pic`.`cid` =  '".mysql_real_escape_string($cid)."' GROUP BY `chibi_pic`.`no` ORDER BY  `chibi_pic`.`no` DESC LIMIT ".$start.",".$end;
-		else if($search == "comment")$string = "SELECT `chibi_pic`.* FROM  `chibi_pic` LEFT JOIN  `chibi_comment` ON  `chibi_pic`.`no` =  `chibi_comment`.`pic_no` WHERE  `chibi_comment`.`comment` LIKE '%".mysql_real_escape_string($keyword)."%' AND  `chibi_comment`.`cid` =  '".mysql_real_escape_string($cid)."'  AND  `chibi_pic`.`cid` =  '".mysql_real_escape_string($cid)."' GROUP BY `chibi_pic`.`no` ORDER BY  `chibi_pic`.`no` DESC LIMIT ".$start.",".$end;
-		else if($search == "memo")$string = "SELECT `chibi_pic`.* FROM  `chibi_pic` LEFT JOIN  `chibi_comment` ON  `chibi_pic`.`no` =  `chibi_comment`.`pic_no` WHERE  `chibi_comment`.`memo` LIKE '%".mysql_real_escape_string($keyword)."%' AND  `chibi_comment`.`cid` =  '".mysql_real_escape_string($cid)."'  AND  `chibi_pic`.`cid` =  '".mysql_real_escape_string($cid)."' GROUP BY `chibi_pic`.`no` ORDER BY  `chibi_pic`.`no` DESC LIMIT ".$start.",".$end;
-		else if($search == "no")$string = "SELECT * FROM `chibi_pic` WHERE cid='".mysql_real_escape_string($cid)."' AND no='".mysql_real_escape_string($keyword)."'";
-		else $string = "SELECT * FROM `chibi_pic` where `cid`='".mysql_real_escape_string($cid)."' ORDER BY `no` DESC LIMIT ".$start.",".$end;
-		$query = mysql_query($string,$chibi_conn);
+		if($search == "name")$string = "SELECT `chibi_pic`.* FROM  `chibi_pic` LEFT JOIN  `chibi_comment` ON  `chibi_pic`.`no` =  `chibi_comment`.`pic_no` WHERE  `chibi_comment`.`name`LIKE'".mysqli_real_escape_string($chibi_conn, $keyword)."' AND  `chibi_comment`.`cid`='".mysqli_real_escape_string($chibi_conn, $cid)."'  AND  `chibi_pic`.`cid` =  '".mysqli_real_escape_string($chibi_conn, $cid)."' GROUP BY `chibi_pic`.`no` ORDER BY  `chibi_pic`.`no` DESC LIMIT ".$start.",".$end;
+		else if($search == "comment")$string = "SELECT `chibi_pic`.* FROM  `chibi_pic` LEFT JOIN  `chibi_comment` ON  `chibi_pic`.`no` =  `chibi_comment`.`pic_no` WHERE  `chibi_comment`.`comment` LIKE '%".mysqli_real_escape_string($chibi_conn, $keyword)."%' AND  `chibi_comment`.`cid` =  '".mysqli_real_escape_string($chibi_conn, $cid)."'  AND  `chibi_pic`.`cid` =  '".mysqli_real_escape_string($chibi_conn, $cid)."' GROUP BY `chibi_pic`.`no` ORDER BY  `chibi_pic`.`no` DESC LIMIT ".$start.",".$end;
+		else if($search == "memo")$string = "SELECT `chibi_pic`.* FROM  `chibi_pic` LEFT JOIN  `chibi_comment` ON  `chibi_pic`.`no` =  `chibi_comment`.`pic_no` WHERE  `chibi_comment`.`memo` LIKE '%".mysqli_real_escape_string($chibi_conn, $keyword)."%' AND  `chibi_comment`.`cid` =  '".mysqli_real_escape_string($chibi_conn, $cid)."'  AND  `chibi_pic`.`cid` =  '".mysqli_real_escape_string($chibi_conn, $cid)."' GROUP BY `chibi_pic`.`no` ORDER BY  `chibi_pic`.`no` DESC LIMIT ".$start.",".$end;
+		else if($search == "no")$string = "SELECT * FROM `chibi_pic` WHERE cid='".mysqli_real_escape_string($chibi_conn, $cid)."' AND no='".mysqli_real_escape_string($chibi_conn, $keyword)."'";
+		else $string = "SELECT * FROM `chibi_pic` where `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."' ORDER BY `no` DESC LIMIT ".$start.",".$end;
+		$query = mysqli_query($chibi_conn, $string);
 		return $query;
 	}
 	function comment($cid,$pic_no,$chibi_conn){
-		$string = "SELECT * FROM `chibi_comment` WHERE `cid`='".mysql_real_escape_string($cid)."' AND `pic_no`='".mysql_real_escape_string($pic_no)."' ORDER BY `no` ASC , `children` ASC, `depth` ASC";
-		$query = mysql_query($string,$chibi_conn);
+		$string = "SELECT * FROM `chibi_comment` WHERE `cid`='".mysqli_real_escape_string($chibi_conn, $cid)."' AND `pic_no`='".mysqli_real_escape_string($chibi_conn, $pic_no)."' ORDER BY `no` ASC , `children` ASC, `depth` ASC";
+		$query = mysqli_query($chibi_conn, $string);
 		return $query;
 
 	}
 	function member($user_id,$chibi_conn){ /* 멤버 정보 */
-		$sql = "SELECT * FROM `chibi_member` WHERE user_id='".mysql_real_escape_string($user_id)."'";
-		$query = mysql_query($sql,$chibi_conn);
-		$member = (object) mysql_fetch_array($query);
+		$sql = "SELECT * FROM `chibi_member` WHERE user_id='".mysqli_real_escape_string($chibi_conn, $user_id)."'";
+		$query = mysqli_query($chibi_conn, $sql);
+		$member = (object) mysqli_fetch_array($query);
 		return $member;
 	}
 	function bbs_permission($permission,$cid){
@@ -103,9 +103,9 @@ if(!defined("__CHIBI__")) exit();
 	function login_ok($user_id,$chibi_conn){
 		$time = time();
 		$session = session_id();
-		$update = "UPDATE `chibi_member` SET `lastlogin` ='".mysql_real_escape_string($time)."', `session`='".mysql_real_escape_string($session)."' WHERE  user_id='".mysql_real_escape_string($user_id)."'";
-		mysql_query($update,$chibi_conn);
-		$chk = mysql_error(); 
+		$update = "UPDATE `chibi_member` SET `lastlogin` ='".mysqli_real_escape_string($chibi_conn, $time)."', `session`='".mysqli_real_escape_string($chibi_conn, $session)."' WHERE  user_id='".mysqli_real_escape_string($chibi_conn, $user_id)."'";
+		mysqli_query($chibi_conn, $update);
+		$chk = mysqli_error($chibi_conn);
 		if(empty($chk)==true)return true;
 		else return false;
 	}
@@ -113,9 +113,9 @@ if(!defined("__CHIBI__")) exit();
 	function logout($user_id,$chibi_conn){
 		$time = time();
 		$session = session_id();
-		$update = "UPDATE `chibi_member` SET `lastlogin` ='".mysql_real_escape_string($time)."', `session`='' WHERE  user_id='".mysql_real_escape_string($user_id)."'";
-		mysql_query($update,$chibi_conn);
-		$chk = mysql_error();
+		$update = "UPDATE `chibi_member` SET `lastlogin` ='".mysqli_real_escape_string($chibi_conn, $time)."', `session`='' WHERE  user_id='".mysqli_real_escape_string($chibi_conn, $user_id)."'";
+		mysqli_query($chibi_conn, $update);
+		$chk = mysqli_error($chibi_conn);
 		if(empty($chk)==true)return true;
 		else return false;
 	}
@@ -125,8 +125,8 @@ if(!defined("__CHIBI__")) exit();
 		$time = time();
 		$session = session_id();
 		$sql = "SELECT * FROM `chibi_member` WHERE session='".$session."' ORDER BY `lastlogin` DESC";
-		$query = mysql_query($sql,$chibi_conn);
-		$member_array = mysql_fetch_array($query);
+		$query = mysqli_query($chibi_conn, $sql);
+		$member_array = mysqli_fetch_array($query);
 		$member = (object) $member_array;
 		$member->profile = (object) unserialize($member->profile);
 		$member->op = (object) unserialize($member->op);
@@ -134,8 +134,8 @@ if(!defined("__CHIBI__")) exit();
 		if($member->lastlogin == 0  || $time - $member->lastlogin > 10800){
 			return false;
 		}else{
-			$update = "UPDATE `chibi_member` SET `lastlogin` ='".mysql_real_escape_string($time)."' WHERE  session='".mysql_real_escape_string($session)."'";
-			mysql_query($update,$chibi_conn);
+			$update = "UPDATE `chibi_member` SET `lastlogin` ='".mysqli_real_escape_string($chibi_conn, $time)."' WHERE  session='".mysqli_real_escape_string($chibi_conn, $session)."'";
+			mysqli_query($chibi_conn, $update);
 			return true;
 		}
 		}else{
@@ -156,13 +156,13 @@ if(!defined("__CHIBI__")) exit();
 	}
 	function count_bbs($table,$op,$chibi_conn){ /* 데이터 갯수 체크 후 반환*/ 
 		if(empty($op)==true){
-		$sql = "SELECT count(*) FROM `chibi_".mysql_real_escape_string($table)."`";
+		$sql = "SELECT count(*) FROM `chibi_".mysqli_real_escape_string($chibi_conn, $table)."`";
 		}else{
-		$sql = "SELECT count(*) FROM `chibi_".mysql_real_escape_string($table)."` WHERE ".$op;
+		$sql = "SELECT count(*) FROM `chibi_".mysqli_real_escape_string($chibi_conn, $table)."` WHERE ".$op;
 		}
-		$query = mysql_query($sql,$chibi_conn);
-		$row = mysql_fetch_row($query);
-		$chk = mysql_error();
+		$query = mysqli_query($chibi_conn, $sql);
+		$row = mysqli_fetch_row($query);
+		$chk = mysqli_error($chibi_conn);
 		if(empty($chk)==true) return $row[0];
 		else return $chk;
 	}
@@ -171,21 +171,21 @@ if(!defined("__CHIBI__")) exit();
 		$db_check = (object) array("status"=>"","admin"=>"","skin"=>"","pic"=>"","comment"=>"","tpl"=>"","member"=>"","emoticon"=>"","log"=>"");
 		if(is_resource($chibi_conn)) $db_check->status = true;
 		else $db_check->status = false;
-		if(is_resource(@mysql_query("DESC chibi_admin",$chibi_conn))) $db_check->admin = true;
+		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_admin"))) $db_check->admin = true;
 		else $db_check->admin = false;
-		if(is_resource(@mysql_query("DESC chibi_skin",$chibi_conn))) $db_check->skin = true;
+		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_skin"))) $db_check->skin = true;
 		else $db_check->skin = false;
-		if(is_resource(@mysql_query("DESC chibi_pic",$chibi_conn))) $db_check->pic = true;
+		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_pic"))) $db_check->pic = true;
 		else $db_check->pic = false;
-		if(is_resource(@mysql_query("DESC chibi_comment",$chibi_conn))) $db_check->comment = true;
+		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_comment"))) $db_check->comment = true;
 		else $db_check->comment = false;
-		if(is_resource(@mysql_query("DESC chibi_tpl",$chibi_conn))) $db_check->tpl = true;
+		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_tpl"))) $db_check->tpl = true;
 		else $db_check->tpl = false;
-		if(is_resource(@mysql_query("DESC chibi_member",$chibi_conn))) $db_check->member = true;
+		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_member"))) $db_check->member = true;
 		else $db_check->member = false;
-		if(is_resource(@mysql_query("DESC chibi_emoticon",$chibi_conn))) $db_check->emoticon = true;
+		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_emoticon"))) $db_check->emoticon = true;
 		else $db_check->emoticon = false;
-		if(is_resource(@mysql_query("DESC chibi_log",$chibi_conn))) $db_check->log = true;
+		if(is_resource(@mysqli_query($chibi_conn, "DESC chibi_log"))) $db_check->log = true;
 		else $db_check->log = false;
 
 		if(($db_check->status && $db_check->admin && $db_check->skin && $db_check->pic && $db_check->comment && $db_check->tpl && $db_check->member && $db_check->emoticon && $db_check->log)==true){
@@ -278,9 +278,9 @@ if(!defined("__CHIBI__")) exit();
 	}
 function emoticon($comment,$cid,$chibi_conn) //작성중
 {
-	$sql = "SELECT * FROM `chibi_emoticon` WHERE cid='".mysql_real_escape_string($cid)."'";
-	$query = mysql_query($sql,$chibi_conn);
-	while($em = mysql_fetch_assoc($query)){
+	$sql = "SELECT * FROM `chibi_emoticon` WHERE cid='".mysqli_real_escape_string($chibi_conn, $cid)."'";
+	$query = mysqli_query($chibi_conn, $sql);
+	while($em = mysqli_fetch_assoc($query)){
           $emarray[] = $em;
   }
 	$emLIST = $emarray;
@@ -305,7 +305,7 @@ function load($skin){ //템플릿 파일 로드
 function convert($content){ // 템플릿 변수를 PHP변수로 컴파일
 		$startpic = "<?php
 		\$pic_query = pic(\$cid,\$start,\$limit,\$chibi_conn,\$search,\$keyword); /* 그림 불러오기 */
-		while(\$pic = mysql_fetch_array(\$pic_query)){ /* 반복문 시작 */
+		while(\$pic = mysqli_fetch_array(\$pic_query)){ /* 반복문 시작 */
 		\$pic = (object) \$pic;  
 		if(empty(\$pic->op)==false){
 		\$pic->op = unserialize(\$pic->op);
@@ -388,7 +388,7 @@ function convert($content){ // 템플릿 변수를 PHP변수로 컴파일
 		$startcomment = "<?php
 		\$no = 0;
 		\$cmt_query = comment(\$cid,\$pic->no,\$chibi_conn);
-		while(\$comment = mysql_fetch_array(\$cmt_query)){
+		while(\$comment = mysqli_fetch_array(\$cmt_query)){
 		\$comment = (object) \$comment;
 		if(empty(\$comment->op)==false){
 		\$comment->op = unserialize(\$comment->op);

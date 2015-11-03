@@ -5,15 +5,15 @@ if(strstr($_SERVER['HTTP_REFERER'],$_SERVER['SERVER_NAME'])&&strstr($_SERVER['HT
 $connect_page=true;
 $user_id = $_GET['user_id'];
 $query = member_list($user_id,$chibi_conn);
-$member_list = (object) mysql_fetch_array($query);
+$member_list = (object) mysqli_fetch_array($query);
 if($member_list->permission == "super"){
 $member_permission = "super";
 }else{
 if($member->permission=="all" || $member->permission=="super"){
 $error='';
-$sql = "DELETE FROM `chibi_member` WHERE `user_id`='".mysql_real_escape_string($user_id)."'";
-mysql_query($sql,$chibi_conn);
-$error = mysql_error();
+$sql = "DELETE FROM `chibi_member` WHERE `user_id`='".mysqli_real_escape_string($chibi_conn, $user_id)."'";
+mysqli_query($chibi_conn, $sql);
+$error = mysqli_error($chibi_conn);
 }
 }
 }else{

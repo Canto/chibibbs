@@ -74,7 +74,7 @@ function checkID(){
 <?php
 $bbs_query = select("",$chibi_conn);
 $i = 0;
-while($bbs = mysql_fetch_array($bbs_query)){
+while($bbs = mysqli_fetch_array($bbs_query)){
 	$bbs = (object) $bbs;
 ?>
 <option value="<?php echo $bbs->cid; ?>" ><?php echo $bbs->cid; ?></option>

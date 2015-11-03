@@ -19,14 +19,14 @@ $ext = (strpos($file, '.') === FALSE) ? '' : substr($file, strrpos($file, '.'));
 if ($ext == ".jpeg" || $ext == ".JPEG" || $ext == ".jpg" || $ext == ".JPG" || $ext == ".gif" || $ext == ".GIF" || $ext == ".PNG" || $ext == ".png") {
       move_uploaded_file($_FILES["image"]["tmp_name"], $path.$filename.$ext);
 	  $url = 'data/'.$cid.'/emoticon/'.$filename.$ext;
-	  $query = "INSERT INTO `chibi_emoticon` (`cid`,`inst`,`url`)VALUES('".mysql_real_escape_string($cid)."','".mysql_real_escape_string($inst)."','".mysql_real_escape_string($url)."')";
-	  mysql_query($query,$chibi_conn);	  
+	  $query = "INSERT INTO `chibi_emoticon` (`cid`,`inst`,`url`)VALUES('".mysqli_real_escape_string($chibi_conn, $cid)."','".mysqli_real_escape_string($chibi_conn, $inst)."','".mysqli_real_escape_string($chibi_conn, $url)."')";
+	  mysqli_query($chibi_conn, $query);
 		$chk = true;
 		echo $chk;
 }else{
 	$chk = false;
 	echo $chk;
 }
-mysql_close($chibi_conn);
+mysqli_close($chibi_conn);
 }
 ?>

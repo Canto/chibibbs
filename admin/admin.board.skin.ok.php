@@ -16,8 +16,8 @@ $error='';
 
 include_once "../skin/".$skin."/skin.sql.php";
 
-mysql_query($update_db,$chibi_conn);
-$error = mysql_error();
+mysqli_query($chibi_conn, $update_db);
+$error = mysqli_error($chibi_conn);
 
 }else{
 	$connect_page = false;
