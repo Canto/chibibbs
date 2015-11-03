@@ -19,7 +19,7 @@ $S_ADMIN_PASSWD = $admin_pass;
 
 require_once "lib/db.conn.php";
 
-if(is_resource($chibi_conn)) $db_check = true;
+if(@mysqli_select_db($chibi_conn, $DBNAME) === true) $db_check = true;
 else $db_check = false;
 $php = phpversion();
 if(version_compare($php,'5.0','>'))$php_check = true;
